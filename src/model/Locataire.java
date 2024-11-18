@@ -8,15 +8,15 @@ public class Locataire {
   private String prenom;
   private String email;
   private String telephone;
-  private List<BienImmobilier> biens;
+  private List<Location> locations;
 
-  public Locataire(String id, String nom, String prenom, String email, String telephone, List<BienImmobilier> biens) {
+  public Locataire(String id, String nom, String prenom, String email, String telephone, List<Location> locations) {
     this.id = id;
     this.nom = nom;
     this.prenom = prenom;
     this.email = email;
     this.telephone = telephone;
-    this.biens = biens;
+    this.locations = locations;
   }
 
   public String getId() {
@@ -39,15 +39,15 @@ public class Locataire {
     return telephone;
   }
 
-  public List<BienImmobilier> getBiens() {
-    return biens;
+  public List<Location> getLocations() {
+    return this.locations;
   }
 
-  public void addBien(BienImmobilier bien) {
-    biens.add(bien);
+  public void addLocation(Location location) {
+    this.locations.add(location);
   }
 
-  public void removeBien(BienImmobilier bien) {
-    biens.remove(bien);
+  public void removeLocation(Location location) {
+    this.locations.remove(location);
   }
 }

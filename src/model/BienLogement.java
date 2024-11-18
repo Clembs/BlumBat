@@ -5,9 +5,12 @@ public class BienLogement extends BienImmobilier {
   private float surface;
   private int nombrePieces;
 
-  public BienLogement(String id, String adresse, String complementAdresse, int numeroAppt,
-      String nomResidence, int codePostal, String ville, int numeroFiscal, float surface, int nombrePieces) {
-    super(id, TypeBien.LOGEMENT, adresse, complementAdresse, numeroAppt, nomResidence, codePostal, ville);
+  public BienLogement(
+      String id, String adresse,
+      String complementAdresse, int codePostal,
+      String ville, int numeroFiscal,
+      float surface, int nombrePieces) {
+    super(id, TypeBien.LOGEMENT, adresse, complementAdresse, codePostal, ville);
     this.numeroFiscal = numeroFiscal;
     this.surface = surface;
     this.nombrePieces = nombrePieces;

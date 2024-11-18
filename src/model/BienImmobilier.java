@@ -7,20 +7,18 @@ public class BienImmobilier {
   private TypeBien typeBien;
   private String adresse;
   private String complementAdresse;
-  private int numeroAppt;
-  private String nomResidence;
   private int codePostal;
   private String ville;
   private List<Location> locations;
 
-  public BienImmobilier(String id, TypeBien typeBien, String adresse, String complementAdresse, int numeroAppt,
-      String nomResidence, int codePostal, String ville) {
+  public BienImmobilier(
+      String id, TypeBien typeBien,
+      String adresse, String complementAdresse,
+      int codePostal, String ville) {
     this.id = id;
     this.typeBien = typeBien;
     this.adresse = adresse;
     this.complementAdresse = complementAdresse;
-    this.numeroAppt = numeroAppt;
-    this.nomResidence = nomResidence;
     this.codePostal = codePostal;
     this.ville = ville;
   }
@@ -39,14 +37,6 @@ public class BienImmobilier {
 
   public String getComplementAdresse() {
     return this.complementAdresse;
-  }
-
-  public int getNumeroAppt() {
-    return this.numeroAppt;
-  }
-
-  public String getNomResidence() {
-    return this.nomResidence;
   }
 
   public int getCodePostal() {

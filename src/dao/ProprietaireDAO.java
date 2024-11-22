@@ -14,7 +14,7 @@ public class ProprietaireDAO {
 
   public void create(Proprietaire proprietaire) {
     try {
-      String query = "INSERT INTO proprietaire (nom, email, email, mot_de_passe) VALUES (?, ?, ?, ?)";
+      String query = "INSERT INTO proprietaire (nom, prenom, email, mot_de_passe) VALUES (?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, proprietaire.getNom());
       preparedStatement.setString(2, proprietaire.getPrenom());
@@ -31,18 +31,18 @@ public class ProprietaireDAO {
     Proprietaire proprietaire = null;
 
     try {
-      String query = "SELECT * FROM proprietaire WHERE id = ?";
+      String query = "SELECT * FROM proprietaire WHERE id_propriétaire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
 
       if (resultSet.next()) {
         proprietaire = new Proprietaire(
-            resultSet.getString("id"),
+            resultSet.getString("id_propriétaire"),
             resultSet.getString("nom"),
             resultSet.getString("prenom"),
             resultSet.getString("email"),
-            resultSet.getString("motDePasse"));
+            resultSet.getString("mot_de_passe"));
       }
 
     } catch (SQLException e) {
@@ -54,23 +54,27 @@ public class ProprietaireDAO {
 
   // récupération d'un propriétaire à partir de son email et de son mot de passe
   // (connexion)
-  public Proprietaire read(String email, String motDePasse) {
+  public Proprietaire read(String email, String motDePasse) throws RuntimeException {
     Proprietaire proprietaire = null;
+    System.out.print(email + " " + motDePasse);
 
     try {
       String query = "SELECT * FROM proprietaire WHERE email = ? AND mot_de_passe = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, email);
       preparedStatement.setString(2, motDePasse);
+
       ResultSet resultSet = preparedStatement.executeQuery();
+
+      System.out.println(resultSet);
 
       if (resultSet.next()) {
         proprietaire = new Proprietaire(
-            resultSet.getString("id"),
+            resultSet.getString("id_propriétaire"),
             resultSet.getString("nom"),
             resultSet.getString("prenom"),
             resultSet.getString("email"),
-            resultSet.getString("motDePasse"));
+            resultSet.getString("mot_de_passe"));
       }
 
     } catch (SQLException e) {

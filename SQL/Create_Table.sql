@@ -1,14 +1,10 @@
-
-
-
-
 -- Table des propriétaire
 CREATE TABLE proprietaire (
         id_propriétaire INT AUTO_INCREMENT PRIMARY KEY,
         nom VARCHAR(100) NOT NULL,
         prenom VARCHAR(100) NOT NULL, 
         email VARCHAR(100)NOT null , 
-        mdp VARCHAR(100) NOT null ,
+        mot_de_passe VARCHAR(100) NOT null ,
 );
 
 -- Table des bien_immobilier
@@ -82,3 +78,6 @@ CREATE TABLE Assurance(
 
 )
 
+-- Ajout d'un propriétaire 
+INSERT INTO proprietaire (nom, prenom, email, mot_de_passe) 
+VALUES ('Dupont', 'Jean', 'jean@example.com', 'password123');

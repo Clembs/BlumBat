@@ -1,8 +1,8 @@
-import java.awt.EventQueue;
+package view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class FEN_GESTION_IMMOBILIER extends JFrame {
 

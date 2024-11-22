@@ -1,3 +1,4 @@
+package view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +8,7 @@ public class FEN_ACCUEIL extends JFrame {
     private JLabel labelCharges;
     private JLabel labelLocatairesDepart;
 
-    public FEN_ACCUEIL () {
+    public FEN_ACCUEIL() {
         setTitle("Tableau de bord");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 450);
@@ -66,7 +67,7 @@ public class FEN_ACCUEIL extends JFrame {
         boutonRafraichir.setForeground(Color.WHITE);
         boutonRafraichir.setFont(new Font("Arial", Font.BOLD, 14));
         boutonRafraichir.setFocusPainted(false);
-   
+
         getContentPane().add(boutonRafraichir);
 
         JButton boutonDeconnexion = new JButton("Déconnexion");
@@ -79,12 +80,10 @@ public class FEN_ACCUEIL extends JFrame {
         getContentPane().add(boutonDeconnexion);
     }
 
-    
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-            	FEN_ACCUEIL  frame = new FEN_ACCUEIL ();
+                FEN_ACCUEIL frame = new FEN_ACCUEIL();
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();

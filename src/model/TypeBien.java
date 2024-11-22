@@ -9,6 +9,7 @@ public enum TypeBien {
     this.typeBienString = typeBienString;
   }
 
+  @Override
   public String toString() {
     return this.typeBienString;
   }

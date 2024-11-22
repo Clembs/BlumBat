@@ -20,7 +20,6 @@ import javax.swing.border.LineBorder;
 
 import controller.Controleur_Ajout_Biens;
 import model.Proprietaire;
-import model.TypeBien;
 
 public class FEN_Ajout_Biens extends JFrame {
     private static final long serialVersionUID = 1L;

@@ -7,8 +7,16 @@ public class DatabaseConnection {
     private static final String url = "jdbc:mysql://mysql-projetr301.alwaysdata.net/projetr301_gestion_immobilier";
     private static final String utilisateur = "384907";
     private static final String mdp = "rootiutinfo";
+    private static DatabaseConnection dbConnection; 
 
-    public static Connection connect() {
+    public static synchronized DatabaseConnection getDbConnection() {
+        if (dbConnection == null) {
+            dbConnection = new DatabaseConnection();
+        }
+        return dbConnection;
+    }
+
+    public  DatabaseConnection() {
         try {
             Connection conn = DriverManager.getConnection(url, utilisateur, mdp);
             System.out.println("Connexion réussie !");
@@ -20,7 +28,5 @@ public class DatabaseConnection {
         }
     }
 
-    public static void main(String[] args) {
-        connect();
-    }
+    
 }

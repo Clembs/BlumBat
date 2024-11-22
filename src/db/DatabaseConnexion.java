@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnexion {
-
     private static final String url = "jdbc:mysql://mysql-projetr301.alwaysdata.net/projetr301_gestion_immobilier";
     private static final String utilisateur = "384907";
     private static final String mdp = "rootiutinfo";

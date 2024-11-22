@@ -1,7 +1,7 @@
 package view;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import javax.swing.border.*;
 
 public class FEN_CONNEXION_CLIENT extends JFrame {

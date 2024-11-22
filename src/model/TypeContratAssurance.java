@@ -9,6 +9,7 @@ public enum TypeContratAssurance {
     this.typeContratString = typeContratString;
   }
 
+  @Override
   public String toString() {
     return this.typeContratString;
   }

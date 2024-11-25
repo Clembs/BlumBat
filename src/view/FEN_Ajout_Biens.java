@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,10 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controller.Controleur_Ajout_Biens;
+import model.BienImmobilier;
 import model.Proprietaire;
 
 public class FEN_Ajout_Biens extends JFrame {
@@ -28,8 +33,9 @@ public class FEN_Ajout_Biens extends JFrame {
     private JTextField adresseField;
     private JTextField codePostalField;
     private JTextField surfaceField;
-    private JTextField prixField;
+    private JTextField NFiscalField;
     private JTextArea descriptionArea;
+    private JTextField NPiecesField;
     private JComboBox<String> cmbType;
 
     public FEN_Ajout_Biens(Proprietaire P) {
@@ -50,7 +56,7 @@ public class FEN_Ajout_Biens extends JFrame {
         this.contentPane.add(lblTitle, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(7, 2, 10, 10));
+        centerPanel.setLayout(new GridLayout(8, 2, 10, 10));
         centerPanel.setBackground(new Color(240, 240, 250));
         this.contentPane.add(centerPanel, BorderLayout.CENTER);
 
@@ -109,16 +115,27 @@ public class FEN_Ajout_Biens extends JFrame {
         surfaceField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
         centerPanel.add(surfaceField);
 
-        JLabel lblPrice = new JLabel("Prix (€):");
-        lblPrice.setFont(new Font("Rockwell", Font.BOLD, 14));
-        lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
-        lblPrice.setForeground(new Color(80, 80, 100));
-        centerPanel.add(lblPrice);
+        JLabel NFiscal = new JLabel("Numero Fiscal:");
+        NFiscal.setFont(new Font("Rockwell", Font.BOLD, 14));
+        NFiscal.setHorizontalAlignment(SwingConstants.CENTER);
+        NFiscal.setForeground(new Color(80, 80, 100));
+        centerPanel.add(NFiscal);
 
-        prixField = new JTextField();
-        prixField.setFont(new Font("rockewell", Font.PLAIN, 14));
-        prixField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-        centerPanel.add(prixField);
+        NFiscalField = new JTextField();
+        NFiscalField.setFont(new Font("rockewell", Font.PLAIN, 14));
+        NFiscalField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
+        centerPanel.add(NFiscalField);
+        
+        JLabel NPieces = new JLabel("Numero de Pieces:");
+        NPieces.setFont(new Font("Rockwell", Font.BOLD, 14));
+        NPieces.setHorizontalAlignment(SwingConstants.CENTER);
+        NPieces.setForeground(new Color(80, 80, 100));
+        centerPanel.add(NPieces);
+
+        NPiecesField = new JTextField();
+        NPiecesField.setFont(new Font("rockewell", Font.PLAIN, 14));
+        NPiecesField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
+        centerPanel.add(NPiecesField);
 
         JLabel lblcomplementAdresse = new JLabel("Complement Adresse:");
         lblcomplementAdresse.setFont(new Font("Rockwell", Font.BOLD, 14));
@@ -172,8 +189,8 @@ public class FEN_Ajout_Biens extends JFrame {
         return surfaceField.getText();
     }
 
-    public String getPrix() {
-        return prixField.getText();
+    public String getNFiscal() {
+        return NFiscalField.getText();
     }
 
     public String getComplementAdresse() {
@@ -182,5 +199,22 @@ public class FEN_Ajout_Biens extends JFrame {
 
     public String gettType() {
         return (String) cmbType.getSelectedItem();
+    }
+    
+    public String getNPieces() {
+    	return NPiecesField.getText();
+    }
+    
+    
+    public static void main(String[] args) {
+    	Proprietaire P = new Proprietaire("12", "Abdel", "Oui", new LinkedList<BienImmobilier>());
+        SwingUtilities.invokeLater(() -> {
+            try {
+                FEN_Ajout_Biens frame = new FEN_Ajout_Biens(P);
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

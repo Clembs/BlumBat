@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import model.BienImmobilier;
+import model.BienLogement;
 import model.Proprietaire;
 import model.TypeBien;
 import view.FEN_Ajout_Biens;
@@ -16,9 +17,10 @@ public class Controleur_Ajout_Biens implements ActionListener {
     private FEN_Ajout_Biens fenetre;
     private Proprietaire P;
     private String adresse, ville, complementAdresse, id;
-    private Double prix, surface;
-    private int codePostal;
+    private Float surface;
+    private int codePostal, NFiscal, Npieces;
     private TypeBien type;
+    private BienImmobilier bien;
 
     public Controleur_Ajout_Biens(Proprietaire P, FEN_Ajout_Biens fenetre) {
         this.P = P;
@@ -35,15 +37,27 @@ public class Controleur_Ajout_Biens implements ActionListener {
             this.adresse = fenetre.getAdresse();
             this.ville = fenetre.getVille();
             this.codePostal = Integer.parseInt(fenetre.getCodePostal());
-            this.surface = Double.parseDouble(fenetre.getSurface());
-            this.prix = Double.parseDouble(fenetre.getPrix());
+            this.surface = Float.parseFloat(fenetre.getSurface());
+            this.NFiscal = Integer.parseInt(fenetre.getNFiscal());
             this.complementAdresse = "Bonjour"; // Assuming complementAdresse is description field
             this.type = TypeBien.getTypeBien(fenetre.gettType()); // Add getter for 'type' field if necessary
+            this.Npieces = Integer.parseInt(fenetre.getNPieces());
 
-            // Créer un nouveau BienImmobilier
-            BienImmobilier bien = new BienImmobilier(this.id, this.type, this.adresse, this.complementAdresse,
-                                                     this.codePostal, this.ville);
-
+            switch (this.type) {
+            case LOGEMENT:
+            	bien = new BienLogement(this.id, this.adresse, this.complementAdresse, this.codePostal, this.ville, this.NFiscal, this.surface, this.Npieces);
+            	break;
+			case BATIMENT:
+				bien = new BienImmobilier(this.id, this.type, this.adresse, this.complementAdresse,
+                        this.codePostal, this.ville);
+				break;
+			case GARAGE:
+				break;
+			default:
+				 bien = new BienImmobilier(this.id, this.type, this.adresse, this.complementAdresse,
+                        this.codePostal, this.ville);
+				break;
+            }
             // Ajouter ce bien à la liste des biens du propriétaire
             this.P.addBien(bien);
 

@@ -24,7 +24,7 @@ public class BienLogement extends BienImmobilier {
     return this.surface;
   }
 
-  public float getNombrePieces() {
+  public int getNombrePieces() {
     return this.nombrePieces;
   }
 }

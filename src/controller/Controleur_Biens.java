@@ -37,16 +37,12 @@ public class Controleur_Biens implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton boutonClique = (JButton) e.getSource();
-		// Vérifier si un bien est sélectionné dans la liste
 		String selectedBien = this.listBiens.getSelectedValue();
 
 		if (boutonClique.getText() == "Valider") {
 			if (selectedBien != null) {
-				//FEN_Locataire nouvelleFenetre = new FEN_Locataire();
-				//nouvelleFenetre.setVisible(true);
 				this.fenetre.dispose();
 			} else {
-				// Afficher un message d'erreur si aucun bien n'est sélectionné
 				JOptionPane.showMessageDialog(this.fenetre, "Veuillez sélectionner un bien dans la liste.", "Erreur",
 						JOptionPane.WARNING_MESSAGE);
 			}

@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import dao.BienImmobilierDAO;
+import dao.BienLogementDAO;
 import model.BienImmobilier;
 import model.BienLogement;
 import model.Proprietaire;
@@ -21,10 +23,14 @@ public class Controleur_Ajout_Biens implements ActionListener {
     private int codePostal, NFiscal, Npieces;
     private TypeBien type;
     private BienImmobilier bien;
+    private BienImmobilierDAO ImDAO;
+    private BienLogementDAO LgDAO;
 
     public Controleur_Ajout_Biens(Proprietaire P, FEN_Ajout_Biens fenetre) {
         this.P = P;
         this.fenetre = fenetre;
+        this.ImDAO = new BienImmobilierDAO();
+        this.LgDAO = new BienLogementDAO();
     }
 
     @Override
@@ -46,16 +52,19 @@ public class Controleur_Ajout_Biens implements ActionListener {
             switch (this.type) {
             case LOGEMENT:
             	bien = new BienLogement(this.id, this.adresse, this.complementAdresse, this.codePostal, this.ville, this.NFiscal, this.surface, this.Npieces);
+            	this.LgDAO.create((BienLogement)bien);
             	break;
 			case BATIMENT:
 				bien = new BienImmobilier(this.id, this.type, this.adresse, this.complementAdresse,
                         this.codePostal, this.ville);
+				this.ImDAO.create(bien);
 				break;
 			case GARAGE:
 				break;
 			default:
 				 bien = new BienImmobilier(this.id, this.type, this.adresse, this.complementAdresse,
                         this.codePostal, this.ville);
+				 this.ImDAO.create(bien);
 				break;
             }
             // Ajouter ce bien à la liste des biens du propriétaire

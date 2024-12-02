@@ -17,13 +17,15 @@ public class FEN_Ajout_Biens extends JFrame {
     private JPanel contentPane;
     private JTextField villeField;
     private JTextField adresseField;
-    private JTextField codePostalField;
-    private JTextField surfaceField;
-    private JTextField NFiscalField;
+    private JSpinner codePostalField;
+    private JSpinner surfaceField;
+    private JSpinner NFiscalField;
     private JTextField complementAdresse;
-    private JTextField NPiecesField;
+    private JSpinner NPiecesField;
     private JTextField IdField;
     private JComboBox<String> cmbType;
+    private JList<String> erreursList;
+    private DefaultListModel<String> erreursListModel;
 
     public FEN_Ajout_Biens(Proprietaire P) {
         this.setTitle("Ajout d'un bien immobilier");
@@ -102,7 +104,8 @@ public class FEN_Ajout_Biens extends JFrame {
         lblDpartement.setFont(new Font("Rockwell", Font.BOLD, 14));
         centerPanel.add(lblDpartement);
 
-        codePostalField = new JTextField();
+        codePostalField = new JSpinner();
+        codePostalField.setModel(new SpinnerNumberModel(0, null, 999990, 1));
         codePostalField.setFont(new Font("Rockwell", Font.PLAIN, 14));
         codePostalField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
         centerPanel.add(codePostalField);
@@ -112,7 +115,8 @@ public class FEN_Ajout_Biens extends JFrame {
         lblSurface.setForeground(new Color(80, 80, 100));
         // centerPanel.add(lblSurface);
 
-        surfaceField = new JTextField();
+        surfaceField = new JSpinner();
+        surfaceField.setModel(new SpinnerNumberModel(Float.valueOf(0), null, null, Float.valueOf(1)));
         surfaceField.setFont(new Font("Rockwell", Font.PLAIN, 14));
         surfaceField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
 
@@ -120,7 +124,10 @@ public class FEN_Ajout_Biens extends JFrame {
         lblNFiscal.setFont(new Font("Rockwell", Font.BOLD, 14));
         lblNFiscal.setForeground(new Color(80, 80, 100));
 
-        NFiscalField = new JTextField();
+        NFiscalField = new JSpinner();
+        NFiscalField.setModel(new SpinnerNumberModel(Long.valueOf(0), null,
+                Long.valueOf(2147483647), // 999999999999, voire 12 chiffres
+                Long.valueOf(1)));
         NFiscalField.setFont(new Font("Rockwell", Font.PLAIN, 14));
         NFiscalField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
 
@@ -128,7 +135,7 @@ public class FEN_Ajout_Biens extends JFrame {
         lblNPieces.setFont(new Font("Rockwell", Font.BOLD, 14));
         lblNPieces.setForeground(new Color(80, 80, 100));
 
-        NPiecesField = new JTextField();
+        NPiecesField = new JSpinner();
         NPiecesField.setFont(new Font("Rockwell", Font.PLAIN, 14));
         NPiecesField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
 
@@ -173,6 +180,15 @@ public class FEN_Ajout_Biens extends JFrame {
         bottomPanel.setBackground(new Color(220, 220, 240));
         this.contentPane.add(bottomPanel, BorderLayout.SOUTH);
 
+        erreursListModel = new DefaultListModel<String>();
+        erreursList = new JList<>(erreursListModel);
+        erreursList.setEnabled(false);
+        erreursList.setFont(new Font("Rockwell", Font.PLAIN, 14));
+        erreursList.setForeground(Color.RED);
+        erreursList.setBorder(BorderFactory.createLineBorder(Color.RED));
+        erreursList.setModel(erreursListModel);
+        bottomPanel.add(erreursList);
+
         JButton btnSave = new JButton("Ajouter");
         btnSave.setBackground(new Color(100, 200, 100));
         btnSave.setForeground(Color.WHITE);
@@ -191,41 +207,54 @@ public class FEN_Ajout_Biens extends JFrame {
         btnSave.addActionListener(controleur);
     }
 
+    public String getId() {
+        return IdField.getText();
+    }
+
     // Getters pour chaque champ
     public String getAdresse() {
         return adresseField.getText();
-    }
-
-    public String getVille() {
-        return villeField.getText();
-    }
-
-    public String getCodePostal() {
-        return codePostalField.getText();
-    }
-
-    public String getSurface() {
-        return surfaceField.getText();
-    }
-
-    public String getNFiscal() {
-        return NFiscalField.getText();
     }
 
     public String getComplementAdresse() {
         return complementAdresse.getText();
     }
 
+    public int getCodePostal() {
+        return (int) codePostalField.getValue();
+    }
+
+    public String getVille() {
+        return villeField.getText();
+    }
+
+    public float getSurface() {
+        return (float) surfaceField.getValue();
+    }
+
+    public long getNFiscal() {
+        return (long) NFiscalField.getValue();
+    }
+
     public String getTypeBien() {
         return (String) cmbType.getSelectedItem();
     }
 
-    public String getNPieces() {
-        return NPiecesField.getText();
+    public int getNPieces() {
+        return (int) NPiecesField.getValue();
     }
 
-    public String getId() {
-        return IdField.getText();
+    public void addErreur(String erreur) {
+        erreursListModel.addElement(erreur);
+        erreursList.setModel(erreursListModel);
+    }
+
+    public void clearErreurs() {
+        if (erreursListModel != null) {
+            erreursListModel = new DefaultListModel<String>();
+        }
+        erreursListModel.clear();
+        erreursList.setModel(erreursListModel);
     }
 
     public static void main(String[] args) {

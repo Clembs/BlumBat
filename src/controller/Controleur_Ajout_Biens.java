@@ -43,13 +43,11 @@ public class Controleur_Ajout_Biens implements ActionListener {
             this.id = fenetre.getId();
             if (this.id == "") {
                 fenetre.addErreur("L'adresse ne peut pas être vide.");
-                return;
             }
 
             this.adresse = fenetre.getAdresse();
             if (this.adresse == "") {
                 fenetre.addErreur("L'adresse ne peut pas être vide.");
-                return;
             }
 
             this.complementAdresse = fenetre.getComplementAdresse();
@@ -57,13 +55,11 @@ public class Controleur_Ajout_Biens implements ActionListener {
             this.codePostal = String.valueOf(fenetre.getCodePostal());
             if (this.codePostal.length() != 5) {
                 fenetre.addErreur("Le code postal doit comporter 5 caractères.");
-                return;
             }
 
             this.ville = fenetre.getVille();
             if (this.ville == "") {
                 fenetre.addErreur("La ville ne peut pas être vide.");
-                return;
             }
 
             this.type = TypeBien.getTypeBien(fenetre.getTypeBien());
@@ -73,19 +69,20 @@ public class Controleur_Ajout_Biens implements ActionListener {
                 case LOGEMENT: {
                     this.surface = fenetre.getSurface();
                     if (this.surface <= 0) {
-                        fenetre.addErreur("La surface doit être supérieure à 0.");
-                        return;
+                        fenetre.addErreur("La surface doit être supérieure à 0m².");
                     }
 
                     this.Npieces = fenetre.getNPieces();
                     if (this.Npieces <= 0) {
                         fenetre.addErreur("Le nombre de pièces doit être supérieur à 0.");
-                        return;
                     }
 
                     this.NFiscal = String.valueOf(fenetre.getNFiscal());
                     if (this.NFiscal.length() != 12) {
                         fenetre.addErreur("Le numéro fiscal doit comporter 12 caractères.");
+                    }
+
+                    if (fenetre.hasErreurs()) {
                         return;
                     }
 
@@ -99,6 +96,10 @@ public class Controleur_Ajout_Biens implements ActionListener {
                 }
                     break;
                 case BATIMENT: {
+                    if (fenetre.hasErreurs()) {
+                        return;
+                    }
+
                     BienImmobilier bien = new BienImmobilier(
                             this.id, this.type,
                             this.adresse, this.complementAdresse,

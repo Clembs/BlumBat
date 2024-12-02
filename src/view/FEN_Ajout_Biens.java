@@ -136,6 +136,7 @@ public class FEN_Ajout_Biens extends JFrame {
         lblNPieces.setForeground(new Color(80, 80, 100));
 
         NPiecesField = new JSpinner();
+        NPiecesField.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
         NPiecesField.setFont(new Font("Rockwell", Font.PLAIN, 14));
         NPiecesField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
 
@@ -255,6 +256,10 @@ public class FEN_Ajout_Biens extends JFrame {
         }
         erreursListModel.clear();
         erreursList.setModel(erreursListModel);
+    }
+
+    public boolean hasErreurs() {
+        return erreursListModel.size() > 0;
     }
 
     public static void main(String[] args) {

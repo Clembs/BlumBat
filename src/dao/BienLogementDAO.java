@@ -14,16 +14,13 @@ public class BienLogementDAO {
 
   public void create(BienLogement bienLogement) {
       try {
-          String query = "INSERT INTO BienLogement (type_bien, adresse, complement_adresse, code_postal, ville, numeroFiscal, surface, nombrePieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+          String query = "INSERT INTO BienLogement (id_bienlogement, id_bien, numeroFiscal, surface, nombrePieces) VALUES (?, ?, ?, ?, ?)";
           PreparedStatement preparedStatement = connection.prepareStatement(query);
-          preparedStatement.setString(1, bienLogement.getTypeBien().toString());
-          preparedStatement.setString(2, bienLogement.getAdresse());
-          preparedStatement.setString(3, bienLogement.getComplementAdresse());
-          preparedStatement.setInt(4, bienLogement.getCodePostal());
-          preparedStatement.setString(5, bienLogement.getVille());
-          preparedStatement.setInt(6, bienLogement.getNumeroFiscal());
-          preparedStatement.setFloat(7, bienLogement.getSurface());
-          preparedStatement.setInt(8, bienLogement.getNombrePieces());
+          preparedStatement.setString(1, bienLogement.getId());
+          preparedStatement.setString(2, bienLogement.getId());
+          preparedStatement.setInt(3, bienLogement.getNumeroFiscal());
+          preparedStatement.setFloat(4, bienLogement.getSurface());
+          preparedStatement.setInt(5, bienLogement.getNombrePieces());
           preparedStatement.executeUpdate();
       } catch (SQLException e) {
           throw new RuntimeException("Erreur lors de la création du bien logement", e);

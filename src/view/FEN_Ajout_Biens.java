@@ -36,6 +36,7 @@ public class FEN_Ajout_Biens extends JFrame {
     private JTextField NFiscalField;
     private JTextArea descriptionArea;
     private JTextField NPiecesField;
+    private JTextField IdField;
     private JComboBox<String> cmbType;
 
     public FEN_Ajout_Biens(Proprietaire P) {
@@ -56,9 +57,21 @@ public class FEN_Ajout_Biens extends JFrame {
         this.contentPane.add(lblTitle, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(8, 2, 10, 10));
+        centerPanel.setLayout(new GridLayout(9, 2, 10, 10));
         centerPanel.setBackground(new Color(240, 240, 250));
         this.contentPane.add(centerPanel, BorderLayout.CENTER);
+        
+        JLabel lblId = new JLabel("Id:");
+        lblId.setFont(new Font("Rockwell", Font.BOLD, 14));
+        lblId.setHorizontalAlignment(SwingConstants.CENTER);
+        lblId.setForeground(new Color(80, 80, 100));
+        centerPanel.add(lblId);
+
+        IdField = new JTextField();
+        IdField.setFont(new Font("rockewell", Font.PLAIN, 14));
+        IdField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
+        centerPanel.add(IdField);
+        
 
         JLabel lblType = new JLabel("Type de Bien:");
         lblType.setFont(new Font("Rockwell", Font.BOLD, 14));
@@ -168,7 +181,7 @@ public class FEN_Ajout_Biens extends JFrame {
         bottomPanel.add(btnCancel);
 
         Controleur_Ajout_Biens controleur = new Controleur_Ajout_Biens(P, this);
-
+ 
         btnSave.addActionListener(controleur);
     }
 
@@ -203,6 +216,10 @@ public class FEN_Ajout_Biens extends JFrame {
     
     public String getNPieces() {
     	return NPiecesField.getText();
+    }
+    
+    public String getId() {
+    	return IdField.getText();
     }
     
     

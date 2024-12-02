@@ -17,13 +17,14 @@ public class BienImmobilierDAO {
 
   public void create(BienImmobilier bienImmobilier) {
       try {
-          String query = "INSERT INTO bien_immobilier (type_bien, adresse, complément_adresse, code_postal, ville) VALUES (?, ?, ?, ?, ?)";
+          String query = "INSERT INTO bien_immobilier (id_bien, type_bien, adresse, complement_adresse, code_postal, ville) VALUES (?, ?, ?, ?, ?, ?)";
           PreparedStatement preparedStatement = connection.prepareStatement(query);
-          preparedStatement.setString(1, bienImmobilier.getTypeBien().toString());
-          preparedStatement.setString(2, bienImmobilier.getAdresse());
-          preparedStatement.setString(3, bienImmobilier.getComplementAdresse());
-          preparedStatement.setInt(4, bienImmobilier.getCodePostal());
-          preparedStatement.setString(5, bienImmobilier.getVille());
+          preparedStatement.setString(1, bienImmobilier.getId().toString());
+          preparedStatement.setString(2, bienImmobilier.getTypeBien().toString());
+          preparedStatement.setString(3, bienImmobilier.getAdresse());
+          preparedStatement.setString(4, bienImmobilier.getComplementAdresse());
+          preparedStatement.setInt(5, bienImmobilier.getCodePostal());
+          preparedStatement.setString(6, bienImmobilier.getVille());
           preparedStatement.executeUpdate();
       } catch (SQLException e) {
           throw new RuntimeException("Erreur lors de la création du bien immobilier", e);
@@ -48,7 +49,7 @@ public class BienImmobilierDAO {
 	            	resultSet.getString("id_bien"),
 	            	typeBien,
 	                resultSet.getString("adresse"),
-	                resultSet.getString("complément_adresse"),
+	                resultSet.getString("complement_adresse"),
 	                resultSet.getInt("code_postal"),
 	                resultSet.getString("ville")
 	            );

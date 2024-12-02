@@ -36,7 +36,7 @@ public class BienDAO {
 
 	public void create(BienLogement bien, Proprietaire proprietaire) {
 		try {
-			String query = "INSERT INTO bien (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville, numero_fiscal, surface, nombre_pieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville, numero_fiscal, surface, nombre_pieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, bien.getId().toString());
 			preparedStatement.setInt(2, Integer.parseInt(proprietaire.getId()));

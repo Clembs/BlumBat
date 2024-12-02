@@ -58,4 +58,9 @@ public class BienImmobilier {
   public void removeLocation(Location location) {
     this.locations.remove(location);
   }
+  
+  @Override
+  public String toString() {
+      return this.typeBien + " - " + this.adresse + ", " + this.codePostal + " " + this.ville;
+  }
 }

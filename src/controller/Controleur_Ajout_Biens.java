@@ -45,13 +45,14 @@ public class Controleur_Ajout_Biens implements ActionListener {
             this.codePostal = Integer.parseInt(fenetre.getCodePostal());
             this.surface = Float.parseFloat(fenetre.getSurface());
             this.NFiscal = Integer.parseInt(fenetre.getNFiscal());
+            this.id = "23";
             this.complementAdresse = "Bonjour"; // Assuming complementAdresse is description field
             this.type = TypeBien.getTypeBien(fenetre.gettType()); // Add getter for 'type' field if necessary
             this.Npieces = Integer.parseInt(fenetre.getNPieces());
 
             switch (this.type) {
             case LOGEMENT:
-            	bien = new BienLogement(this.id, this.adresse, this.complementAdresse, this.codePostal, this.ville, this.NFiscal, this.surface, this.Npieces);
+            	bien = new BienLogement(this.id ,this.adresse, this.complementAdresse, this.codePostal, this.ville, this.NFiscal, this.surface, this.Npieces);
             	this.LgDAO.create((BienLogement)bien);
             	break;
 			case BATIMENT:

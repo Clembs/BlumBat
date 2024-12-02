@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+import dao.BienImmobilierDAO;
 import model.BienImmobilier;
 import model.Proprietaire;
 import view.FEN_Ajout_Biens;
@@ -31,7 +32,19 @@ public class Controleur_Biens implements ActionListener {
 			listModel.addElement(bien.toString()); // Utiliser une représentation adéquate de BienImmobilier
 		}
 		this.listBiens.setModel(listModel);
+		loadBiensFromDatabase();
 
+	}
+	
+	public void loadBiensFromDatabase() {
+	    DefaultListModel<String> listModel = new DefaultListModel<>();
+	    BienImmobilierDAO bienDao = new BienImmobilierDAO();
+
+	    for (BienImmobilier bien : bienDao.getAllBiens()) {
+	        listModel.addElement(bien.toString()); // Personnaliser toString() si nécessaire
+	    }
+
+	    this.listBiens.setModel(listModel);
 	}
 
 	@Override

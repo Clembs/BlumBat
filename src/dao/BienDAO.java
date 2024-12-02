@@ -6,7 +6,7 @@ import java.util.List;
 
 import db.DatabaseConnexion;
 import model.BienImmobilier;
-import model.BienLogement;
+import model.BienLocatif;
 import model.Proprietaire;
 import model.TypeBien;
 
@@ -26,7 +26,7 @@ public class BienDAO {
 			preparedStatement.setString(3, bien.getTypeBien().toString());
 			preparedStatement.setString(4, bien.getAdresse());
 			preparedStatement.setString(5, bien.getComplementAdresse());
-			preparedStatement.setInt(6, bien.getCodePostal());
+			preparedStatement.setString(6, bien.getCodePostal());
 			preparedStatement.setString(7, bien.getVille());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -34,7 +34,7 @@ public class BienDAO {
 		}
 	}
 
-	public void create(BienLogement bien, Proprietaire proprietaire) {
+	public void create(BienLocatif bien, Proprietaire proprietaire) {
 		try {
 			String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville, numero_fiscal, surface, nombre_pieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -43,7 +43,7 @@ public class BienDAO {
 			preparedStatement.setString(3, bien.getTypeBien().toString());
 			preparedStatement.setString(4, bien.getAdresse());
 			preparedStatement.setString(5, bien.getComplementAdresse());
-			preparedStatement.setInt(6, bien.getCodePostal());
+			preparedStatement.setString(6, bien.getCodePostal());
 			preparedStatement.setString(7, bien.getVille());
 			preparedStatement.setString(8, bien.getNumeroFiscal());
 			preparedStatement.setFloat(9, bien.getSurface());
@@ -67,11 +67,12 @@ public class BienDAO {
 				TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
 
 				if (typeBien != TypeBien.BATIMENT) {
-					BienLogement bien = new BienLogement(
+					BienLocatif bien = new BienLocatif(
 							resultSet.getString("id_bien"),
+							typeBien,
 							resultSet.getString("adresse"),
 							resultSet.getString("complement_adresse"),
-							resultSet.getInt("code_postal"),
+							resultSet.getString("code_postal"),
 							resultSet.getString("ville"),
 							resultSet.getString("numero_fiscal"),
 							resultSet.getFloat("surface"),
@@ -84,7 +85,7 @@ public class BienDAO {
 							typeBien,
 							resultSet.getString("adresse"),
 							resultSet.getString("complement_adresse"),
-							resultSet.getInt("code_postal"),
+							resultSet.getString("code_postal"),
 							resultSet.getString("ville"));
 
 					biens.add(bien);
@@ -98,8 +99,8 @@ public class BienDAO {
 		return biens;
 	}
 
-	public List<BienLogement> getAllLogements() {
-		List<BienLogement> logements = new ArrayList<>();
+	public List<BienLocatif> getAllLogements() {
+		List<BienLocatif> logements = new ArrayList<>();
 
 		try {
 			String query = "SELECT * FROM biens WHERE type_bien != 'BATIMENT'";
@@ -107,11 +108,15 @@ public class BienDAO {
 			ResultSet resultSet = statement.executeQuery(query);
 
 			while (resultSet.next()) {
-				BienLogement bien = new BienLogement(
+				String typeBienStr = resultSet.getString("type_bien");
+				TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+
+				BienLocatif bien = new BienLocatif(
 						resultSet.getString("id_bien"),
+						typeBien,
 						resultSet.getString("adresse"),
 						resultSet.getString("complement_adresse"),
-						resultSet.getInt("code_postal"),
+						resultSet.getString("code_postal"),
 						resultSet.getString("ville"),
 						resultSet.getString("numero_fiscal"),
 						resultSet.getFloat("surface"),

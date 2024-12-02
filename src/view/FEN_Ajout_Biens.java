@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -60,7 +59,7 @@ public class FEN_Ajout_Biens extends JFrame {
         centerPanel.setLayout(new GridLayout(9, 2, 10, 10));
         centerPanel.setBackground(new Color(240, 240, 250));
         this.contentPane.add(centerPanel, BorderLayout.CENTER);
-        
+
         JLabel lblId = new JLabel("Id:");
         lblId.setFont(new Font("Rockwell", Font.BOLD, 14));
         lblId.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,7 +70,6 @@ public class FEN_Ajout_Biens extends JFrame {
         IdField.setFont(new Font("rockewell", Font.PLAIN, 14));
         IdField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
         centerPanel.add(IdField);
-        
 
         JLabel lblType = new JLabel("Type de Bien:");
         lblType.setFont(new Font("Rockwell", Font.BOLD, 14));
@@ -138,7 +136,7 @@ public class FEN_Ajout_Biens extends JFrame {
         NFiscalField.setFont(new Font("rockewell", Font.PLAIN, 14));
         NFiscalField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
         centerPanel.add(NFiscalField);
-        
+
         JLabel NPieces = new JLabel("Numero de Pieces:");
         NPieces.setFont(new Font("Rockwell", Font.BOLD, 14));
         NPieces.setHorizontalAlignment(SwingConstants.CENTER);
@@ -181,7 +179,7 @@ public class FEN_Ajout_Biens extends JFrame {
         bottomPanel.add(btnCancel);
 
         Controleur_Ajout_Biens controleur = new Controleur_Ajout_Biens(P, this);
- 
+
         btnSave.addActionListener(controleur);
     }
 
@@ -210,21 +208,20 @@ public class FEN_Ajout_Biens extends JFrame {
         return descriptionArea.getText();
     }
 
-    public String gettType() {
+    public String getTypeBien() {
         return (String) cmbType.getSelectedItem();
     }
-    
+
     public String getNPieces() {
-    	return NPiecesField.getText();
+        return NPiecesField.getText();
     }
-    
+
     public String getId() {
-    	return IdField.getText();
+        return IdField.getText();
     }
-    
-    
+
     public static void main(String[] args) {
-    	Proprietaire P = new Proprietaire("12", "Abdel", "Oui", new LinkedList<BienImmobilier>());
+        Proprietaire P = new Proprietaire("1", "VOISIN", "Clément", new LinkedList<BienImmobilier>());
         SwingUtilities.invokeLater(() -> {
             try {
                 FEN_Ajout_Biens frame = new FEN_Ajout_Biens(P);

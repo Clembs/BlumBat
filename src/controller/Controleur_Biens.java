@@ -1,20 +1,14 @@
 package controller;
 
+import java.awt.event.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-
-import dao.BienImmobilierDAO;
+import dao.BienDAO;
 import model.BienImmobilier;
 import model.Proprietaire;
 import view.FEN_Ajout_Biens;
 import view.FEN_Biens;
-//import view.FEN_Locataire;
 
 public class Controleur_Biens implements ActionListener {
 	private FEN_Biens fenetre;
@@ -35,16 +29,16 @@ public class Controleur_Biens implements ActionListener {
 		loadBiensFromDatabase();
 
 	}
-	
+
 	public void loadBiensFromDatabase() {
-	    DefaultListModel<String> listModel = new DefaultListModel<>();
-	    BienImmobilierDAO bienDao = new BienImmobilierDAO();
+		DefaultListModel<String> listModel = new DefaultListModel<>();
+		BienDAO bienDao = new BienDAO();
 
-	    for (BienImmobilier bien : bienDao.getAllBiens()) {
-	        listModel.addElement(bien.toString()); // Personnaliser toString() si nécessaire
-	    }
+		for (BienImmobilier bien : bienDao.getAllBiens()) {
+			listModel.addElement(bien.toString()); // Personnaliser toString() si nécessaire
+		}
 
-	    this.listBiens.setModel(listModel);
+		this.listBiens.setModel(listModel);
 	}
 
 	@Override

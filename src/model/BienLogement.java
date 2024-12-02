@@ -1,14 +1,14 @@
 package model;
 
 public class BienLogement extends BienImmobilier {
-  private int numeroFiscal;
+  private String numeroFiscal;
   private float surface;
   private int nombrePieces;
 
   public BienLogement(
       String id, String adresse,
       String complementAdresse, int codePostal,
-      String ville, int numeroFiscal,
+      String ville, String numeroFiscal,
       float surface, int nombrePieces) {
     super(id, TypeBien.LOGEMENT, adresse, complementAdresse, codePostal, ville);
     this.numeroFiscal = numeroFiscal;
@@ -16,7 +16,7 @@ public class BienLogement extends BienImmobilier {
     this.nombrePieces = nombrePieces;
   }
 
-  public int getNumeroFiscal() {
+  public String getNumeroFiscal() {
     return this.numeroFiscal;
   }
 

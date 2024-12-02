@@ -1,27 +1,11 @@
 package view;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.util.LinkedList;
-import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.border.*;
 
 import controller.Controleur_Biens;
-import model.BienImmobilier;
 import model.Proprietaire;
 
 public class FEN_Biens extends JFrame {
@@ -99,6 +83,5 @@ public class FEN_Biens extends JFrame {
 		this.btnValider.addActionListener(this.C);
 
 	}
-	
 
 }

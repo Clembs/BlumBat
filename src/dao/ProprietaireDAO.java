@@ -31,14 +31,14 @@ public class ProprietaireDAO {
     Proprietaire proprietaire = null;
 
     try {
-      String query = "SELECT * FROM proprietaire WHERE id_propriétaire = ?";
+      String query = "SELECT * FROM proprietaire WHERE id_proprietaire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
 
       if (resultSet.next()) {
         proprietaire = new Proprietaire(
-            resultSet.getString("id_propriétaire"),
+            resultSet.getString("id_proprietaire"),
             resultSet.getString("nom"),
             resultSet.getString("prenom"),
             resultSet.getString("email"),
@@ -70,7 +70,7 @@ public class ProprietaireDAO {
 
       if (resultSet.next()) {
         proprietaire = new Proprietaire(
-            resultSet.getString("id_propriétaire"),
+            resultSet.getString("id_proprietaire"),
             resultSet.getString("nom"),
             resultSet.getString("prenom"),
             resultSet.getString("email"),

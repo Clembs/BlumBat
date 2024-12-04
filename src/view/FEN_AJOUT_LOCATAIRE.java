@@ -3,6 +3,8 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class FEN_AJOUT_LOCATAIRE extends JFrame {
 
@@ -13,6 +15,7 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
     private JTextField txtPrenom;
     private JTextField txtEmail;
     private JTextField txtTelephone;
+    private JList<String> listBiens;
 
     /**
      * Launch the application.
@@ -51,7 +54,7 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
 
         JPanel panelForm = new JPanel();
         panelForm.setLayout(new GridLayout(6, 2, 10, 10));
-        contentPane.add(panelForm, BorderLayout.CENTER);
+        contentPane.add(panelForm, BorderLayout.EAST);
 
         JLabel lblIdentifiant = new JLabel("Identifiant:");
         lblIdentifiant.setFont(new Font("Rockwell", Font.PLAIN, 14));
@@ -93,6 +96,8 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
         txtTelephone.setFont(new Font("Rockwell", Font.PLAIN, 14));
         panelForm.add(lblTelephone);
         panelForm.add(txtTelephone);
+        
+        
 
         JPanel panelButton = new JPanel();
         contentPane.add(panelButton, BorderLayout.SOUTH);
@@ -105,5 +110,17 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
         JButton btnAnnuler = new JButton("Annuler");
         btnAnnuler.setFont(new Font("Rockwell", Font.PLAIN, 14));
         panelButton.add(btnAnnuler);
+        
+        JPanel panelCenter = new JPanel();
+        panelCenter.setBorder(new TitledBorder(new EtchedBorder(), "Liste des locataires", TitledBorder.CENTER, TitledBorder.TOP));
+        panelCenter.setLayout(new BorderLayout(5, 5));
+        contentPane.add(panelCenter, BorderLayout.CENTER);
+        
+        
+        this.listBiens = new JList<>(new String[] { "Locataire 1", "Locataire 2", "Locataire 3", "Locataire 4", "Locataire 5" });
+		this.listBiens.setFont(new Font("Rockwell", Font.PLAIN, 14));
+		this.listBiens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrollPane = new JScrollPane(this.listBiens);
+		panelCenter.add(scrollPane, BorderLayout.CENTER);
     }
 }

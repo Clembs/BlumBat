@@ -41,6 +41,9 @@ public class Controleur_Ajout_Location implements ActionListener {
             this.bien = fenetre.getBien();
             this.locataires = fenetre.getLocatires();
 
+            Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires); 
+            LocationDAO.create(location);
+
             }
 
             // Afficher un message de confirmation

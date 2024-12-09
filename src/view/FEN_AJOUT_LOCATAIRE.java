@@ -15,7 +15,9 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
     private JTextField txtPrenom;
     private JTextField txtEmail;
     private JTextField txtTelephone;
-    private JList<String> listBiens;
+    private JList<String> listLocataires;
+    private JList<String> erreursList;
+    private DefaultListModel<String> erreursListModel;
 
     /**
      * Launch the application.
@@ -102,6 +104,15 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
         JPanel panelButton = new JPanel();
         contentPane.add(panelButton, BorderLayout.SOUTH);
         panelButton.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
+        
+        erreursListModel = new DefaultListModel<String>();
+        erreursList = new JList<>(erreursListModel);
+        erreursList.setEnabled(false);
+        erreursList.setFont(new Font("Rockwell", Font.PLAIN, 14));
+        erreursList.setForeground(Color.RED);
+        erreursList.setBorder(BorderFactory.createLineBorder(Color.RED));
+        erreursList.setModel(erreursListModel);
+        panelButton.add(erreursList);
 
         JButton btnAjouter = new JButton("Ajouter");
         btnAjouter.setFont(new Font("Rockwell", Font.PLAIN, 14));
@@ -117,10 +128,46 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
         contentPane.add(panelCenter, BorderLayout.CENTER);
         
         
-        this.listBiens = new JList<>(new String[] { "Locataire 1", "Locataire 2", "Locataire 3", "Locataire 4", "Locataire 5" });
-		this.listBiens.setFont(new Font("Rockwell", Font.PLAIN, 14));
-		this.listBiens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane scrollPane = new JScrollPane(this.listBiens);
+        this.listLocataires = new JList<>(new String[] { "Locataire 1", "Locataire 2", "Locataire 3", "Locataire 4", "Locataire 5" });
+		this.listLocataires.setFont(new Font("Rockwell", Font.PLAIN, 14));
+		this.listLocataires.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrollPane = new JScrollPane(this.listLocataires);
 		panelCenter.add(scrollPane, BorderLayout.CENTER);
-    }
+
+
+        
+        }
+        public String getId() {
+            return txtIdentifiant.getText();
+        }
+        public String getNom() {
+            return txtNom.getText();
+        }
+        public String getPrenom() {
+            return txtIdentifiant.getText();
+        }
+        public String getEmail() {
+            return txtEmail.getText();
+        }
+        public String getTelephone() {
+            return txtTelephone.getText();
+        }
+        public void addErreur  (String erreur) {
+            DefaultListModel<String> model = (DefaultListModel<String>) erreursList.getModel();
+            model.addElement(erreur);
+        }
+        public void clearErreurs() {
+            if (erreursListModel != null) {
+                erreursListModel = new DefaultListModel<String>();
+            }
+            erreursListModel.clear();
+            erreursList.setModel(erreursListModel);
+        }
+        public boolean hasErreurs() {
+            return erreursListModel.size() > 0;
+        }
+    
+    
+
+    
 }

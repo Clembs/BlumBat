@@ -6,10 +6,10 @@ import db.DatabaseConnexion;
 import model.Locataire;
 
 
-public class LocataireDAO{ 
+public class locataireDAO{ 
     private final Connection connection;
 
-    public LocataireDAO() {
+    public locataireDAO() {
         this.connection = DatabaseConnexion.getConnexion();
     }
 

@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,8 +11,9 @@ import javax.swing.table.DefaultTableModel;
 public class FEN_CONSULTATION_LOCATAIRES extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private JPanel MainPane;
-    private JTable tableBiens;
+private JPanel MainPane;
+private JDesktopPane desktopPane;
+private JTable tableBiens;
     private JTextField textPrenom;
 
     /**
@@ -37,8 +39,9 @@ public class FEN_CONSULTATION_LOCATAIRES extends JFrame {
         MainPane = new JPanel();
         MainPane.setBorder(new EmptyBorder(10, 10, 10, 10));
         MainPane.setLayout(new BorderLayout(10, 10));
-        setContentPane(MainPane);
-
+setContentPane(MainPane);
+desktopPane = new JDesktopPane();
+MainPane.add(desktopPane, BorderLayout.CENTER);
 
         UIManager.put("Label.font", new Font("Rockwell", Font.PLAIN, 14));
         UIManager.put("Button.font", new Font("Rockwell", Font.PLAIN, 14));
@@ -79,6 +82,12 @@ public class FEN_CONSULTATION_LOCATAIRES extends JFrame {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                FEN_AJOUTER_LOCATAIRE fenAjouterLocataire = new FEN_AJOUTER_LOCATAIRE();
+                getLayeredPane().add(fenAjouterLocataire);
+                getLayeredPane().moveToFront(fenAjouterLocataire);
+                fenAjouterLocataire.setLocation(50, 50);
+                fenAjouterLocataire.setVisible(true);
+
 
             }
         });
@@ -203,7 +212,7 @@ public class FEN_CONSULTATION_LOCATAIRES extends JFrame {
 
         RightPanel.add(TablePanel, BorderLayout.CENTER);
 
-        MainPane.add(RightPanel, BorderLayout.CENTER);
+MainPane.add(RightPanel, BorderLayout.EAST);
 
 
      

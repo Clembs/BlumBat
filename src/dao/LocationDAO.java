@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.DatabaseConnexion;
-import model.BienImmobilier;
-import model.BienLocation;
+import model.Location;
 
-public class BienDAO {
+public class LocationDAO {
 	private final Connection connection;
 
-	public BienDAO() {
+	public LocationDAO() {
 		this.connection = DatabaseConnexion.getConnexion();
 	}
 

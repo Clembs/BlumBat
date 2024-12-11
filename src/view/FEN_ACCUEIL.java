@@ -1,14 +1,17 @@
 package view;
 
 import javax.swing.*;
+
 import java.awt.*;
+
+import model.Proprietaire;
 
 public class FEN_ACCUEIL extends JFrame {
     private JLabel labelLoyersImpayes;
     private JLabel labelCharges;
     private JLabel labelLocatairesDepart;
 
-    public FEN_ACCUEIL() {
+    public FEN_ACCUEIL( Proprietaire p) {
         setTitle("Tableau de bord");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 450);

@@ -16,9 +16,9 @@ public class LocationDAO {
 
 	public void create(Location location) {
 		try {
-			String query = "INSERT INTO location (loyer, dateEntree, dateSortie, bien, locataires) VALUES (?, ?, ?, ?, ?)";
+			String query = "INSERT INTO locations (loyer, dateEntree, dateSortie, bien, locataires) VALUES (?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, location.getLoyer());
+			preparedStatement.setDouble(1, location.getLoyer());
 			preparedStatement.setDate(2, location.getDateEntree());
 			preparedStatement.setDate(3, location.getDateSortie());
 			preparedStatement.setString(4, location.getBien());

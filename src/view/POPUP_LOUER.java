@@ -1,7 +1,24 @@
 package view;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.Date;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import model.BienImmobilier;
+import model.Locataire;
 
 public class POPUP_LOUER extends JInternalFrame {
 
@@ -121,5 +138,25 @@ public class POPUP_LOUER extends JInternalFrame {
                 e.printStackTrace();
             }
         });
+    }
+
+    public double getLoyer() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Date getDateEntree() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Date getDateSortie() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public BienImmobilier getBien() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public java.util.List<Locataire> getLocatires() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

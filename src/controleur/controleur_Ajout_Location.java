@@ -9,14 +9,15 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import dao.LocationDAO;
-import model.Location;
-import model.Proprietaire;
-import view.FEN_AJOUT_LOCATION;
 import model.BienImmobilier;
 import model.Locataire;
+import model.Location;
+import model.Proprietaire;
+import view.FEN_ACCUEIL;
+import view.POPUP_LOUER;
 
 public class Controleur_Ajout_Location implements ActionListener {
-    private FEN_AJOUT_LOCATION fenetre;
+    private POPUP_LOUER fenetre;
     private Proprietaire proprio;
     private LocationDAO LocationDAO;
     private double loyer;
@@ -25,7 +26,7 @@ public class Controleur_Ajout_Location implements ActionListener {
     private BienImmobilier bien;
     private List<Locataire> locataires;
 
-    public Controleur_Ajout_Location(Proprietaire P, FEN_AJOUT_LOCATION fenetre) {
+    public Controleur_Ajout_Location(Proprietaire P, POPUP_LOUER fenetre) {
         this.proprio = P;
         this.fenetre = fenetre;
         this.LocationDAO = new LocationDAO();
@@ -44,19 +45,17 @@ public class Controleur_Ajout_Location implements ActionListener {
             this.bien = fenetre.getBien();
             this.locataires = fenetre.getLocatires();
 
-            Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires); 
+            Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);
             LocationDAO.create(location);
 
-            }
-
-            // Afficher un message de confirmation
-            JOptionPane.showMessageDialog(this.fenetre, "Location ajouté avec succès!");
-
-            // Fermer la fenêtre après ajout
-            FEN_AJOUT_BIEN nouvelleFenetre = new FEN_AJOUT_BIEN(this.proprio);
-            nouvelleFenetre.setVisible(true);
-            this.fenetre.dispose();
         }
-    }
 
+        // Afficher un message de confirmation
+        JOptionPane.showMessageDialog(this.fenetre, "Location ajouté avec succès!");
+
+        // Fermer la fenêtre après ajout
+        FEN_ACCUEIL nouvelleFenetre = new FEN_ACCUEIL(this.proprio);
+        nouvelleFenetre.setVisible(true);
+        this.fenetre.dispose();
+    }
 }

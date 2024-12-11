@@ -11,13 +11,13 @@ import view.FEN_AJOUT_LOCATAIRE;
 
 public class Controleur_Ajout_Locataire implements ActionListener {
     private FEN_AJOUT_LOCATAIRE fenetre;
+    private LocataireDAO locataireDao;
 
     private String nom, prenom, email, telephone, id;
-    private LocataireDAO locataireDAO = new LocataireDAO();
 
     public Controleur_Ajout_Locataire(Proprietaire P, FEN_AJOUT_LOCATAIRE fenetre) {
         this.fenetre = fenetre;
-        // this.bienDAO = new BienDAO();
+        this.locataireDao = new LocataireDAO();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Controleur_Ajout_Locataire implements ActionListener {
                     this.prenom,
                     this.email,
                     this.telephone);
-            this.locataireDAO.create(locataire);
+            this.locataireDao.create(locataire);
         }
         JOptionPane.showMessageDialog(this.fenetre, "Locataire ajouté avec succès");
     }

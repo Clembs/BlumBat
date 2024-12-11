@@ -1,6 +1,9 @@
 package dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import db.DatabaseConnexion;
 import model.Locataire;
 
@@ -51,4 +54,27 @@ public class LocataireDAO {
     return locataire;
   }
 
+  public List<Locataire> getAll() {
+    List<Locataire> locataires = new ArrayList<Locataire>();
+
+    try {
+      String query = "SELECT * FROM locataire";
+      Statement statement = connection.createStatement();
+      ResultSet resultSet = statement.executeQuery(query);
+
+      while (resultSet.next()) {
+        Locataire locataire = new Locataire(
+            resultSet.getString("id"),
+            resultSet.getString("nom"),
+            resultSet.getString("prenom"),
+            resultSet.getString("email"),
+            resultSet.getString("telephone"));
+        locataires.add(locataire);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la récupération des locataires", e);
+    }
+
+    return locataires;
+  }
 }

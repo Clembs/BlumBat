@@ -52,8 +52,8 @@ public class Controleur_Ajout_Location implements ActionListener {
 
             Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);
             LocationDAO.create(location);
-  
-        }else if(boutonClique.getText().equals("Louer")) {
+
+        } else if (boutonClique.getText().equals("Sélectionner")) {
             FEN_CONSULTATION_LOCATAIRES nouvelleFenetre = new FEN_CONSULTATION_LOCATAIRES();
             nouvelleFenetre.setVisible(true);
         }

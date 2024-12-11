@@ -1,17 +1,22 @@
 package view;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 
-import java.awt.*;
-
-import model.Proprietaire;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class FEN_ACCUEIL extends JFrame {
     private JLabel labelLoyersImpayes;
     private JLabel labelCharges;
     private JLabel labelLocatairesDepart;
 
-    public FEN_ACCUEIL( Proprietaire p) {
+    public FEN_ACCUEIL() {
         setTitle("Tableau de bord");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 450);

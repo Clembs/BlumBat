@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,6 +20,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.thoughtworks.qdox.parser.ParseException;
+
+import controleur.Controleur_Ajout_Location;
 import model.BienImmobilier;
 import model.Locataire;
 
@@ -26,8 +32,12 @@ public class POPUP_LOUER extends JInternalFrame {
     private JTextField txtLoyer;
     private JTextField txtDateEntree;
     private JTextField txtDateSortie;
+    private BienImmobilier bien;
+    private List<Locataire> locataires;
 
     public POPUP_LOUER() {
+        locataires = new ArrayList<>();
+        Controleur_Ajout_Location controleur = new Controleur_Ajout_Location(this);
 
         setBounds(100, 100, 600, 500);
         setClosable(true);
@@ -141,22 +151,43 @@ public class POPUP_LOUER extends JInternalFrame {
     }
 
     public double getLoyer() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return Double.parseDouble(txtLoyer.getText().trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Le loyer doit être un nombre valide.", e);
+        }
     }
 
-    public Date getDateEntree() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+    public Date getDateEntree() throws java.text.ParseException {
+        return parseDate(txtDateEntree.getText().trim(), "Date d'entrée invalide. Utilisez le format dd/MM/yyyy.");
     }
 
-    public Date getDateSortie() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Date getDateSortie() throws java.text.ParseException {
+        return parseDate(txtDateSortie.getText().trim(), "Date de sortie invalide. Utilisez le format dd/MM/yyyy.");
+    }
+
+    private Date parseDate(String dateStr, String errorMessage) throws java.text.ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false);
+        try {
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(errorMessage, e);
+        }
     }
 
     public BienImmobilier getBien() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (bien == null) {
+            throw new IllegalStateException("Aucun bien immobilier n'a été sélectionné.");
+        }
+        return bien;
     }
 
-    public java.util.List<Locataire> getLocatires() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Locataire> getLocataires() {
+        if (locataires.isEmpty()) {
+            throw new IllegalStateException("Aucun locataire n'a été sélectionné.");
+        }
+        return new ArrayList<>(locataires);
     }
 }

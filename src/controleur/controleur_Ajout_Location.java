@@ -2,6 +2,7 @@ package controleur;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +13,11 @@ import dao.LocationDAO;
 import model.BienImmobilier;
 import model.Locataire;
 import model.Location;
-import model.Proprietaire;
 import view.FEN_ACCUEIL;
 import view.POPUP_LOUER;
 
 public class Controleur_Ajout_Location implements ActionListener {
     private POPUP_LOUER fenetre;
-    private Proprietaire proprio;
     private LocationDAO LocationDAO;
     private double loyer;
     private Date dateEntree;
@@ -26,8 +25,7 @@ public class Controleur_Ajout_Location implements ActionListener {
     private BienImmobilier bien;
     private List<Locataire> locataires;
 
-    public Controleur_Ajout_Location(Proprietaire P, POPUP_LOUER fenetre) {
-        this.proprio = P;
+    public Controleur_Ajout_Location(POPUP_LOUER fenetre) {
         this.fenetre = fenetre;
         this.LocationDAO = new LocationDAO();
     }
@@ -40,10 +38,16 @@ public class Controleur_Ajout_Location implements ActionListener {
         if (boutonClique.getText().equals("Ajouter")) {
             // Récupérer les données depuis les champs de texte via les getters
             this.loyer = fenetre.getLoyer();
-            this.dateEntree = fenetre.getDateEntree();
-            this.dateSortie = fenetre.getDateSortie();
+            try {
+                this.dateEntree = fenetre.getDateEntree();
+            } catch (ParseException error) {
+            }
+            try {
+                this.dateSortie = fenetre.getDateSortie();
+            } catch (ParseException error) {
+            }
             this.bien = fenetre.getBien();
-            this.locataires = fenetre.getLocatires();
+            this.locataires = fenetre.getLocataires();
 
             Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);
             LocationDAO.create(location);
@@ -54,7 +58,7 @@ public class Controleur_Ajout_Location implements ActionListener {
         JOptionPane.showMessageDialog(this.fenetre, "Location ajouté avec succès!");
 
         // Fermer la fenêtre après ajout
-        FEN_ACCUEIL nouvelleFenetre = new FEN_ACCUEIL(this.proprio);
+        FEN_ACCUEIL nouvelleFenetre = new FEN_ACCUEIL();
         nouvelleFenetre.setVisible(true);
         this.fenetre.dispose();
     }

@@ -1,1 +1,13 @@
+# sortie du code compilé
+bin/
+target/
+
+# spécifique à IntelliJ
 .idea/
+.metadata/
+*.iml
+
+# spécifique à Eclipse
+.classpath
+.project
+.settings

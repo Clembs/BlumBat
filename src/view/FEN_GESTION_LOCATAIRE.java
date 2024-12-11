@@ -1,10 +1,8 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class FEN_GESTION_LOCATAIRE extends JFrame {
 

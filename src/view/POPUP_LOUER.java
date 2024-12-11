@@ -1,4 +1,5 @@
 package view;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -25,6 +26,7 @@ import com.thoughtworks.qdox.parser.ParseException;
 import controleur.Controleur_Ajout_Location;
 import model.BienImmobilier;
 import model.Locataire;
+import model.TypeBien;
 
 public class POPUP_LOUER extends JInternalFrame {
 
@@ -35,9 +37,9 @@ public class POPUP_LOUER extends JInternalFrame {
     private BienImmobilier bien;
     private List<Locataire> locataires;
 
-    public POPUP_LOUER() {
+    public POPUP_LOUER(BienImmobilier b) {
         locataires = new ArrayList<>();
-        Controleur_Ajout_Location controleur = new Controleur_Ajout_Location(this);
+        Controleur_Ajout_Location controleur = new Controleur_Ajout_Location(this, b);
 
         setBounds(100, 100, 600, 500);
         setClosable(true);
@@ -101,7 +103,7 @@ public class POPUP_LOUER extends JInternalFrame {
         lblLocataires.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lblLocataires.setForeground(Color.WHITE);
         panelCenter.add(lblLocataires);
-        
+
         JButton btnSlectionner = new JButton("Sélectionner");
         btnSlectionner.setForeground(Color.WHITE);
         btnSlectionner.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -114,11 +116,11 @@ public class POPUP_LOUER extends JInternalFrame {
         panelFooter.setBackground(new Color(45, 45, 60));
         contentPane.add(panelFooter, BorderLayout.SOUTH);
         panelFooter.setLayout(new BorderLayout(0, 0));
-        
+
         JPanel panelBtn = new JPanel();
         panelBtn.setBackground(new Color(45, 45, 60));
         panelFooter.add(panelBtn, BorderLayout.EAST);
-        
+
         JButton btnLouer = new JButton("Louer");
         btnLouer.setForeground(Color.WHITE);
         btnLouer.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -142,7 +144,8 @@ public class POPUP_LOUER extends JInternalFrame {
                 JDesktopPane desktopPane = new JDesktopPane();
                 frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-                POPUP_LOUER popup = new POPUP_LOUER();
+                POPUP_LOUER popup = new POPUP_LOUER(
+                        new BienImmobilier("3344", TypeBien.BATIMENT, "Rue ta mere", "ap4", 81000, "Toulouse"));
                 desktopPane.add(popup);
                 popup.setVisible(true);
 
@@ -161,7 +164,6 @@ public class POPUP_LOUER extends JInternalFrame {
         }
     }
 
-    
     public Date getDateEntree() throws java.text.ParseException {
         return parseDate(txtDateEntree.getText().trim(), "Date d'entrée invalide. Utilisez le format dd/MM/yyyy.");
     }
@@ -178,13 +180,6 @@ public class POPUP_LOUER extends JInternalFrame {
         } catch (ParseException e) {
             throw new IllegalArgumentException(errorMessage, e);
         }
-    }
-
-    public BienImmobilier getBien() {
-        if (bien == null) {
-            throw new IllegalStateException("Aucun bien immobilier n'a été sélectionné.");
-        }
-        return bien;
     }
 
     public List<Locataire> getLocataires() {

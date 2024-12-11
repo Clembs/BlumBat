@@ -26,7 +26,8 @@ public class Controleur_Ajout_Location implements ActionListener {
     private BienImmobilier bien;
     private List<Locataire> locataires;
 
-    public Controleur_Ajout_Location(POPUP_LOUER fenetre) {
+    public Controleur_Ajout_Location(POPUP_LOUER fenetre, BienImmobilier bien) {
+        this.bien = bien;
         this.fenetre = fenetre;
         this.LocationDAO = new LocationDAO();
     }
@@ -47,7 +48,6 @@ public class Controleur_Ajout_Location implements ActionListener {
                 this.dateSortie = fenetre.getDateSortie();
             } catch (ParseException error) {
             }
-            this.bien = fenetre.getBien();
             this.locataires = fenetre.getLocataires();
 
             Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);

@@ -53,17 +53,18 @@ public class Controleur_Ajout_Location implements ActionListener {
             Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);
             LocationDAO.create(location);
 
+            // Afficher un message de confirmation
+            JOptionPane.showMessageDialog(this.fenetre, "Location ajouté avec succès!");
+
+            // Fermer la fenêtre après ajout
+            FEN_ACCUEIL nouvelleFenetre = new FEN_ACCUEIL();
+            nouvelleFenetre.setVisible(true);
+            this.fenetre.dispose();
+
         } else if (boutonClique.getText().equals("Sélectionner")) {
             FEN_CONSULTATION_LOCATAIRES nouvelleFenetre = new FEN_CONSULTATION_LOCATAIRES();
             nouvelleFenetre.setVisible(true);
         }
 
-        // Afficher un message de confirmation
-        JOptionPane.showMessageDialog(this.fenetre, "Location ajouté avec succès!");
-
-        // Fermer la fenêtre après ajout
-        FEN_ACCUEIL nouvelleFenetre = new FEN_ACCUEIL();
-        nouvelleFenetre.setVisible(true);
-        this.fenetre.dispose();
     }
 }

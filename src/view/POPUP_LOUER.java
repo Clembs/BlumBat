@@ -126,6 +126,9 @@ public class POPUP_LOUER extends JInternalFrame {
         btnLouer.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         btnLouer.setBackground(new Color(0, 170, 85));
         panelBtn.add(btnLouer);
+        btnLouer.addActionListener(controleur);
+        btnSlectionner.addActionListener(controleur);
+
     }
 
     public static void main(String[] args) {

@@ -35,7 +35,7 @@ public class Controleur_Ajout_Location implements ActionListener {
         JButton boutonClique = (JButton) e.getSource();
 
         // Vérifier si le bouton "Ajouter" est cliqué
-        if (boutonClique.getText().equals("Ajouter")) {
+        if (boutonClique.getText().equals("Louer")) {
             // Récupérer les données depuis les champs de texte via les getters
             this.loyer = fenetre.getLoyer();
             try {
@@ -52,6 +52,9 @@ public class Controleur_Ajout_Location implements ActionListener {
             Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);
             LocationDAO.create(location);
 
+        }else if(boutonClique.getText().equals("Louer")) {
+            FEN_CONSULTATION_LOCATAIRES nouvelleFenetre = new FEN_CONSULTATION_LOCATAIRES();
+            nouvelleFenetre.setVisible(true);
         }
 
         // Afficher un message de confirmation

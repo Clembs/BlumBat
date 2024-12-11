@@ -20,22 +20,6 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
     private DefaultListModel<String> erreursListModel;
 
     /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    FEN_AJOUT_LOCATAIRE frame = new FEN_AJOUT_LOCATAIRE();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
      * Create the frame.
      */
     public FEN_AJOUT_LOCATAIRE() {
@@ -74,7 +58,6 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
         panelForm.add(lblNom);
         panelForm.add(txtNom);
 
-
         JLabel lblPrenom = new JLabel("Prénom:");
         lblPrenom.setFont(new Font("Rockwell", Font.PLAIN, 14));
         lblPrenom.setHorizontalAlignment(SwingConstants.CENTER);
@@ -98,13 +81,11 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
         txtTelephone.setFont(new Font("Rockwell", Font.PLAIN, 14));
         panelForm.add(lblTelephone);
         panelForm.add(txtTelephone);
-        
-        
 
         JPanel panelButton = new JPanel();
         contentPane.add(panelButton, BorderLayout.SOUTH);
         panelButton.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
-        
+
         erreursListModel = new DefaultListModel<String>();
         erreursList = new JList<>(erreursListModel);
         erreursList.setEnabled(false);
@@ -121,53 +102,72 @@ public class FEN_AJOUT_LOCATAIRE extends JFrame {
         JButton btnAnnuler = new JButton("Annuler");
         btnAnnuler.setFont(new Font("Rockwell", Font.PLAIN, 14));
         panelButton.add(btnAnnuler);
-        
+
         JPanel panelCenter = new JPanel();
-        panelCenter.setBorder(new TitledBorder(new EtchedBorder(), "Liste des locataires", TitledBorder.CENTER, TitledBorder.TOP));
+        panelCenter.setBorder(
+                new TitledBorder(new EtchedBorder(), "Liste des locataires", TitledBorder.CENTER, TitledBorder.TOP));
         panelCenter.setLayout(new BorderLayout(5, 5));
         contentPane.add(panelCenter, BorderLayout.CENTER);
-        
-        
-        this.listLocataires = new JList<>(new String[] { "Locataire 1", "Locataire 2", "Locataire 3", "Locataire 4", "Locataire 5" });
-		this.listLocataires.setFont(new Font("Rockwell", Font.PLAIN, 14));
-		this.listLocataires.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane scrollPane = new JScrollPane(this.listLocataires);
-		panelCenter.add(scrollPane, BorderLayout.CENTER);
 
+        this.listLocataires = new JList<>(
+                new String[] { "Locataire 1", "Locataire 2", "Locataire 3", "Locataire 4", "Locataire 5" });
+        this.listLocataires.setFont(new Font("Rockwell", Font.PLAIN, 14));
+        this.listLocataires.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(this.listLocataires);
+        panelCenter.add(scrollPane, BorderLayout.CENTER);
 
-        
+    }
+
+    public String getId() {
+        return txtIdentifiant.getText();
+    }
+
+    public String getNom() {
+        return txtNom.getText();
+    }
+
+    public String getPrenom() {
+        return txtIdentifiant.getText();
+    }
+
+    public String getEmail() {
+        return txtEmail.getText();
+    }
+
+    public String getTelephone() {
+        return txtTelephone.getText();
+    }
+
+    public void addErreur(String erreur) {
+        DefaultListModel<String> model = (DefaultListModel<String>) erreursList.getModel();
+        model.addElement(erreur);
+    }
+
+    public void clearErreurs() {
+        if (erreursListModel != null) {
+            erreursListModel = new DefaultListModel<String>();
         }
-        public String getId() {
-            return txtIdentifiant.getText();
-        }
-        public String getNom() {
-            return txtNom.getText();
-        }
-        public String getPrenom() {
-            return txtIdentifiant.getText();
-        }
-        public String getEmail() {
-            return txtEmail.getText();
-        }
-        public String getTelephone() {
-            return txtTelephone.getText();
-        }
-        public void addErreur  (String erreur) {
-            DefaultListModel<String> model = (DefaultListModel<String>) erreursList.getModel();
-            model.addElement(erreur);
-        }
-        public void clearErreurs() {
-            if (erreursListModel != null) {
-                erreursListModel = new DefaultListModel<String>();
+        erreursListModel.clear();
+        erreursList.setModel(erreursListModel);
+    }
+
+    public boolean hasErreurs() {
+        return erreursListModel.size() > 0;
+    }
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    FEN_AJOUT_LOCATAIRE frame = new FEN_AJOUT_LOCATAIRE();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            erreursListModel.clear();
-            erreursList.setModel(erreursListModel);
-        }
-        public boolean hasErreurs() {
-            return erreursListModel.size() > 0;
-        }
-    
-    
-
-    
+        });
+    }
 }

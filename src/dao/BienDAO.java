@@ -54,11 +54,11 @@ public class BienDAO {
 		}
 	}
 
-	public List<BienImmobilier> getAllBiens() {
+	public List<BienImmobilier> getAllBiens(Proprietaire proprietaire) {
 		List<BienImmobilier> biens = new ArrayList<>();
 
 		try {
-			String query = "SELECT * FROM biens";
+			String query = "SELECT * FROM biens WHERE id_proprietaire = " + proprietaire.getId();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 
@@ -99,11 +99,11 @@ public class BienDAO {
 		return biens;
 	}
 
-	public List<BienLocatif> getAllLogements() {
+	public List<BienLocatif> getAllLogements(Proprietaire proprietaire) {
 		List<BienLocatif> logements = new ArrayList<>();
 
 		try {
-			String query = "SELECT * FROM biens WHERE type_bien != 'BATIMENT'";
+			String query = "SELECT * FROM biens WHERE type_bien != 'BATIMENT' AND id_proprietaire = " + proprietaire.getId();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 

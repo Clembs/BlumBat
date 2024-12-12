@@ -17,12 +17,12 @@ public class ControleurBiens implements ActionListener {
     this.fenetre = fenetre;
     this.bienDAO = new BienDAO();
 
-    fenetre.setListeBiens(bienDAO.getAllBiens(proprietaire));
+    fenetre.setBiens(bienDAO.getAllBiens(proprietaire));
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     // TODO Montrer la fenêtre d'ajout de bien
-
+    this.fenetre.dispose();
   }
 }

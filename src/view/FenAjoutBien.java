@@ -7,12 +7,12 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import controller.Controleur_Ajout_Biens;
+import controller.ControleurAjoutBiens;
 import model.BienImmobilier;
 import model.Proprietaire;
 import model.TypeBien;
 
-public class FEN_AJOUT_BIEN extends JFrame {
+public class FenAjoutBien extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField villeField;
@@ -27,7 +27,7 @@ public class FEN_AJOUT_BIEN extends JFrame {
     private JList<String> erreursList;
     private DefaultListModel<String> erreursListModel;
 
-    public FEN_AJOUT_BIEN(Proprietaire P) {
+    public FenAjoutBien(Proprietaire P) {
         this.setTitle("Ajout d'un bien immobilier");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(100, 100, 800, 500);
@@ -203,7 +203,7 @@ public class FEN_AJOUT_BIEN extends JFrame {
         btnCancel.addActionListener(e -> this.dispose());
         bottomPanel.add(btnCancel);
 
-        Controleur_Ajout_Biens controleur = new Controleur_Ajout_Biens(P, this);
+        ControleurAjoutBiens controleur = new ControleurAjoutBiens(P, this);
 
         btnSave.addActionListener(controleur);
     }
@@ -266,7 +266,7 @@ public class FEN_AJOUT_BIEN extends JFrame {
         Proprietaire P = new Proprietaire("1", "VOISIN", "Clément", new LinkedList<BienImmobilier>());
         SwingUtilities.invokeLater(() -> {
             try {
-                FEN_AJOUT_BIEN frame = new FEN_AJOUT_BIEN(P);
+                FenAjoutBien frame = new FenAjoutBien(P);
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();

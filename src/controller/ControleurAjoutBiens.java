@@ -11,10 +11,10 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 import model.TypeBien;
-import view.FEN_AJOUT_BIEN;
+import view.FenAjoutBien;
 
-public class Controleur_Ajout_Biens implements ActionListener {
-    private FEN_AJOUT_BIEN fenetre;
+public class ControleurAjoutBiens implements ActionListener {
+    private FenAjoutBien fenetre;
     private Proprietaire proprio;
     private String adresse, ville, complementAdresse, id;
     private float surface;
@@ -24,7 +24,7 @@ public class Controleur_Ajout_Biens implements ActionListener {
     private TypeBien type;
     private BienDAO bienDAO;
 
-    public Controleur_Ajout_Biens(Proprietaire P, FEN_AJOUT_BIEN fenetre) {
+    public ControleurAjoutBiens(Proprietaire P, FenAjoutBien fenetre) {
         this.proprio = P;
         this.fenetre = fenetre;
         this.bienDAO = new BienDAO();

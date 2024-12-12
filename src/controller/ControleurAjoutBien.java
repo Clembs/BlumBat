@@ -13,7 +13,7 @@ import model.Proprietaire;
 import model.TypeBien;
 import view.FenAjoutBien;
 
-public class ControleurAjoutBiens implements ActionListener {
+public class ControleurAjoutBien implements ActionListener {
     private FenAjoutBien fenetre;
     private Proprietaire proprio;
     private String adresse, ville, complementAdresse, id;
@@ -24,7 +24,7 @@ public class ControleurAjoutBiens implements ActionListener {
     private TypeBien type;
     private BienDAO bienDAO;
 
-    public ControleurAjoutBiens(Proprietaire P, FenAjoutBien fenetre) {
+    public ControleurAjoutBien(Proprietaire P, FenAjoutBien fenetre) {
         this.proprio = P;
         this.fenetre = fenetre;
         this.bienDAO = new BienDAO();

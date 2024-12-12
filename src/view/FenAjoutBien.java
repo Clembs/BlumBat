@@ -7,7 +7,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import controller.ControleurAjoutBiens;
+import controller.ControleurAjoutBien;
 import model.BienImmobilier;
 import model.Proprietaire;
 import model.TypeBien;
@@ -203,7 +203,7 @@ public class FenAjoutBien extends JFrame {
         btnCancel.addActionListener(e -> this.dispose());
         bottomPanel.add(btnCancel);
 
-        ControleurAjoutBiens controleur = new ControleurAjoutBiens(P, this);
+        ControleurAjoutBien controleur = new ControleurAjoutBien(P, this);
 
         btnSave.addActionListener(controleur);
     }

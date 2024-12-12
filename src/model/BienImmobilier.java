@@ -61,6 +61,12 @@ public class BienImmobilier {
     this.locations.remove(location);
   }
 
+  public boolean estLoué() {
+    // Retourne vrai s'il n'y a aucune location sans date de sortie
+    return !this.locations.stream()
+        .allMatch(location -> location.getDateSortie() == null);
+  }
+
   @Override
   public String toString() {
     return this.typeBien + " - " + this.adresse + ", " + this.codePostal + " " + this.ville;

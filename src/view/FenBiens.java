@@ -1,20 +1,16 @@
 package view;
 
 import java.awt.*;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableModel;
 
 import controller.ControleurBiens;
 import model.BienImmobilier;
-import model.Locataire;
-import model.Location;
 import model.Proprietaire;
-import model.TypeBien;
 
 public class FenBiens extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -107,28 +103,7 @@ public class FenBiens extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		List<BienImmobilier> biens = new LinkedList<BienImmobilier>();
-
-		for (int i = 0; i < 100; i++) {
-			TypeBien randomType = TypeBien.values()[(int) (Math.random() * TypeBien.values().length)];
-
-			BienImmobilier bien1 = new BienImmobilier(String.valueOf(i + 1), randomType, "30 avenue Truc", null, "11000",
-					"Carcassonne");
-
-			if (i % 2 == 0) {
-				Locataire locataire = new Locataire("clement-voisin", "Voisin", "Clément", "clembs@clembs.com",
-						"+33 6 64 57 15 69",
-						null);
-				List<Locataire> locataires = new LinkedList<Locataire>();
-				locataires.add(locataire);
-				Location location = new Location(150f, new Date(), null, bien1, locataires);
-				bien1.addLocation(location);
-			}
-
-			biens.add(bien1);
-		}
-
-		Proprietaire proprietaire = new Proprietaire("1", "VOISIN", "Clément", biens);
+		Proprietaire proprietaire = new Proprietaire("1", "VOISIN", "Clément", new LinkedList<BienImmobilier>());
 
 		EventQueue.invokeLater(() -> {
 			try {

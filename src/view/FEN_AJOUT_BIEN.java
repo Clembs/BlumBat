@@ -12,7 +12,7 @@ import model.BienImmobilier;
 import model.Proprietaire;
 import model.TypeBien;
 
-public class FEN_Ajout_Biens extends JFrame {
+public class FEN_AJOUT_BIEN extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField villeField;
@@ -27,7 +27,7 @@ public class FEN_Ajout_Biens extends JFrame {
     private JList<String> erreursList;
     private DefaultListModel<String> erreursListModel;
 
-    public FEN_Ajout_Biens(Proprietaire P) {
+    public FEN_AJOUT_BIEN(Proprietaire P) {
         this.setTitle("Ajout d'un bien immobilier");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(100, 100, 800, 500);
@@ -266,7 +266,7 @@ public class FEN_Ajout_Biens extends JFrame {
         Proprietaire P = new Proprietaire("1", "VOISIN", "Clément", new LinkedList<BienImmobilier>());
         SwingUtilities.invokeLater(() -> {
             try {
-                FEN_Ajout_Biens frame = new FEN_Ajout_Biens(P);
+                FEN_AJOUT_BIEN frame = new FEN_AJOUT_BIEN(P);
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();

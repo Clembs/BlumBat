@@ -12,20 +12,6 @@ public class ProprietaireDAO {
     this.connection = DatabaseConnexion.getConnexion();
   }
 
-  public void create(Proprietaire proprietaire) {
-    try {
-      String query = "INSERT INTO proprietaires (nom, prenom, email, mot_de_passe) VALUES (?, ?, ?, ?)";
-      PreparedStatement preparedStatement = connection.prepareStatement(query);
-      preparedStatement.setString(1, proprietaire.getNom());
-      preparedStatement.setString(2, proprietaire.getPrenom());
-      preparedStatement.setString(3, proprietaire.getEmail());
-      preparedStatement.setString(4, proprietaire.getMotDePasse());
-      preparedStatement.executeUpdate();
-    } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la création du propriétaire", e);
-    }
-  }
-
   // récupération d'un propriétaire à partir de son identifiant
   public Proprietaire read(String id) {
     Proprietaire proprietaire = null;

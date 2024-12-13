@@ -14,7 +14,8 @@ public class FenConnexionClient extends JFrame {
 	public FenConnexionClient() {
 		setTitle("Se connecter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 200, 300);
+		setBounds(100, 100, 400, 200);
+		setResizable(false);
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -14,7 +14,7 @@ public class ProprietaireDAO {
 
   public void create(Proprietaire proprietaire) {
     try {
-      String query = "INSERT INTO proprietaire (nom, prenom, email, mot_de_passe) VALUES (?, ?, ?, ?)";
+      String query = "INSERT INTO proprietaires (nom, prenom, email, mot_de_passe) VALUES (?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, proprietaire.getNom());
       preparedStatement.setString(2, proprietaire.getPrenom());
@@ -31,7 +31,7 @@ public class ProprietaireDAO {
     Proprietaire proprietaire = null;
 
     try {
-      String query = "SELECT * FROM proprietaire WHERE id_proprietaire = ?";
+      String query = "SELECT * FROM proprietaires WHERE id_proprietaire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
@@ -56,10 +56,9 @@ public class ProprietaireDAO {
   // (connexion)
   public Proprietaire read(String email, String motDePasse) throws RuntimeException {
     Proprietaire proprietaire = null;
-    System.out.print(email + " " + motDePasse);
 
     try {
-      String query = "SELECT * FROM proprietaire WHERE email = ? AND mot_de_passe = ?";
+      String query = "SELECT * FROM proprietaires WHERE email = ? AND mot_de_passe = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, email);
       preparedStatement.setString(2, motDePasse);

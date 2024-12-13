@@ -6,58 +6,46 @@ import javax.swing.border.*;
 
 import controller.ControleurConnexionClient;
 
-import java.awt.Dialog.ModalExclusionType;
-
 public class FenConnexionClient extends JFrame {
-
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JTextField emailField;
 	private JTextField motDePasseField;
 
 	public FenConnexionClient() {
-		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
-		setTitle("Gestion - Se connecter");
+		setTitle("Se connecter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setBounds(100, 100, 200, 300);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 20));
+		JPanel mainPanel = new JPanel();
+		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		JLabel title = new JLabel("Gestion - Se connecter");
+		setContentPane(mainPanel);
+		mainPanel.setLayout(new BorderLayout(0, 20));
+
+		JLabel title = new JLabel("Se connecter");
 		title.setFont(new Font("Dialog", Font.BOLD, 24));
-		contentPane.add(title, BorderLayout.NORTH);
+		mainPanel.add(title, BorderLayout.NORTH);
 
 		JPanel champs = new JPanel();
-		contentPane.add(champs, BorderLayout.CENTER);
-		champs.setLayout(new BorderLayout(0, 10));
-
-		JPanel emailPanel = new JPanel();
-		champs.add(emailPanel, BorderLayout.NORTH);
-		emailPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		champs.setLayout(new GridLayout(2, 2, 10, 10));
+		mainPanel.add(champs, BorderLayout.CENTER);
 
 		JLabel lblEmail = new JLabel("Email");
-		emailPanel.add(lblEmail);
+		champs.add(lblEmail);
 
 		emailField = new JTextField();
-		emailPanel.add(emailField);
+		champs.add(emailField);
 		emailField.setColumns(10);
 
-		JPanel motDePassePanel = new JPanel();
-		champs.add(motDePassePanel, BorderLayout.CENTER);
-		motDePassePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-
 		JLabel lblMotDePasse = new JLabel("Mot de passe");
-		motDePassePanel.add(lblMotDePasse);
+		champs.add(lblMotDePasse);
 
-		motDePasseField = new JTextField();
+		motDePasseField = new JPasswordField();
 		motDePasseField.setColumns(10);
-		motDePassePanel.add(motDePasseField);
+		champs.add(motDePasseField);
 
 		JButton btnConnecter = new JButton("Se connecter");
-		contentPane.add(btnConnecter, BorderLayout.SOUTH);
+		mainPanel.add(btnConnecter, BorderLayout.SOUTH);
 
 		ControleurConnexionClient controller = new ControleurConnexionClient(this);
 		btnConnecter.addActionListener(controller);

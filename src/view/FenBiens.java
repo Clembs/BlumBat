@@ -17,6 +17,7 @@ public class FenBiens extends JFrame {
 	private JTable tableBiens;
 	private ControleurBiens controleur;
 	private List<BienImmobilier> biens;
+	private JPanel panelCentralCourant;
 
 	public FenBiens(Proprietaire proprietaire) {
 		setTitle("Gestion des biens");
@@ -26,6 +27,7 @@ public class FenBiens extends JFrame {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		mainPanel.setLayout(new BorderLayout(10, 10));
+		mainPanel.setBackground(new Color(250, 250, 250));
 		setContentPane(mainPanel);
 
 		JPanel titlePanel = new JPanel();
@@ -101,6 +103,9 @@ public class FenBiens extends JFrame {
 				0);
 		tableBiens = new JTable(tableModel);
 		tableBiens.setRowSelectionAllowed(true);
+		tableBiens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		// On rend la table non-éditable
+		tableBiens.setDefaultEditor(Object.class, null);
 		// On définit la largeur des colonnes
 		tableBiens.getColumnModel().getColumn(0).setPreferredWidth(20);
 		tableBiens.getColumnModel().getColumn(1).setPreferredWidth(50);
@@ -109,13 +114,15 @@ public class FenBiens extends JFrame {
 		tableBiens.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		tableBiens.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
 
+		// Initialisation du contrôleur
+		controleur = new ControleurBiens(proprietaire, this);
+		// On ajoute un écouteur pour la sélection d'une ligne
+		tableBiens.addMouseListener(controleur);
+
 		// On définit une JScrollPane pour pouvoir défiler dans la table
 		JScrollPane tableScrollPane = new JScrollPane(tableBiens);
 		tableScrollPane.setPreferredSize(new Dimension(400, 0));
 		sidePanel.add(tableScrollPane, BorderLayout.CENTER);
-
-		// Initialisation du contrôleur
-		controleur = new ControleurBiens(proprietaire, this);
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
 		// ButtonPanel.setBackground(new Color(224, 247, 250));
@@ -123,12 +130,24 @@ public class FenBiens extends JFrame {
 		btnAdd.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
 		btnAdd.setBackground(new Color(46, 139, 87));
 		btnAdd.setForeground(Color.WHITE);
-		btnAdd.addActionListener(controleur);
 		buttonPanel.add(btnAdd);
 		sidePanel.add(buttonPanel, BorderLayout.SOUTH);
 
+		// Lorsque l'on clique sur le bouton "Ajouter"
+		btnAdd.addActionListener(controleur);
+
 		mainPanel.add(sidePanel, BorderLayout.WEST);
-		mainPanel.setBackground(new Color(250, 250, 250));
+
+		// Panel central, initialisé avec un panel vide avec du texte centré "Choissisez
+		// un bien pour afficher ses détails"
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		JLabel lblChoix = new JLabel("Choisissez un bien pour afficher ses détails");
+		lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
+		lblChoix.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lblChoix);
+
+		setPanelCentral(panel);
 	}
 
 	// Setter utilisé par le contrôleur
@@ -156,6 +175,18 @@ public class FenBiens extends JFrame {
 		// Rafraîchir la table
 		tableBiens.revalidate();
 		tableBiens.repaint();
+	}
+
+	// Changer le panel central
+	public void setPanelCentral(JPanel panel) {
+		if (panelCentralCourant != null) {
+			panelCentralCourant.setVisible(false);
+			remove(panelCentralCourant);
+		}
+
+		panelCentralCourant = panel;
+		add(panelCentralCourant, BorderLayout.CENTER);
+		panelCentralCourant.setVisible(true);
 	}
 
 	public static void main(String[] args) {

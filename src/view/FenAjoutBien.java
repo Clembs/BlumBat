@@ -2,13 +2,11 @@ package view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
 
 import controller.ControleurAjoutBien;
-import model.BienImmobilier;
 import model.Proprietaire;
 import model.TypeBien;
 
@@ -256,18 +254,5 @@ public class FenAjoutBien extends JFrame {
 
   public boolean hasErreurs() {
     return erreursListModel.size() > 0;
-  }
-
-  public static void main(String[] args) {
-    Proprietaire P = new Proprietaire("1", "VOISIN", "Clément", new LinkedList<BienImmobilier>());
-
-    EventQueue.invokeLater(() -> {
-      try {
-        FenAjoutBien frame = new FenAjoutBien(P);
-        frame.setVisible(true);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    });
   }
 }

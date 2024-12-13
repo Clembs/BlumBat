@@ -12,7 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Classe principale qui se lance en mode exécution et en build -->
     <!-- On peut changer dynamiquement avec le flag -Dmain.class=[classe] -->
-    <main.class>view.FenAjoutBien</main.class>
+    <main.class>view.FenConnexionClient</main.class>
   </properties>
 
   <dependencies>

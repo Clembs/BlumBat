@@ -188,17 +188,4 @@ public class FenBiens extends JFrame {
 		add(panelCentralCourant, BorderLayout.CENTER);
 		panelCentralCourant.setVisible(true);
 	}
-
-	public static void main(String[] args) {
-		Proprietaire proprietaire = new Proprietaire("1", "VOISIN", "Clément", new LinkedList<BienImmobilier>());
-
-		EventQueue.invokeLater(() -> {
-			try {
-				FenBiens frame = new FenBiens(proprietaire);
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
 }

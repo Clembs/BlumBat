@@ -1,18 +1,18 @@
 package model;
 
-import java.util.List;
-
 public class Proprietaire {
   private String id;
   private String nom;
   private String prenom;
-  private List<BienImmobilier> biens;
+  private String email;
+  private String motDePasse;
 
-  public Proprietaire(String id, String nom, String prenom, List<BienImmobilier> biens) {
+  public Proprietaire(String id, String nom, String prenom, String email, String motDePasse) {
     this.id = id;
     this.nom = nom;
     this.prenom = prenom;
-    this.biens = biens;
+    this.email = email;
+    this.motDePasse = motDePasse;
   }
 
   public String getId() {
@@ -27,15 +27,11 @@ public class Proprietaire {
     return this.prenom;
   }
 
-  public List<BienImmobilier> getBiens() {
-    return this.biens;
+  public String getEmail() {
+    return this.email;
   }
 
-  public void addBien(BienImmobilier bien) {
-    this.biens.add(bien);
-  }
-
-  public void removeBien(BienImmobilier bien) {
-    this.biens.remove(bien);
+  public String getMotDePasse() {
+    return this.motDePasse;
   }
 }

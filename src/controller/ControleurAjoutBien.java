@@ -92,7 +92,6 @@ public class ControleurAjoutBien implements ActionListener {
               this.codePostal, this.ville,
               this.NFiscal, this.surface, this.Npieces);
           this.bienDAO.create(bien, proprio);
-          this.proprio.addBien(bien);
         }
           break;
         case BATIMENT: {
@@ -105,7 +104,6 @@ public class ControleurAjoutBien implements ActionListener {
               this.adresse, this.complementAdresse,
               this.codePostal, this.ville);
           this.bienDAO.create(bien, proprio);
-          this.proprio.addBien(bien);
         }
           break;
       }

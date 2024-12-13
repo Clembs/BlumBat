@@ -1,33 +1,33 @@
 package model;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
 
 public class Location {
   private double loyer;
-  private Date dateEntree;
-  private Date dateSortie;
+  private LocalDate dateEntree;
+  private LocalDate dateSortie;
   private BienImmobilier bien;
-  private List<Locataire> locataires;
+  private Locataire locataire;
   // private double quotiteLoyer;
 
-  public Location(double loyer, Date dateEntree, Date dateSortie, BienImmobilier bien, List<Locataire> locataires) {
+  public Location(double loyer, LocalDate dateEntree, LocalDate dateSortie, BienImmobilier bien,
+      Locataire locataire) {
     this.loyer = loyer;
     this.dateEntree = dateEntree;
     this.dateSortie = dateSortie;
     this.bien = bien;
-    this.locataires = locataires;
+    this.locataire = locataire;
   }
 
   public double getLoyer() {
     return this.loyer;
   }
 
-  public Date getDateEntree() {
+  public LocalDate getDateEntree() {
     return this.dateEntree;
   }
 
-  public Date getDateSortie() {
+  public LocalDate getDateSortie() {
     return this.dateSortie;
   }
 
@@ -35,7 +35,7 @@ public class Location {
     return this.bien;
   }
 
-  public List<Locataire> getLocataires() {
-    return this.locataires;
+  public Locataire getLocataire() {
+    return this.locataire;
   }
 }

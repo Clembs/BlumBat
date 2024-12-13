@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import dao.BienDAO;
 import model.Proprietaire;
+import view.FenAjoutBien;
 import view.FenBiens;
 
 public class ControleurBiens implements ActionListener {
@@ -22,7 +23,8 @@ public class ControleurBiens implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    // TODO Montrer la fenêtre d'ajout de bien
+    FenAjoutBien fenetreAjoutBien = new FenAjoutBien(proprietaire);
+    fenetreAjoutBien.setVisible(true);
     this.fenetre.dispose();
   }
 }

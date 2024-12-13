@@ -123,6 +123,7 @@ public class FenBiens extends JFrame {
 		btnAdd.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
 		btnAdd.setBackground(new Color(46, 139, 87));
 		btnAdd.setForeground(Color.WHITE);
+		btnAdd.addActionListener(controleur);
 		buttonPanel.add(btnAdd);
 		sidePanel.add(buttonPanel, BorderLayout.SOUTH);
 

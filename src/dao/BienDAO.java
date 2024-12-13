@@ -58,9 +58,10 @@ public class BienDAO {
 		List<BienImmobilier> biens = new ArrayList<>();
 
 		try {
-			String query = "SELECT * FROM biens WHERE id_proprietaire = " + proprietaire.getId();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			String query = "SELECT * FROM biens WHERE id_proprietaire = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, Integer.parseInt(proprietaire.getId()));
+			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
 				String typeBienStr = resultSet.getString("type_bien");

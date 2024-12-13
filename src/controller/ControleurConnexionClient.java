@@ -6,12 +6,12 @@ import javax.swing.*;
 
 import dao.ProprietaireDAO;
 import model.Proprietaire;
-import view.FEN_CONNEXION_CLIENT;
+import view.FenConnexionClient;
 
-public class Controller_Connexion_Client implements ActionListener {
-  private FEN_CONNEXION_CLIENT fenetre;
+public class ControleurConnexionClient implements ActionListener {
+  private FenConnexionClient fenetre;
 
-  public Controller_Connexion_Client(FEN_CONNEXION_CLIENT fenetre) {
+  public ControleurConnexionClient(FenConnexionClient fenetre) {
     this.fenetre = fenetre;
   }
 

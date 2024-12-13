@@ -34,14 +34,4 @@ public enum TypeBien {
 
     return null;
   }
-
-  public static TypeBien getTypeBien(String typeBienString) {
-    for (TypeBien t : TypeBien.values()) {
-      if (t.toString().equals(typeBienString)) {
-        return t;
-      }
-    }
-
-    return null;
-  }
 }

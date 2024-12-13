@@ -4,18 +4,18 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import controller.Controller_Connexion_Client;
+import controller.ControleurConnexionClient;
 
 import java.awt.Dialog.ModalExclusionType;
 
-public class FEN_CONNEXION_CLIENT extends JFrame {
+public class FenConnexionClient extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField emailField;
 	private JTextField motDePasseField;
 
-	public FEN_CONNEXION_CLIENT() {
+	public FenConnexionClient() {
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setTitle("Gestion - Se connecter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +59,7 @@ public class FEN_CONNEXION_CLIENT extends JFrame {
 		JButton btnConnecter = new JButton("Se connecter");
 		contentPane.add(btnConnecter, BorderLayout.SOUTH);
 
-		Controller_Connexion_Client controller = new Controller_Connexion_Client(this);
+		ControleurConnexionClient controller = new ControleurConnexionClient(this);
 		btnConnecter.addActionListener(controller);
 	}
 
@@ -78,7 +78,7 @@ public class FEN_CONNEXION_CLIENT extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FEN_CONNEXION_CLIENT frame = new FEN_CONNEXION_CLIENT();
+					FenConnexionClient frame = new FenConnexionClient();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

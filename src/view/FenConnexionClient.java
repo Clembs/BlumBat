@@ -3,76 +3,115 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
 import controller.ControleurConnexionClient;
 
 public class FenConnexionClient extends JFrame {
-	private static final long serialVersionUID = 1L;
-	private JTextField emailField;
-	private JTextField motDePasseField;
+    private static final long serialVersionUID = 1L;
+    private JTextField emailField;
+    private JPasswordField motDePasseField;
 
-	public FenConnexionClient() {
-		setTitle("Se connecter");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 200);
-		setResizable(false);
+    public FenConnexionClient() {
+        setTitle("Se connecter");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 480, 320);
+        setResizable(false);
 
-		JPanel mainPanel = new JPanel();
-		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(mainPanel);
-		mainPanel.setLayout(new BorderLayout(0, 20));
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
+        mainPanel.setLayout(new BorderLayout(10, 20));
+        mainPanel.setBackground(new Color(245, 245, 250));
+        setContentPane(mainPanel);
 
-		JLabel title = new JLabel("Se connecter");
-		title.setFont(new Font("Dialog", Font.BOLD, 24));
-		mainPanel.add(title, BorderLayout.NORTH);
 
-		JPanel champs = new JPanel();
-		champs.setLayout(new GridLayout(2, 2, 10, 10));
-		mainPanel.add(champs, BorderLayout.CENTER);
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(Color.DARK_GRAY);
+        JLabel titleLabel = new JLabel("Connexion Client");
+        titleLabel.setFont(new Font("Rockwell", Font.BOLD, 26));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel);
+        mainPanel.add(titlePanel, BorderLayout.NORTH);
 
-		JLabel lblEmail = new JLabel("Email");
-		champs.add(lblEmail);
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2, -40, 20));
+        inputPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Identifiants", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        inputPanel.setBackground(Color.LIGHT_GRAY);
+        mainPanel.add(inputPanel, BorderLayout.CENTER);
 
-		emailField = new JTextField();
-		champs.add(emailField);
-		emailField.setColumns(10);
 
-		JLabel lblMotDePasse = new JLabel("Mot de passe");
-		champs.add(lblMotDePasse);
+        JLabel emailLabel = new JLabel("Email :");
+        emailLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        emailLabel.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
+        inputPanel.add(emailLabel);
+        emailField = new JTextField();
+        emailField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        emailField.setColumns(10);
+        emailField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(0, 120, 215), 1),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        inputPanel.add(emailField);
 
-		motDePasseField = new JPasswordField();
-		motDePasseField.setColumns(10);
-		champs.add(motDePasseField);
 
-		JButton btnConnecter = new JButton("Se connecter");
-		mainPanel.add(btnConnecter, BorderLayout.SOUTH);
+        JLabel passwordLabel = new JLabel("Mot de passe :");
+        passwordLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        passwordLabel.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 14));
+        inputPanel.add(passwordLabel);
+        motDePasseField = new JPasswordField();
+        motDePasseField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        motDePasseField.setColumns(10);
+        motDePasseField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(0, 120, 215), 1),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        inputPanel.add(motDePasseField);
 
-		ControleurConnexionClient controller = new ControleurConnexionClient(this);
-		btnConnecter.addActionListener(controller);
-	}
 
-	public String getEmail() {
-		return this.emailField.getText();
-	}
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 250));
+        JButton btnConnecter = new JButton("Se connecter");
+        btnConnecter.setFont(new Font("Rockwell", Font.BOLD, 14));
+        btnConnecter.setForeground(Color.WHITE);
+        btnConnecter.setBackground(new Color(39, 174, 96));
+        btnConnecter.setFocusPainted(false);
+        btnConnecter.setBorder(new EmptyBorder(10, 30, 10, 30));
+        btnConnecter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-	public String getMotDePasse() {
-		return this.motDePasseField.getText();
-	}
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FenConnexionClient frame = new FenConnexionClient();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+        btnConnecter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnConnecter.setBackground(new Color(46, 204, 113));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnConnecter.setBackground(new Color(39, 174, 96));
+            }
+        });
+
+        buttonPanel.add(btnConnecter);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+
+        ControleurConnexionClient controller = new ControleurConnexionClient(this);
+        btnConnecter.addActionListener(controller);
+    }
+
+    public String getEmail() {
+        return this.emailField.getText();
+    }
+
+    public String getMotDePasse() {
+        return new String(this.motDePasseField.getPassword());
+    }
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                FenConnexionClient frame = new FenConnexionClient();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

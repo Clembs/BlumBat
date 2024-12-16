@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import controller.ControleurAjoutLocataire;
 
-public class FenAjoutLocataire extends JInternalFrame {
+public class PopupAjoutLocataire extends JInternalFrame {
 
     private JTextField textIdentifiant;
     private JTextField textNom;
@@ -13,7 +13,7 @@ public class FenAjoutLocataire extends JInternalFrame {
     private DefaultListModel<String> erreursListModel;
     private JList<String> erreursList;
 
-    public FenAjoutLocataire() {
+    public PopupAjoutLocataire() {
         // Configuration de la fenêtre
         setTitle("Ajouter un Locataire");
         setBounds(100, 100, 600, 400);
@@ -41,19 +41,19 @@ public class FenAjoutLocataire extends JInternalFrame {
 
         // Champs de formulaire
         textIdentifiant = new JTextField();
-        addField(formPanel, "Identifiant:", textIdentifiant);
+        addField(formPanel, "Identifiant:*", textIdentifiant);
 
         textNom = new JTextField();
-        addField(formPanel, "Nom:", textNom);
+        addField(formPanel, "Nom:* ", textNom);
 
         textPrenom = new JTextField();
-        addField(formPanel, "Prénom:", textPrenom);
+        addField(formPanel, "Prénom:* ", textPrenom);
 
         textEmail = new JTextField();
-        addField(formPanel, "Email:", textEmail);
+        addField(formPanel, "Email:*", textEmail);
 
         textTelephone = new JTextField();
-        addField(formPanel, "Téléphone:", textTelephone);
+        addField(formPanel, "Téléphone:*", textTelephone);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
 
@@ -152,7 +152,7 @@ public class FenAjoutLocataire extends JInternalFrame {
                 JDesktopPane desktopPane = new JDesktopPane();
                 frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-                FenAjoutLocataire fenetre = new FenAjoutLocataire();
+                PopupAjoutLocataire fenetre = new PopupAjoutLocataire();
                 desktopPane.add(fenetre);
                 fenetre.setVisible(true);
 

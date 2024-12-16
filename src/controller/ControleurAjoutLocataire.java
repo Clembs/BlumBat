@@ -8,17 +8,17 @@ import javax.swing.JOptionPane;
 import model.Locataire;
 import model.Proprietaire;
 import dao.LocataireDAO;
-import view.FenAjoutLocataire;
+import view.PopupAjoutLocataire;
 
 
 public class ControleurAjoutLocataire implements ActionListener {
-    private FenAjoutLocataire fenetre;
+    private PopupAjoutLocataire fenetre;
     private LocataireDAO locataireDao;
     private LocataireDAO LocataireDAO;
 
     private String nom, prenom, email, telephone, id;
 
-    public ControleurAjoutLocataire(Proprietaire P, FenAjoutLocataire fenetre) {
+    public ControleurAjoutLocataire(Proprietaire P, PopupAjoutLocataire fenetre) {
         this.fenetre = fenetre;
         this.locataireDao = new LocataireDAO();
         this.LocataireDAO = new LocataireDAO();

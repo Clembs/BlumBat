@@ -10,13 +10,13 @@ public class Locataire {
   private String telephone;
   private List<Location> locations;
 
-  public Locataire(String id, String nom, String prenom, String email, String telephone, List<Location> locations) {
+  public Locataire(String id, String nom, String prenom, String email, String telephone) {
     this.id = id;
     this.nom = nom;
     this.prenom = prenom;
     this.email = email;
     this.telephone = telephone;
-    this.locations = locations;
+
   }
 
   public String getId() {

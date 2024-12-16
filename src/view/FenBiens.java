@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ControleurBiens;
 import model.BienImmobilier;
+import model.BienLocatif;
 import model.Proprietaire;
 
 public class FenBiens extends JFrame {
@@ -69,7 +70,7 @@ public class FenBiens extends JFrame {
 			List<BienImmobilier> biensDispo = new LinkedList<>();
 
 			for (BienImmobilier bien : this.biens) {
-				if (!bien.estLoué()) {
+				if (bien instanceof BienLocatif && !((BienLocatif) bien).estLoué()) {
 					biensDispo.add(bien);
 				}
 			}
@@ -87,7 +88,7 @@ public class FenBiens extends JFrame {
 			List<BienImmobilier> biensDispo = new LinkedList<>();
 
 			for (BienImmobilier bien : this.biens) {
-				if (bien.estLoué()) {
+				if (bien instanceof BienLocatif && ((BienLocatif) bien).estLoué()) {
 					biensDispo.add(bien);
 				}
 			}
@@ -125,7 +126,6 @@ public class FenBiens extends JFrame {
 		sidePanel.add(tableScrollPane, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
-		// ButtonPanel.setBackground(new Color(224, 247, 250));
 		JButton btnAdd = new JButton("Ajouter");
 		btnAdd.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
 		btnAdd.setBackground(new Color(46, 139, 87));
@@ -168,7 +168,10 @@ public class FenBiens extends JFrame {
 					bien.getId(),
 					bien.getVille(),
 					bien.getTypeBien().toString(),
-					bien.estLoué() ? "🔴 Loué" : "🟢 Disponible"
+					bien instanceof BienLocatif ? ((BienLocatif) bien).estLoué()
+							? "🔴 Loué"
+							: "🟢 Disponible"
+							: "N/A"
 			});
 		}
 

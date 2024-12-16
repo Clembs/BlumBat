@@ -15,13 +15,8 @@ import model.Proprietaire;
 
 public class PanelConsultationBien extends JPanel {
   private ControleurConsultationBien controleur;
-  private FenBiens fenetre;
-  private BienImmobilier bien;
 
   public PanelConsultationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
-    this.fenetre = fenetre;
-    this.bien = bien;
-
     setLayout(new BorderLayout(10, 10));
     fenetre.setTitle("Consultation d'un bien - " + bien.getId());
 
@@ -118,7 +113,7 @@ public class PanelConsultationBien extends JPanel {
       String dDisponibiliteValue;
       if (bienL.estLoué()) {
         dDisponibiliteValue = "En location depuis le " +
-            bien.getLocationCourante().getDateEntree()
+            bienL.getLocationCourante().getDateEntree()
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH));
       } else {
         dDisponibiliteValue = "Disponible";

@@ -1,9 +1,9 @@
 package view;
 import javax.swing.*;
 import java.awt.*;
-import controller.Controleur_Ajout_Locataire;
+import controller.ControleurAjoutLocataire;
 
-public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
+public class FenAjoutLocataire extends JInternalFrame {
 
     private JTextField textIdentifiant;
     private JTextField textNom;
@@ -13,7 +13,7 @@ public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
     private DefaultListModel<String> erreursListModel;
     private JList<String> erreursList;
 
-    public FEN_AJOUTER_LOCATAIRE() {
+    public FenAjoutLocataire() {
         // Configuration de la fenêtre
         setTitle("Ajouter un Locataire");
         setBounds(100, 100, 600, 400);
@@ -83,7 +83,7 @@ public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
         btnAjouter.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         buttonPanel.add(btnAjouter);
 
-        Controleur_Ajout_Locataire controleur = new Controleur_Ajout_Locataire(null, this);
+        ControleurAjoutLocataire controleur = new ControleurAjoutLocataire(null, this);
         btnAjouter.addActionListener(controleur);
 
         JButton btnAnnuler = new JButton("Annuler");
@@ -152,7 +152,7 @@ public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
                 JDesktopPane desktopPane = new JDesktopPane();
                 frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-                FEN_AJOUTER_LOCATAIRE fenetre = new FEN_AJOUTER_LOCATAIRE();
+                FenAjoutLocataire fenetre = new FenAjoutLocataire();
                 desktopPane.add(fenetre);
                 fenetre.setVisible(true);
 

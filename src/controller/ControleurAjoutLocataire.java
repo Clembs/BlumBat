@@ -5,21 +5,20 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import dao.BienDAO;
 import model.Locataire;
 import model.Proprietaire;
 import dao.LocataireDAO;
-import view.FEN_AJOUTER_LOCATAIRE;
+import view.FenAjoutLocataire;
 
 
-public class Controleur_Ajout_Locataire implements ActionListener {
-    private FEN_AJOUTER_LOCATAIRE fenetre;
+public class ControleurAjoutLocataire implements ActionListener {
+    private FenAjoutLocataire fenetre;
     private LocataireDAO locataireDao;
     private LocataireDAO LocataireDAO;
 
     private String nom, prenom, email, telephone, id;
 
-    public Controleur_Ajout_Locataire(Proprietaire P, FEN_AJOUTER_LOCATAIRE fenetre) {
+    public ControleurAjoutLocataire(Proprietaire P, FenAjoutLocataire fenetre) {
         this.fenetre = fenetre;
         this.locataireDao = new LocataireDAO();
         this.LocataireDAO = new LocataireDAO();

@@ -49,7 +49,7 @@ public class ControleurBiens implements ActionListener, MouseListener {
     if (row != -1) {
       BienImmobilier bien = biens.get(row);
 
-      PanelConsultationBien menu = new PanelConsultationBien(fenetre, bien);
+      PanelConsultationBien menu = new PanelConsultationBien(fenetre, proprietaire, bien);
       fenetre.setPanelCentral(menu);
       menu.setVisible(true);
     }

@@ -3,22 +3,25 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
+
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
-// import controller.ControleurConsultationBien;
+import controller.ControleurConsultationBien;
 import model.BienImmobilier;
 import model.BienLocatif;
+import model.Proprietaire;
 
 public class PanelConsultationBien extends JPanel {
-  // private ControleurConsultationBien controleur;
-  // private FenBiens fenBiens;
-  // private BienImmobilier bien;
+  private ControleurConsultationBien controleur;
+  private FenBiens fenetre;
+  private BienImmobilier bien;
 
-  public PanelConsultationBien(FenBiens fenetre, BienImmobilier bien) {
-    // this.fenBiens = fenetre;
-    // this.bien = bien;
+  public PanelConsultationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
+    this.fenetre = fenetre;
+    this.bien = bien;
+
     setLayout(new BorderLayout(10, 10));
     fenetre.setTitle("Consultation d'un bien - " + bien.getId());
 
@@ -166,16 +169,27 @@ public class PanelConsultationBien extends JPanel {
     JPanel buttonsPanel = new JPanel();
     buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
 
+    controleur = new ControleurConsultationBien(fenetre, this, proprietaire, bien);
+
+    JButton btnLouer = new JButton("Louer");
+    btnLouer.setFont(new Font("Rockwell", Font.BOLD, 14));
+    btnLouer.setBackground(Color.GRAY);
+    btnLouer.setForeground(Color.WHITE);
+    btnLouer.addActionListener(controleur);
+    buttonsPanel.add(btnLouer);
+
     JButton btnSupprimer = new JButton("Supprimer le bien");
     btnSupprimer.setFont(new Font("Rockwell", Font.BOLD, 14));
     btnSupprimer.setBackground(Color.RED);
     btnSupprimer.setForeground(Color.WHITE);
+    btnSupprimer.addActionListener(controleur);
     buttonsPanel.add(btnSupprimer);
 
     JButton btnModifier = new JButton("Modifier le bien");
     btnModifier.setFont(new Font("Rockwell", Font.BOLD, 14));
     btnModifier.setBackground(Color.BLUE);
     btnModifier.setForeground(Color.WHITE);
+    btnModifier.addActionListener(controleur);
     buttonsPanel.add(btnModifier);
 
     add(buttonsPanel, BorderLayout.SOUTH);

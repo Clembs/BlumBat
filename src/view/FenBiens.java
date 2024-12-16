@@ -23,7 +23,7 @@ public class FenBiens extends JFrame {
 	public FenBiens(Proprietaire proprietaire) {
 		setTitle("Gestion des biens");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 500);
+		setBounds(100, 100, 1200, 700);
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));

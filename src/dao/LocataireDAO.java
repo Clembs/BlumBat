@@ -16,7 +16,7 @@ public class LocataireDAO {
 
   public void create(Locataire locataire) {
     try {
-      String query = "INSERT INTO locataire (id, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ? )";
+      String query = "INSERT INTO locataires (id_locataire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ? )";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, locataire.getId());
       preparedStatement.setString(2, locataire.getNom());

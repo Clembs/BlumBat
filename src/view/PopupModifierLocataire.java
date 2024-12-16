@@ -168,7 +168,6 @@ public class PopupModifierLocataire extends JInternalFrame {
                 // Création de la fenêtre PopupModifierLocataire
                 PopupModifierLocataire fenetre = new PopupModifierLocataire(identifiant, nom, prenom, email, telephone);
 
-                // Ajouter la fenêtre interne à la zone de bureau (desktop pane)
                 desktopPane.add(fenetre);
                 fenetre.setVisible(true);
 

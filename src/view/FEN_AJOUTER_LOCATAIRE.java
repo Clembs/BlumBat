@@ -1,41 +1,31 @@
 package view;
-
-import model.BienImmobilier;
-import model.TypeBien;
-
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.*;
+import controller.Controleur_Ajout_Locataire;
 
 public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
 
-    private static final long serialVersionUID = 1L;
+    private JTextField textIdentifiant;
     private JTextField textNom;
     private JTextField textPrenom;
-    private JTextField textAdresse;
+    private JTextField textEmail;
     private JTextField textTelephone;
+    private DefaultListModel<String> erreursListModel;
+    private JList<String> erreursList;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    FEN_AJOUTER_LOCATAIRE frame = new FEN_AJOUTER_LOCATAIRE();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
     public FEN_AJOUTER_LOCATAIRE() {
-
+        // Configuration de la fenêtre
         setTitle("Ajouter un Locataire");
-        setBounds(100, 100, 500, 350);
+        setBounds(100, 100, 600, 400);
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout(10, 10));
         getContentPane().setBackground(new Color(40, 40, 40));
 
+        // Initialisation du modèle de liste des erreurs
+        erreursListModel = new DefaultListModel<>();
+        erreursList = new JList<>(erreursListModel);
 
+        // Titre
         JLabel lblTitle = new JLabel("Ajouter un Locataire", SwingConstants.CENTER);
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
         lblTitle.setForeground(new Color(240, 240, 240));
@@ -44,62 +34,44 @@ public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
         lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         getContentPane().add(lblTitle, BorderLayout.NORTH);
 
-
-        JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        // Panneau de formulaire
+        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         formPanel.setBackground(new Color(50, 50, 50));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
+        // Champs de formulaire
+        textIdentifiant = new JTextField();
+        addField(formPanel, "Identifiant:", textIdentifiant);
 
-        JLabel lblNom = new JLabel("Nom:");
-        lblNom.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        lblNom.setForeground(new Color(230, 230, 230));
-        formPanel.add(lblNom);
         textNom = new JTextField();
-        textNom.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        textNom.setBackground(new Color(60, 60, 60));
-        textNom.setForeground(Color.WHITE);
-        textNom.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-        formPanel.add(textNom);
+        addField(formPanel, "Nom:", textNom);
 
-
-        JLabel lblPrenom = new JLabel("Prénom:");
-        lblPrenom.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        lblPrenom.setForeground(new Color(230, 230, 230));
-        formPanel.add(lblPrenom);
         textPrenom = new JTextField();
-        textPrenom.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        textPrenom.setBackground(new Color(60, 60, 60));
-        textPrenom.setForeground(Color.WHITE);
-        textPrenom.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-        formPanel.add(textPrenom);
+        addField(formPanel, "Prénom:", textPrenom);
 
+        textEmail = new JTextField();
+        addField(formPanel, "Email:", textEmail);
 
-        JLabel lblAdresse = new JLabel("Adresse:");
-        lblAdresse.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        lblAdresse.setForeground(new Color(230, 230, 230));
-        formPanel.add(lblAdresse);
-        textAdresse = new JTextField();
-        textAdresse.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        textAdresse.setBackground(new Color(60, 60, 60));
-        textAdresse.setForeground(Color.WHITE);
-        textAdresse.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-        formPanel.add(textAdresse);
-
-
-        JLabel lblTelephone = new JLabel("Téléphone:");
-        lblTelephone.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        lblTelephone.setForeground(new Color(230, 230, 230));
-        formPanel.add(lblTelephone);
         textTelephone = new JTextField();
-        textTelephone.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        textTelephone.setBackground(new Color(60, 60, 60));
-        textTelephone.setForeground(Color.WHITE);
-        textTelephone.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-        formPanel.add(textTelephone);
+        addField(formPanel, "Téléphone:", textTelephone);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
 
+        // Panneau des erreurs
+        Panel erreurPanel = new Panel(new BorderLayout());
+        erreurPanel.setBackground(new Color(40, 40, 40));
 
+        erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        erreursList.setBackground(new Color(60, 60, 60));
+        erreursList.setForeground(Color.RED);
+
+        JScrollPane erreurScrollPane = new JScrollPane(erreursList);
+        erreurScrollPane.setPreferredSize(new Dimension(200, 100));
+
+        erreurPanel.add(erreurScrollPane, BorderLayout.CENTER);
+        getContentPane().add(erreurPanel, BorderLayout.WEST);
+
+        // Panneau des boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.setBackground(new Color(40, 40, 40));
 
@@ -111,6 +83,9 @@ public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
         btnAjouter.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         buttonPanel.add(btnAjouter);
 
+        Controleur_Ajout_Locataire controleur = new Controleur_Ajout_Locataire(null, this);
+        btnAjouter.addActionListener(controleur);
+
         JButton btnAnnuler = new JButton("Annuler");
         btnAnnuler.setFont(new Font("SansSerif", Font.BOLD, 14));
         btnAnnuler.setBackground(new Color(200, 50, 50));
@@ -121,26 +96,71 @@ public class FEN_AJOUTER_LOCATAIRE extends JInternalFrame {
 
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
     }
+
+    // Méthodes utilitaires pour les champs
+    private void addField(JPanel panel, String label, JTextField textField) {
+        JLabel lbl = new JLabel(label);
+        lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lbl.setForeground(new Color(230, 230, 230));
+        panel.add(lbl);
+
+        textField.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        textField.setBackground(new Color(60, 60, 60));
+        textField.setForeground(Color.WHITE);
+        textField.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+        panel.add(textField);
+    }
+
+    // Méthodes pour récupérer les valeurs
+    public String getIdentifiant() {
+        return textIdentifiant.getText();
+    }
+
+    public String getNom() {
+        return textNom.getText();
+    }
+
+    public String getPrenom() {
+        return textPrenom.getText();
+    }
+
+    public String getEmail() {
+        return textEmail.getText();
+    }
+
+    public String getTelephone() {
+        return textTelephone.getText();
+    }
+
+    // Méthodes pour gérer les erreurs
+    public void addErreur(String erreur) {
+        erreursListModel.addElement(erreur);
+    }
+
+    public void clearErreurs() {
+        erreursListModel.clear();
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                JFrame frame = new JFrame("Ajouter un Locataire");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(800, 600);
+                frame.getContentPane().setLayout(new BorderLayout());
+
+                JDesktopPane desktopPane = new JDesktopPane();
+                frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
+
+                FEN_AJOUTER_LOCATAIRE fenetre = new FEN_AJOUTER_LOCATAIRE();
+                desktopPane.add(fenetre);
+                fenetre.setVisible(true);
+
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
-public static void main(String[] args) {
-    EventQueue.invokeLater(() -> {
-        try {
-            JFrame frame = new JFrame("Test POPUP_LOUER");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(800, 600);
-            frame.getContentPane().setLayout(new BorderLayout());
 
-            JDesktopPane desktopPane = new JDesktopPane();
-            frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
-
-            POPUP_LOUER popup = new POPUP_LOUER(
-                    new BienImmobilier("3344", TypeBien.BATIMENT, "Rue ta mere", "ap4", 81000, "Toulouse"));
-            desktopPane.add(popup);
-            popup.setVisible(true);
-
-            frame.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    });
-}

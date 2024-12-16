@@ -44,4 +44,7 @@ public class ControleurConsultationBien implements ActionListener {
       }
     }
   }
+
+  // TODO: double-clic sur un locataire pour afficher ses informations avec
+  // MouseListener
 }

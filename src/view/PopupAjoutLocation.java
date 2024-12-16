@@ -23,12 +23,12 @@ import javax.swing.border.EmptyBorder;
 
 import com.thoughtworks.qdox.parser.ParseException;
 
-import controleur.Controleur_Ajout_Location;
+import controller.ControleurAjoutLocation;
 import model.BienImmobilier;
 import model.Locataire;
 import model.TypeBien;
 
-public class POPUP_LOUER extends JInternalFrame {
+public class PopupAjoutLocation extends JInternalFrame {
 
     private static final long serialVersionUID = 1L;
     private JTextField txtLoyer;
@@ -37,9 +37,9 @@ public class POPUP_LOUER extends JInternalFrame {
     private BienImmobilier bien;
     private List<Locataire> locataires;
 
-    public POPUP_LOUER(BienImmobilier b) {
+    public PopupAjoutLocation(BienImmobilier b) {
         locataires = new ArrayList<>();
-        Controleur_Ajout_Location controleur = new Controleur_Ajout_Location(this, b);
+        ControleurAjoutLocation controleur = new ControleurAjoutLocation(this, b);
 
         setBounds(100, 100, 600, 500);
         setClosable(true);
@@ -144,8 +144,8 @@ public class POPUP_LOUER extends JInternalFrame {
                 JDesktopPane desktopPane = new JDesktopPane();
                 frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-                POPUP_LOUER popup = new POPUP_LOUER(
-                        new BienImmobilier("3344", TypeBien.BATIMENT, "Rue ta mere", "ap4", 81000, "Toulouse"));
+                PopupAjoutLocation popup = new PopupAjoutLocation(
+                        new BienImmobilier("3344", TypeBien.BATIMENT, "Rue ta mere", "ap4", "81000", "Toulouse"));
                 desktopPane.add(popup);
                 popup.setVisible(true);
 

@@ -1,4 +1,4 @@
-package controleur;
+package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +13,11 @@ import dao.LocationDAO;
 import model.BienImmobilier;
 import model.Locataire;
 import model.Location;
-import view.FEN_ACCUEIL;
 import view.FEN_CONSULTATION_LOCATAIRES;
-import view.POPUP_LOUER;
+import view.PopupAjoutLocation;
 
-public class Controleur_Ajout_Location implements ActionListener {
-    private POPUP_LOUER fenetre;
+public class ControleurAjoutLocation implements ActionListener {
+    private PopupAjoutLocation fenetre;
     private LocationDAO LocationDAO;
     private double loyer;
     private Date dateEntree;
@@ -26,7 +25,7 @@ public class Controleur_Ajout_Location implements ActionListener {
     private BienImmobilier bien;
     private List<Locataire> locataires;
 
-    public Controleur_Ajout_Location(POPUP_LOUER fenetre, BienImmobilier bien) {
+    public ControleurAjoutLocation(PopupAjoutLocation fenetre, BienImmobilier bien) {
         this.bien = bien;
         this.fenetre = fenetre;
         this.LocationDAO = new LocationDAO();
@@ -57,8 +56,6 @@ public class Controleur_Ajout_Location implements ActionListener {
             JOptionPane.showMessageDialog(this.fenetre, "Location ajouté avec succès!");
 
             // Fermer la fenêtre après ajout
-            FEN_ACCUEIL nouvelleFenetre = new FEN_ACCUEIL();
-            nouvelleFenetre.setVisible(true);
             this.fenetre.dispose();
 
         } else if (boutonClique.getText().equals("Sélectionner")) {

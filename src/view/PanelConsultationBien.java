@@ -1,19 +1,27 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.List;
 import java.util.Locale;
 
 import controller.ControleurConsultationBien;
 import model.BienImmobilier;
 import model.BienLocatif;
+import model.Locataire;
+import model.Location;
 import model.Proprietaire;
 
 public class PanelConsultationBien extends JPanel {
+  private static final long serialVersionUID = 1L;
   private ControleurConsultationBien controleur;
 
   public PanelConsultationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
@@ -33,7 +41,7 @@ public class PanelConsultationBien extends JPanel {
 
     // Panel central contenant les informations du bien
     JPanel centerPanel = new JPanel();
-    centerPanel.setLayout(new BorderLayout(10, 10));
+    centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
     centerPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
 
     // Panel contenant les champs
@@ -113,7 +121,7 @@ public class PanelConsultationBien extends JPanel {
       String dDisponibiliteValue;
       if (bienL.estLoué()) {
         dDisponibiliteValue = "En location depuis le " +
-            bienL.getLocationCourante().getDateEntree()
+            bienL.getLocationsCourantes().get(0).getDateEntree()
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH));
       } else {
         dDisponibiliteValue = "Disponible";
@@ -154,11 +162,140 @@ public class PanelConsultationBien extends JPanel {
       champsPanel.add(lblNumeroFiscalValue);
     }
 
-    JScrollPane scrollPane = new JScrollPane(champsPanel);
+    centerPanel.add(champsPanel);
+
+    if (bien instanceof BienLocatif) {
+      BienLocatif bienL = (BienLocatif) bien;
+
+      JLabel lblLocataires = new JLabel("Locataires actuels :");
+      lblLocataires.setFont(new Font("Rockwell", Font.BOLD, 16));
+      lblLocataires.setHorizontalAlignment(SwingConstants.LEFT);
+      centerPanel.add(lblLocataires);
+
+      // Liste des locataires actuels
+      if (bienL.estLoué()) {
+        List<Location> locatairesCourants = bienL.getLocationsCourantes();
+
+        DefaultTableModel tableLocationsModel = new DefaultTableModel(
+            new Object[] { "ID", "Nom", "Téléphone", "Mail", "Date d'entrée", "Loyer" }, 0);
+
+        JTable tableLocations = new JTable(tableLocationsModel);
+        tableLocations.setRowSelectionAllowed(true);
+        tableLocations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // On rend la table non-éditable
+        tableLocations.setDefaultEditor(Object.class, null);
+        // On définit la largeur des colonnes
+        tableLocations.getColumnModel().getColumn(0).setPreferredWidth(20); // ID
+        tableLocations.getColumnModel().getColumn(1).setPreferredWidth(80); // Nom
+        tableLocations.getColumnModel().getColumn(2).setPreferredWidth(10); // Téléphone
+        tableLocations.getColumnModel().getColumn(3).setPreferredWidth(20); // Mail
+        tableLocations.getColumnModel().getColumn(4).setPreferredWidth(20); // Date d'entrée
+        tableLocations.getColumnModel().getColumn(5).setPreferredWidth(5); // Loyer
+
+        for (Location location : locatairesCourants) {
+          Locataire locataire = location.getLocataire();
+          tableLocationsModel.addRow(new Object[] {
+              locataire.getId(),
+              locataire.getNom() + " " + locataire.getPrenom(),
+              locataire.getEmail(),
+              locataire.getTelephone(),
+              location.getDateEntree()
+                  .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)),
+              location.getLoyer() + " €"
+          });
+        }
+
+        JScrollPane locationsScrollPane = new JScrollPane(tableLocations);
+        locationsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        locationsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        locationsScrollPane.setPreferredSize(new Dimension(0,
+            // on calcule la hauteur du scrollPane en fonction du
+            // nombre de lignes de la table
+            tableLocations.getRowHeight() / 2 * tableLocations.getRowCount()));
+
+        // petit fix : on propage l'événement de la molette de la souris au parent
+        // sinon le scroll du centerPanel est hijacké par le scrollPane de la table
+        // et on perd en UX
+        locationsScrollPane.addMouseWheelListener(new MouseWheelListener() {
+          @Override
+          public void mouseWheelMoved(MouseWheelEvent e) {
+            Component parent = locationsScrollPane.getParent();
+            parent.dispatchEvent(SwingUtilities.convertMouseEvent(locationsScrollPane, e, parent));
+          }
+        });
+
+        centerPanel.add(locationsScrollPane);
+      } else {
+        JLabel lblAucunLocataire = new JLabel("Aucun locataire actuel.");
+        lblAucunLocataire.setFont(new Font("Rockwell", Font.PLAIN, 14));
+        lblAucunLocataire.setHorizontalAlignment(SwingConstants.LEFT);
+        centerPanel.add(lblAucunLocataire);
+      }
+
+      // Liste des locataires passés
+      JLabel lblHistorique = new JLabel("Historique des locataires :");
+      lblHistorique.setFont(new Font("Rockwell", Font.BOLD, 16));
+      lblHistorique.setHorizontalAlignment(SwingConstants.LEFT);
+      centerPanel.add(lblHistorique);
+
+      List<Location> locationsPassees = bienL.getLocationsPassees();
+
+      DefaultTableModel tableLocationsPasseesModel = new DefaultTableModel(
+          new Object[] { "ID", "Nom", "Téléphone", "Mail", "Date d'entrée", "Date de sortie", "Loyer" }, 0);
+
+      JTable tableLocationsPassees = new JTable(tableLocationsPasseesModel);
+      tableLocationsPassees.setRowSelectionAllowed(true);
+      tableLocationsPassees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+      // On rend la table non-éditable
+      tableLocationsPassees.setDefaultEditor(Object.class, null);
+      // On définit la largeur des colonnes
+      tableLocationsPassees.getColumnModel().getColumn(0).setPreferredWidth(20); // ID
+      tableLocationsPassees.getColumnModel().getColumn(1).setPreferredWidth(80); // Nom
+      tableLocationsPassees.getColumnModel().getColumn(2).setPreferredWidth(10); // Téléphone
+      tableLocationsPassees.getColumnModel().getColumn(3).setPreferredWidth(20); // Mail
+      tableLocationsPassees.getColumnModel().getColumn(4).setPreferredWidth(20); // Date d'entrée
+      tableLocationsPassees.getColumnModel().getColumn(5).setPreferredWidth(20); // Date de sortie
+      tableLocationsPassees.getColumnModel().getColumn(6).setPreferredWidth(5); // Loyer
+
+      for (Location location : locationsPassees) {
+        Locataire locataire = location.getLocataire();
+        tableLocationsPasseesModel.addRow(new Object[] {
+            locataire.getId(),
+            locataire.getNom() + " " + locataire.getPrenom(),
+            locataire.getEmail(),
+            locataire.getTelephone(),
+            location.getDateEntree()
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)),
+            location.getDateSortie()
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)),
+            location.getLoyer() + " €"
+        });
+      }
+
+      JScrollPane locationsPasseesScrollPane = new JScrollPane(tableLocationsPassees);
+      locationsPasseesScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+      locationsPasseesScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+      locationsPasseesScrollPane.setPreferredSize(new Dimension(0,
+          // on calcule la hauteur du scrollPane en fonction du
+          // nombre de lignes de la table
+          tableLocationsPassees.getRowHeight() / 2 * tableLocationsPassees.getRowCount()));
+
+      locationsPasseesScrollPane.addMouseWheelListener(new MouseWheelListener() {
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+          Component parent = locationsPasseesScrollPane.getParent();
+          parent.dispatchEvent(SwingUtilities.convertMouseEvent(locationsPasseesScrollPane, e, parent));
+        }
+      });
+
+      centerPanel.add(locationsPasseesScrollPane);
+    }
+
+    JScrollPane scrollPane = new JScrollPane(centerPanel);
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    centerPanel.add(scrollPane, BorderLayout.CENTER);
-    add(centerPanel, BorderLayout.CENTER);
+    add(scrollPane, BorderLayout.CENTER);
 
     // Panel du bas contenant les boutons de modification et de suppression
     JPanel buttonsPanel = new JPanel();

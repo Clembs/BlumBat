@@ -79,6 +79,9 @@ public class BienDAO {
 							resultSet.getFloat("surface"),
 							resultSet.getInt("nombre_pieces"));
 
+					LocationDAO locationDAO = new LocationDAO();
+					bien.setLocations(locationDAO.getAllLocations(bien));
+
 					biens.add(bien);
 				} else {
 					BienImmobilier bien = new BienImmobilier(
@@ -122,6 +125,9 @@ public class BienDAO {
 						resultSet.getString("numero_fiscal"),
 						resultSet.getFloat("surface"),
 						resultSet.getInt("nombre_pieces"));
+
+				LocationDAO locationDAO = new LocationDAO();
+				bien.setLocations(locationDAO.getAllLocations(bien));
 
 				logements.add(bien);
 			}

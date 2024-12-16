@@ -53,17 +53,14 @@ public class BienLocatif extends BienImmobilier {
   }
 
   public boolean estLoué() {
-    // Retourne vrai s'il n'y a aucune location sans date de sortie
-    return !this.locations.stream()
-        .allMatch(location -> location.getDateSortie() == null);
+    return this.getLocationsCourantes().size() > 0;
   }
 
-  // récupère la location courante
-  public Location getLocationCourante() {
+  // récupère les locations en cours (plusieurs dans le cas d'une colocation)
+  public List<Location> getLocationsCourantes() {
     return this.locations.stream()
         .filter(location -> location.getDateSortie() == null)
-        .findFirst()
-        .orElse(null);
+        .collect(Collectors.toList());
   }
 
   // récupère toutes les locations passées

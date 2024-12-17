@@ -208,10 +208,6 @@ public class PanelConsultationBien extends JPanel {
         JScrollPane locationsScrollPane = new JScrollPane(tableLocations);
         locationsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         locationsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        locationsScrollPane.setPreferredSize(new Dimension(0,
-            // on calcule la hauteur du scrollPane en fonction du
-            // nombre de lignes de la table
-            tableLocations.getRowHeight() / 2 * tableLocations.getRowCount()));
 
         // petit fix : on propage l'événement de la molette de la souris au parent
         // sinon le scroll du centerPanel est hijacké par le scrollPane de la table
@@ -275,11 +271,6 @@ public class PanelConsultationBien extends JPanel {
       JScrollPane locationsPasseesScrollPane = new JScrollPane(tableLocationsPassees);
       locationsPasseesScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
       locationsPasseesScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-      locationsPasseesScrollPane.setPreferredSize(new Dimension(0,
-          // on calcule la hauteur du scrollPane en fonction du
-          // nombre de lignes de la table
-          tableLocationsPassees.getRowHeight() / 2 * tableLocationsPassees.getRowCount()));
 
       locationsPasseesScrollPane.addMouseWheelListener(new MouseWheelListener() {
         @Override

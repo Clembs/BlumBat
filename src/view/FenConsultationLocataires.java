@@ -1,6 +1,5 @@
 package view;
 
-import controller.ControleurBiens;
 import controller.ControleurConsultationLocataires;
 import model.Locataire;
 
@@ -13,14 +12,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class FenConsultationLocataires extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel MainPane;
-    private JDesktopPane desktopPane;
     private JTable tableBiens;
-    private JTextField textPrenom;
+    private JTextField txtNom, txtPrenom, txtAdresse, txtTelephone;
     private JList<String> locatairesList;
     private ControleurConsultationLocataires controleur;
 
@@ -42,21 +42,15 @@ public class FenConsultationLocataires extends JFrame {
      * Create the frame.
      */
     public FenConsultationLocataires() {
+        this.setTitle("Consultation des locataires");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 720, 500);
-        MainPane = new JPanel();
+        MainPane = new JPanel(new BorderLayout(10, 10));
         MainPane.setBorder(new EmptyBorder(10, 10, 10, 10));
-        MainPane.setLayout(new BorderLayout(10, 10));
         setContentPane(MainPane);
 
-        desktopPane = new JDesktopPane();
-        MainPane.add(desktopPane, BorderLayout.CENTER);
-
-        UIManager.put("Label.font", new Font("Rockwell", Font.PLAIN, 14));
-        UIManager.put("Button.font", new Font("Rockwell", Font.PLAIN, 14));
-
         // Title Panel
-        JPanel TitlePanel = new JPanel();
+        JPanel TitlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         TitlePanel.setBackground(Color.DARK_GRAY);
         JLabel lblTitle = new JLabel("Gestion des locataires");
         lblTitle.setFont(new Font("Rockwell", Font.BOLD, 24));
@@ -64,168 +58,115 @@ public class FenConsultationLocataires extends JFrame {
         TitlePanel.add(lblTitle);
         MainPane.add(TitlePanel, BorderLayout.NORTH);
 
-        // Left Panel
-        JPanel LeftPanel = new JPanel();
+        // Panel (Liste des locataires)
+        JPanel LeftPanel = new JPanel(new BorderLayout(5, 5));
         LeftPanel.setBorder(new TitledBorder(new EtchedBorder(), "Liste des locataires", TitledBorder.CENTER, TitledBorder.TOP));
-        LeftPanel.setLayout(new BorderLayout(5, 5));
-        LeftPanel.setBackground(Color.LIGHT_GRAY);
 
         locatairesList = new JList<>();
-        locatairesList.setForeground(Color.BLACK);
-        locatairesList.setBackground(Color.LIGHT_GRAY);
         locatairesList.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
-
+        locatairesList.setBackground(Color.LIGHT_GRAY);
         JScrollPane scrollPane = new JScrollPane(locatairesList);
         LeftPanel.add(scrollPane, BorderLayout.CENTER);
 
+
+
+        // Panel (Bouttons)
         JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        ButtonPanel.setBackground(new Color(224, 247, 250));
         JButton btnModify = new JButton("Modifier");
-        btnModify.setForeground(Color.WHITE);
+        JButton btnAdd = new JButton("Ajouter");
         btnModify.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
         btnModify.setBackground(new Color(255, 99, 71));
-        JButton btnAdd = new JButton("Ajouter");
+        btnModify.setForeground(Color.WHITE);
         btnAdd.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
         btnAdd.setBackground(new Color(46, 139, 87));
         btnAdd.setForeground(Color.WHITE);
         ButtonPanel.add(btnModify);
         ButtonPanel.add(btnAdd);
         LeftPanel.add(ButtonPanel, BorderLayout.SOUTH);
-
         MainPane.add(LeftPanel, BorderLayout.WEST);
 
-        // Right Panel
-        JPanel RightPanel = new JPanel();
-        RightPanel.setLayout(new BorderLayout(5, 5));
+        // Panel  (Informations & Table)
+        JPanel RightPanel = new JPanel(new BorderLayout(5, 5));
 
-        JPanel InfoPanel = new JPanel();
+        // InfoPanel
+        JPanel InfoPanel = new JPanel(new GridLayout(4, 2, 5, 5));
         InfoPanel.setBorder(new TitledBorder(new EtchedBorder(), "Informations Personnelles", TitledBorder.CENTER, TitledBorder.TOP));
         InfoPanel.setBackground(Color.LIGHT_GRAY);
-        GridBagLayout gbl_InfoPanel = new GridBagLayout();
-        gbl_InfoPanel.columnWidths = new int[] {250, 40, 0};
-        gbl_InfoPanel.rowHeights = new int[]{21, 21, 21, 21, 0, 0};
-        gbl_InfoPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-        gbl_InfoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        InfoPanel.setLayout(gbl_InfoPanel);
 
-        JLabel lblNom = new JLabel("Nom:");
-        lblNom.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+        JLabel lblNom = new JLabel("Nom:", SwingConstants.CENTER);
+        txtNom = new JTextField();
+        txtNom.setFont(new Font("Rockwell", Font.PLAIN, 12));
+        txtNom.setEditable(false);
 
-        GridBagConstraints gbc_lblNom = new GridBagConstraints();
-        gbc_lblNom.fill = GridBagConstraints.VERTICAL;
-        gbc_lblNom.insets = new Insets(0, 0, 5, 5);
-        gbc_lblNom.gridx = 0;
-        gbc_lblNom.gridy = 0;
-        InfoPanel.add(lblNom, gbc_lblNom);
-
-        textPrenom = new JTextField();
-        textPrenom.setFont(new Font("Rockwell", Font.PLAIN, 12));
-        textPrenom.setEnabled(false);
-        textPrenom.setEditable(false);
-        GridBagConstraints gbc_textPrenom = new GridBagConstraints();
-        gbc_textPrenom.insets = new Insets(0, 0, 5, 0);
-        gbc_textPrenom.fill = GridBagConstraints.HORIZONTAL;
-        gbc_textPrenom.gridx = 1;
-        gbc_textPrenom.gridy = 0;
-        InfoPanel.add(textPrenom, gbc_textPrenom);
-        JLabel lblPrenom = new JLabel("Prenom:");
-        lblPrenom.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblPrenom.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
-        GridBagConstraints gbc_lblPrenom = new GridBagConstraints();
-        gbc_lblPrenom.fill = GridBagConstraints.VERTICAL;
-        gbc_lblPrenom.insets = new Insets(0, 0, 5, 5);
-        gbc_lblPrenom.gridx = 0;
-        gbc_lblPrenom.gridy = 1;
-        InfoPanel.add(lblPrenom, gbc_lblPrenom);
-        JTextField txtPrenom = new JTextField();
-        txtPrenom.setEnabled(false);
-        txtPrenom.setEditable(false);
+        JLabel lblPrenom = new JLabel("Prénom:", SwingConstants.CENTER);
+        txtPrenom = new JTextField();
         txtPrenom.setFont(new Font("Rockwell", Font.PLAIN, 12));
-        GridBagConstraints gbc_txtPrenom = new GridBagConstraints();
-        gbc_txtPrenom.fill = GridBagConstraints.BOTH;
-        gbc_txtPrenom.insets = new Insets(0, 0, 5, 0);
-        gbc_txtPrenom.gridx = 1;
-        gbc_txtPrenom.gridy = 1;
-        InfoPanel.add(txtPrenom, gbc_txtPrenom);
-        JLabel lblAdresse = new JLabel("Adresse:");
-        lblAdresse.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
-        GridBagConstraints gbc_lblAdresse = new GridBagConstraints();
-        gbc_lblAdresse.fill = GridBagConstraints.VERTICAL;
-        gbc_lblAdresse.insets = new Insets(0, 0, 5, 5);
-        gbc_lblAdresse.gridx = 0;
-        gbc_lblAdresse.gridy = 2;
-        InfoPanel.add(lblAdresse, gbc_lblAdresse);
-        JTextField txtAdresse = new JTextField();
-        txtAdresse.setEnabled(false);
-        txtAdresse.setEditable(false);
+        txtPrenom.setEditable(false);
+
+        JLabel lblAdresse = new JLabel("Adresse:", SwingConstants.CENTER);
+        txtAdresse = new JTextField();
         txtAdresse.setFont(new Font("Rockwell", Font.PLAIN, 12));
-        GridBagConstraints gbc_txtAdresse = new GridBagConstraints();
-        gbc_txtAdresse.fill = GridBagConstraints.BOTH;
-        gbc_txtAdresse.insets = new Insets(0, 0, 5, 0);
-        gbc_txtAdresse.gridx = 1;
-        gbc_txtAdresse.gridy = 2;
-        InfoPanel.add(txtAdresse, gbc_txtAdresse);
-        JLabel lblTelephone = new JLabel("Téléphone:");
-        lblTelephone.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
-        GridBagConstraints gbc_lblTelephone = new GridBagConstraints();
-        gbc_lblTelephone.fill = GridBagConstraints.VERTICAL;
-        gbc_lblTelephone.insets = new Insets(0, 0, 5, 5);
-        gbc_lblTelephone.gridx = 0;
-        gbc_lblTelephone.gridy = 3;
-        InfoPanel.add(lblTelephone, gbc_lblTelephone);
-        JTextField txtTelephone = new JTextField();
-        txtTelephone.setEnabled(false);
-        txtTelephone.setEditable(false);
+        txtAdresse.setEditable(false);
+
+        JLabel lblTelephone = new JLabel("Téléphone:", SwingConstants.CENTER);
+        txtTelephone = new JTextField();
         txtTelephone.setFont(new Font("Rockwell", Font.PLAIN, 12));
-        GridBagConstraints gbc_txtTelephone = new GridBagConstraints();
-        gbc_txtTelephone.insets = new Insets(0, 0, 5, 0);
-        gbc_txtTelephone.fill = GridBagConstraints.BOTH;
-        gbc_txtTelephone.gridx = 1;
-        gbc_txtTelephone.gridy = 3;
-        InfoPanel.add(txtTelephone, gbc_txtTelephone);
+        txtTelephone.setEditable(false);
+
+        InfoPanel.add(lblNom);
+        InfoPanel.add(txtNom);
+        InfoPanel.add(lblPrenom);
+        InfoPanel.add(txtPrenom);
+        InfoPanel.add(lblAdresse);
+        InfoPanel.add(txtAdresse);
+        InfoPanel.add(lblTelephone);
+        InfoPanel.add(txtTelephone);
 
         RightPanel.add(InfoPanel, BorderLayout.NORTH);
 
-
-
-        JPanel TablePanel = new JPanel();
-        TablePanel.setBorder(new TitledBorder(new EtchedBorder(), "Liste des biens", TitledBorder.CENTER, TitledBorder.TOP));
-        TablePanel.setLayout(new BorderLayout());
+        // Panel (Liste des biens)
+        JPanel TablePanel = new JPanel(new BorderLayout());
         TablePanel.setBackground(Color.LIGHT_GRAY);
+        TablePanel.setBorder(new TitledBorder(new EtchedBorder(), "Liste des biens", TitledBorder.CENTER, TitledBorder.TOP));
 
         tableBiens = new JTable(new DefaultTableModel(
-                new Object[][]{
+                new Object[][] {
                         {"Bien 1", "Adresse 1", "Type 1"},
                         {"Bien 2", "Adresse 2", "Type 2"}
                 },
-                new String[]{"Nom du Bien", "Adresse", "Type"}
+                new String[] {"Nom du Bien", "Adresse", "Type"}
         ));
         tableBiens.setFont(new Font("Rockwell", Font.PLAIN, 12));
-        tableBiens.setBackground(new Color(240, 248, 255));
-        tableBiens.setForeground(Color.BLACK);
-        tableBiens.setGridColor(new Color(224, 224, 224));
-
         JScrollPane tableScrollPane = new JScrollPane(tableBiens);
-        tableScrollPane.setFont(new Font("Arial", Font.BOLD, 13));
-        tableScrollPane.setBackground(Color.DARK_GRAY);
         TablePanel.add(tableScrollPane, BorderLayout.CENTER);
-
         RightPanel.add(TablePanel, BorderLayout.CENTER);
 
-        MainPane.add(RightPanel, BorderLayout.EAST);
-
-        MainPane.setBackground(new Color(250, 250, 250));
+        MainPane.add(RightPanel, BorderLayout.CENTER);
 
         controleur = new ControleurConsultationLocataires(this);
     }
 
+
+    // Mettre à jour la liste des locataires
     public void setLocatairesList(List<Locataire> locataires) {
         String[] locataireArray = new String[locataires.size()];
         for (int i = 0; i < locataires.size(); i++) {
             Locataire locataire = locataires.get(i);
-            locataireArray[i] = "•" + " " + locataire.getNom() + " " + locataire.getPrenom();
+            locataireArray[i] = "• " + locataire.getNom() + " " + locataire.getPrenom();
         }
         locatairesList.setListData(locataireArray);
     }
 
+    // Retourne la liste des locataires
+    public JList<String> getLocatairesList() {
+        return locatairesList;
+    }
+
+    // Mise à jour des informations du locataire
+    public void updateDetails(Locataire locataire) {
+        txtNom.setText(locataire.getNom());
+        txtPrenom.setText(locataire.getPrenom());
+        txtAdresse.setText(locataire.getEmail());
+        txtTelephone.setText(locataire.getTelephone());
+    }
 }

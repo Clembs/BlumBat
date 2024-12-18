@@ -13,7 +13,6 @@ import dao.LocationDAO;
 import model.BienImmobilier;
 import model.Locataire;
 import model.Location;
-import view.FEN_CONSULTATION_LOCATAIRES;
 import view.PopupAjoutLocation;
 
 public class ControleurAjoutLocation implements ActionListener {
@@ -58,10 +57,10 @@ public class ControleurAjoutLocation implements ActionListener {
             // Fermer la fenêtre après ajout
             this.fenetre.dispose();
 
-        } else if (boutonClique.getText().equals("Sélectionner")) {
-            FEN_CONSULTATION_LOCATAIRES nouvelleFenetre = new FEN_CONSULTATION_LOCATAIRES();
-            nouvelleFenetre.setVisible(true);
-        }
+        } //else if (boutonClique.getText().equals("Sélectionner")) {
+            //FEN_CONSULTATION_LOCATAIRES nouvelleFenetre = new FEN_CONSULTATION_LOCATAIRES();
+            //nouvelleFenetre.setVisible(true);
+        //}
 
     }
 }

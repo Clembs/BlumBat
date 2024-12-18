@@ -5,9 +5,10 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -20,8 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
-import com.thoughtworks.qdox.parser.ParseException;
 
 import controller.ControleurAjoutLocation;
 import model.BienImmobilier;
@@ -164,28 +163,21 @@ public class PopupAjoutLocation extends JInternalFrame {
         }
     }
 
-    public Date getDateEntree() throws java.text.ParseException {
+    public LocalDate getDateEntree() throws java.text.ParseException {
         return parseDate(txtDateEntree.getText().trim(), "Date d'entrée invalide. Utilisez le format dd/MM/yyyy.");
     }
 
-    public Date getDateSortie() throws java.text.ParseException {
+    public LocalDate getDateSortie() throws java.text.ParseException {
         return parseDate(txtDateSortie.getText().trim(), "Date de sortie invalide. Utilisez le format dd/MM/yyyy.");
     }
 
-    private Date parseDate(String dateStr, String errorMessage) throws java.text.ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false);
+    private LocalDate parseDate(String dateStr, String errorMessage) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {
-            return sdf.parse(dateStr);
-        } catch (ParseException e) {
+            return LocalDate.parse(dateStr, formatter);
+        } catch (DateTimeParseException e) {
             throw new IllegalArgumentException(errorMessage, e);
         }
     }
 
-    public List<Locataire> getLocataires() {
-        if (locataires.isEmpty()) {
-            throw new IllegalStateException("Aucun locataire n'a été sélectionné.");
-        }
-        return new ArrayList<>(locataires);
-    }
 }

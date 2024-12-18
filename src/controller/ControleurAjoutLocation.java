@@ -3,8 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -19,10 +18,10 @@ public class ControleurAjoutLocation implements ActionListener {
     private PopupAjoutLocation fenetre;
     private LocationDAO LocationDAO;
     private double loyer;
-    private Date dateEntree;
-    private Date dateSortie;
+    private LocalDate dateEntree;
+    private LocalDate dateSortie;
     private BienImmobilier bien;
-    private List<Locataire> locataires;
+    private Locataire locataires;
 
     public ControleurAjoutLocation(PopupAjoutLocation fenetre, BienImmobilier bien) {
         this.bien = bien;
@@ -46,7 +45,7 @@ public class ControleurAjoutLocation implements ActionListener {
                 this.dateSortie = fenetre.getDateSortie();
             } catch (ParseException error) {
             }
-            this.locataires = fenetre.getLocataires();
+            //this.locataires = fenetre.getLocataires();
 
             Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);
             LocationDAO.create(location);

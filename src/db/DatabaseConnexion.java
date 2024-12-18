@@ -5,10 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class DatabaseConnexion {
-  private static final String url = "jdbc:mysql://mysql-projetr301.alwaysdata.net/projetr301_gestion_immobilier";
-  private static final String utilisateur = "384907";
-  private static final String mdp = "rootiutinfo";
+  private String url;
+  private String utilisateur;
+  private String mdp;
   private Connection connection;
   private static DatabaseConnexion instance;
 
@@ -21,7 +23,13 @@ public class DatabaseConnexion {
 
   public DatabaseConnexion() {
     try {
-      this.connection = DriverManager.getConnection(url, utilisateur, mdp);
+      Dotenv dotenv = Dotenv.load();
+
+      this.url = dotenv.get("DATABASE_URL");
+      this.utilisateur = dotenv.get("DATABASE_USER");
+      this.mdp = dotenv.get("DATABASE_PASSWORD");
+
+      this.connection = DriverManager.getConnection(this.url, this.utilisateur, this.mdp);
       System.out.println("Connexion réussie !");
     } catch (SQLException e) {
       System.err.println("Erreur lors de la connexion à la base de données : " + e.getMessage());

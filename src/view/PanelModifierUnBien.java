@@ -1,15 +1,14 @@
 package view;
 
-import controller.ControleurAjoutBien;
 import controller.ControleurModifierBien;
 import model.TypeBien;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PopupModifierUnBien extends JInternalFrame {
+public class PanelModifierUnBien extends JPanel {
 
-    private JTextField textTypeBien;
+    private JComboBox<TypeBien> comboTypeBien;
     private JTextField textIdBien;
     private JTextField textAdresse;
     private JTextField textComplementAdresse;
@@ -22,47 +21,56 @@ public class PopupModifierUnBien extends JInternalFrame {
     private DefaultListModel<String> erreursListModel;
     private JList<String> erreursList;
 
-    //String identifiant, String nom, String prenom, String email, String telephone
-    public PopupModifierUnBien(String typeBien,String idbien,String adresse , String cadresse, String ville , String
-            departement, int CP , float surface, int nbFiscal, int nbPiece) {
+    public PanelModifierUnBien(String typeBien, String idBien, String adresse, String cadresse, String ville, String departement,
+                               String CP, String surface, String nbFiscal, String nbPiece) {
 
-        setTitle("Modifier un Locataire");
-        setBounds(100, 100, 600, 400);
-        setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout(10, 10));
-        getContentPane().setBackground(new Color(40, 40, 40));
+        setLayout(new BorderLayout(10, 10));
+        setBackground(new Color(40, 40, 40));
 
         // Initialisation du modèle de liste des erreurs
         erreursListModel = new DefaultListModel<>();
         erreursList = new JList<>(erreursListModel);
 
         // Titre
-        JLabel lblTitle = new JLabel("Modifier un bien ", SwingConstants.CENTER);
+        JLabel lblTitle = new JLabel("Modifier un bien", SwingConstants.CENTER);
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
         lblTitle.setForeground(new Color(240, 240, 240));
         lblTitle.setOpaque(true);
         lblTitle.setBackground(new Color(60, 60, 60));
         lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        getContentPane().add(lblTitle, BorderLayout.NORTH);
+        add(lblTitle, BorderLayout.NORTH);
 
-        // Panneau de formulaire
-        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        // Panneau de formulaire avec deux colonnes
+        JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         formPanel.setBackground(new Color(50, 50, 50));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Champs de formulaire du biens
+        // Champs de formulaire du bien
+        // Initialisation du JComboBox avec les valeurs de l'énumération
+        comboTypeBien = new JComboBox<>(TypeBien.values());
 
-        textTypeBien = new JTextField(typeBien);
-        addField(formPanel, "Type:*", textTypeBien);
 
-        textIdBien = new JTextField(idbien);
+// Création et ajout du JLabel pour "Type:"
+        JLabel lblTypeBien = new JLabel("Type:*");
+        lblTypeBien.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblTypeBien.setForeground(new Color(230, 230, 230));  // Couleur de texte claire pour l'étiquette
+        formPanel.add(lblTypeBien);
+
+// Configuration du JComboBox
+        comboTypeBien.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        comboTypeBien.setBackground(new Color(60, 60, 60));  // Fond sombre pour le combo
+        comboTypeBien.setForeground(Color.WHITE);  // Texte en blanc pour le combo
+        comboTypeBien.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));  // Bordure claire pour le combo
+        formPanel.add(comboTypeBien);  // Ajouter le JComboBox au formulaire
+
+        textIdBien = new JTextField(idBien);
         addField(formPanel, "Identifiant:*", textIdBien);
 
         textAdresse = new JTextField(adresse);
-        addField(formPanel, "Adresse:* ", textAdresse);
+        addField(formPanel, "Adresse:*", textAdresse);
 
         textComplementAdresse = new JTextField(cadresse);
-        addField(formPanel, "Complément Adresse:* ", textComplementAdresse);
+        addField(formPanel, "Complément Adresse:*", textComplementAdresse);
 
         textVille = new JTextField(ville);
         addField(formPanel, "Ville:*", textVille);
@@ -70,13 +78,22 @@ public class PopupModifierUnBien extends JInternalFrame {
         textDepartement = new JTextField(departement);
         addField(formPanel, "Département:*", textDepartement);
 
-        textCo = new JTextField(departement);
-        addField(formPanel, "Téléphone:*", textDepartement);
+        textCP = new JTextField(String.valueOf(CP));
+        addField(formPanel, "Code Postal:*", textCP);
 
-        getContentPane().add(formPanel, BorderLayout.CENTER);
+        textSurface = new JTextField(String.valueOf(surface));
+        addField(formPanel, "Surface:*", textSurface);
+
+        textNbFiscal = new JTextField(String.valueOf(nbFiscal));
+        addField(formPanel, "Numéro Fiscal:*", textNbFiscal);
+
+        textNbPiece = new JTextField(String.valueOf(nbPiece));
+        addField(formPanel, "Nombre de Pièces:*", textNbPiece);
+
+        add(formPanel, BorderLayout.CENTER);
 
         // Panneau des erreurs
-        Panel erreurPanel = new Panel(new BorderLayout());
+        JPanel erreurPanel = new JPanel(new BorderLayout());
         erreurPanel.setBackground(new Color(40, 40, 40));
 
         erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -87,7 +104,7 @@ public class PopupModifierUnBien extends JInternalFrame {
         erreurScrollPane.setPreferredSize(new Dimension(200, 100));
 
         erreurPanel.add(erreurScrollPane, BorderLayout.CENTER);
-        getContentPane().add(erreurPanel, BorderLayout.WEST);
+        add(erreurPanel, BorderLayout.WEST);
 
         // Panneau des boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -112,14 +129,13 @@ public class PopupModifierUnBien extends JInternalFrame {
         btnAnnuler.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         buttonPanel.add(btnAnnuler);
 
-        btnAnnuler.addActionListener(e -> {
-            dispose();
-        });
-
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    // Méthodes utilitaires pour les champs
+
+
+
+    // Méthodes pour ajouter un champ de saisie
     private void addField(JPanel panel, String label, JTextField textField) {
         JLabel lbl = new JLabel(label);
         lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -134,24 +150,43 @@ public class PopupModifierUnBien extends JInternalFrame {
     }
 
     // Méthodes pour récupérer les valeurs
-    public String getIdentifiant() {
-        return textIdentifiant.getText();
+    public String getIdBien() {
+        return textIdBien.getText();
     }
 
-    public String getNom() {
-        return textNom.getText();
+    public String getAdresse() {
+        return textAdresse.getText();
     }
 
-    public String getPrenom() {
-        return textPrenom.getText();
+    public String getComplementAdresse() {
+        return textComplementAdresse.getText();
+    }
+    public String getDepartement() {
+        return textDepartement.getText();
     }
 
-    public String getEmail() {
-        return textEmail.getText();
+    public String getVille() {
+        return textVille.getText();
     }
 
-    public String getTelephone() {
-        return textTelephone.getText();
+    public String getCodePostal() {
+        return textCP.getText();
+    }
+
+    public TypeBien getTypeBien() {
+        return (TypeBien) comboTypeBien.getSelectedItem();  // Récupérer l'objet sélectionné dans le combo
+    }
+
+    public String getSurface() {
+        return textSurface.getText();
+    }
+
+    public String getNbFiscal() {
+        return textNbFiscal.getText();
+    }
+
+    public String getNbPiece() {
+        return textNbPiece.getText();
     }
 
     // Méthodes pour gérer les erreurs
@@ -163,34 +198,8 @@ public class PopupModifierUnBien extends JInternalFrame {
         erreursListModel.clear();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                JFrame frame = new JFrame("Modifier un Locataire");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(800, 600);
-                frame.getContentPane().setLayout(new BorderLayout());
 
-                JDesktopPane desktopPane = new JDesktopPane();
-                frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-                String identifiant = "123";
-                String nom = "Dupont";
-                String prenom = "Jean";
-                String email = "jean.dupont@example.com";
-                String telephone = "0123456789";
 
-                identifiant, nom, prenom, email, telephone
-                // Création de la fenêtre PopupModifierLocataire
-                PopupModifierLocataire fenetre = new PopupModifierLocataire();
 
-                desktopPane.add(fenetre);
-                fenetre.setVisible(true);
-
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
 }

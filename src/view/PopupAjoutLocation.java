@@ -59,7 +59,7 @@ public class PopupAjoutLocation extends JInternalFrame {
         panelCenter.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         contentPane.add(panelCenter, BorderLayout.CENTER);
 
-        JLabel lblLoyer = new JLabel("Loyer :");
+        JLabel lblLoyer = new JLabel("Loyer (€) :");
         lblLoyer.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lblLoyer.setForeground(Color.WHITE);
         panelCenter.add(lblLoyer);

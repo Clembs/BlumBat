@@ -13,6 +13,8 @@
     <!-- Classe principale qui se lance en mode exécution et en build -->
     <!-- On peut changer dynamiquement avec le flag -Dmain.class=[classe] -->
     <main.class>view.FenConnexionClient</main.class>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -35,9 +37,14 @@
       <version>9.1.0</version>
     </dependency>
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-swing-junit</artifactId>
-      <version>3.17.1</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.11.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.11.3</version>
     </dependency>
   </dependencies>
 
@@ -63,8 +70,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.source}</target>
         </configuration>
       </plugin>
       <plugin>

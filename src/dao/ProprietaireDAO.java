@@ -51,8 +51,6 @@ public class ProprietaireDAO {
 
       ResultSet resultSet = preparedStatement.executeQuery();
 
-      System.out.println(resultSet);
-
       if (resultSet.next()) {
         proprietaire = new Proprietaire(
             resultSet.getString("id_proprietaire"),

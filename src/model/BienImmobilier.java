@@ -1,8 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BienImmobilier {
   private String id;
   private TypeBien typeBien;
@@ -10,7 +7,6 @@ public class BienImmobilier {
   private String complementAdresse;
   private String codePostal;
   private String ville;
-  private List<Location> locations;
 
   public BienImmobilier(
       String id, TypeBien typeBien,
@@ -22,7 +18,6 @@ public class BienImmobilier {
     this.complementAdresse = complementAdresse;
     this.codePostal = codePostal;
     this.ville = ville;
-    this.locations = new ArrayList<>();
   }
 
   public String getId() {
@@ -47,24 +42,6 @@ public class BienImmobilier {
 
   public String getVille() {
     return this.ville;
-  }
-
-  public List<Location> getLocations() {
-    return this.locations;
-  }
-
-  public void addLocation(Location location) {
-    this.locations.add(location);
-  }
-
-  public void removeLocation(Location location) {
-    this.locations.remove(location);
-  }
-
-  public boolean estLoué() {
-    // Retourne vrai s'il n'y a aucune location sans date de sortie
-    return !this.locations.stream()
-        .allMatch(location -> location.getDateSortie() == null);
   }
 
   @Override

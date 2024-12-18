@@ -2,6 +2,7 @@ C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\controller\ControleurA
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\controller\ControleurAjoutLocation.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\controller\ControleurBiens.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\controller\ControleurConnexionClient.java
+C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\controller\ControleurConsultationBien.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\dao\BienDAO.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\dao\LocationDAO.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\dao\ProprietaireDAO.java
@@ -17,9 +18,8 @@ C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\model\Location.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\model\Proprietaire.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\model\TypeBien.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\model\TypeContratAssurance.java
-C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\view\FEN_AJOUTER_LOCATAIRE.java
-C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\view\FEN_CONSULTATION_LOCATAIRES.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\view\FenAjoutBien.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\view\FenBiens.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\view\FenConnexionClient.java
+C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\view\PanelConsultationBien.java
 C:\Users\alexa\Desktop\main\programas_IUT\SAE\s3.a.01\src\view\PopupAjoutLocation.java

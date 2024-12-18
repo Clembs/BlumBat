@@ -8,8 +8,6 @@ import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -34,11 +32,10 @@ public class PopupAjoutLocation extends JInternalFrame {
     private JTextField txtDateEntree;
     private JTextField txtDateSortie;
     private BienImmobilier bien;
-    private List<Locataire> locataires;
+    private Locataire locataire;
 
     public PopupAjoutLocation(BienImmobilier b) {
-        locataires = new ArrayList<>();
-        ControleurAjoutLocation controleur = new ControleurAjoutLocation(this, b);
+        ControleurAjoutLocation controleur = new ControleurAjoutLocation(this,b);
 
         setBounds(100, 100, 600, 500);
         setClosable(true);
@@ -144,7 +141,7 @@ public class PopupAjoutLocation extends JInternalFrame {
                 frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
                 PopupAjoutLocation popup = new PopupAjoutLocation(
-                        new BienImmobilier("3344", TypeBien.BATIMENT, "Rue ta mere", "ap4", "81000", "Toulouse"));
+                        new BienImmobilier("truc2", TypeBien.BATIMENT, "Rue ta mere", "ap4", "81000", "Toulouse"));
                 desktopPane.add(popup);
                 popup.setVisible(true);
 
@@ -153,6 +150,11 @@ public class PopupAjoutLocation extends JInternalFrame {
                 e.printStackTrace();
             }
         });
+    }
+
+    public Locataire getLocataire(){
+        this.locataire = new Locataire("test","Adbel","Clement","AbdelOfi@gmail.fr","123456789");
+        return this.locataire;
     }
 
     public double getLoyer() {

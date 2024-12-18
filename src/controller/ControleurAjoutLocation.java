@@ -21,7 +21,7 @@ public class ControleurAjoutLocation implements ActionListener {
     private LocalDate dateEntree;
     private LocalDate dateSortie;
     private BienImmobilier bien;
-    private Locataire locataires;
+    private Locataire locataire;
 
     public ControleurAjoutLocation(PopupAjoutLocation fenetre, BienImmobilier bien) {
         this.bien = bien;
@@ -33,7 +33,7 @@ public class ControleurAjoutLocation implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton boutonClique = (JButton) e.getSource();
 
-        // Vérifier si le bouton "Ajouter" est cliqué
+        // Vérifier si le bouton "Louer" est cliqué
         if (boutonClique.getText().equals("Louer")) {
             // Récupérer les données depuis les champs de texte via les getters
             this.loyer = fenetre.getLoyer();
@@ -45,9 +45,9 @@ public class ControleurAjoutLocation implements ActionListener {
                 this.dateSortie = fenetre.getDateSortie();
             } catch (ParseException error) {
             }
-            //this.locataires = fenetre.getLocataires();
+            this.locataire = fenetre.getLocataire();
 
-            Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataires);
+            Location location = new Location(this.loyer, this.dateEntree, this.dateSortie, this.bien, this.locataire);
             LocationDAO.create(location);
 
             // Afficher un message de confirmation

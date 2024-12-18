@@ -58,9 +58,10 @@ public class BienDAO {
 		List<BienImmobilier> biens = new ArrayList<>();
 
 		try {
-			String query = "SELECT * FROM biens WHERE id_proprietaire = " + proprietaire.getId();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			String query = "SELECT * FROM biens WHERE id_proprietaire = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, Integer.parseInt(proprietaire.getId()));
+			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
 				String typeBienStr = resultSet.getString("type_bien");
@@ -77,6 +78,9 @@ public class BienDAO {
 							resultSet.getString("numero_fiscal"),
 							resultSet.getFloat("surface"),
 							resultSet.getInt("nombre_pieces"));
+
+					LocationDAO locationDAO = new LocationDAO();
+					bien.setLocations(locationDAO.getAllLocations(bien));
 
 					biens.add(bien);
 				} else {
@@ -121,6 +125,9 @@ public class BienDAO {
 						resultSet.getString("numero_fiscal"),
 						resultSet.getFloat("surface"),
 						resultSet.getInt("nombre_pieces"));
+
+				LocationDAO locationDAO = new LocationDAO();
+				bien.setLocations(locationDAO.getAllLocations(bien));
 
 				logements.add(bien);
 			}

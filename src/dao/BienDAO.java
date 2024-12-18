@@ -3,12 +3,8 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import db.DatabaseConnexion;
-import model.BienImmobilier;
-import model.BienLocatif;
-import model.Proprietaire;
-import model.TypeBien;
+import model.*;
 
 public class BienDAO {
 	private final Connection connection;
@@ -137,4 +133,49 @@ public class BienDAO {
 
 		return logements;
 	}
+
+	public List<BienLocatif> getBiensByLocataire(String locataireId) {
+		List<BienLocatif> biens = new ArrayList<>();
+
+		String query = "SELECT * "+
+				"FROM biens b " +
+				"JOIN locations l ON b.id_bien = l.id_bien " +
+				"WHERE l.id_locataire = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+			preparedStatement.setString(1, locataireId); // Utilisation directe de locataireId (String)
+
+			try (ResultSet resultSet = preparedStatement.executeQuery()) {
+				while (resultSet.next()) {
+					// Conversion du type de bien à partir de la chaîne de caractères
+					String typeBienStr = resultSet.getString("type_bien");
+					TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+
+					// Création de l'objet BienLocatif
+					BienLocatif bien = new BienLocatif(
+							resultSet.getString("id_bien"),
+							typeBien,
+							resultSet.getString("adresse"),
+							resultSet.getString("complement_adresse"),
+							resultSet.getString("code_postal"),
+							resultSet.getString("ville"),
+							resultSet.getString("numero_fiscal"),
+							resultSet.getFloat("surface"),
+							resultSet.getInt("nombre_pieces")
+					);
+
+					biens.add(bien);
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erreur lors de la récupération des biens pour le locataire : " + locataireId, e);
+		}
+
+		return biens;
+	}
 }
+
+
+
+
+

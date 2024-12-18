@@ -1,6 +1,7 @@
 package view;
 
 import controller.ControleurConsultationLocataires;
+import model.BienLocatif;
 import model.Locataire;
 
 import java.awt.*;
@@ -169,4 +170,17 @@ public class FenConsultationLocataires extends JFrame {
         txtAdresse.setText(locataire.getEmail());
         txtTelephone.setText(locataire.getTelephone());
     }
+
+    public void updateTableBiens(List<BienLocatif> biens) {
+        System.out.println("Biens pour mise à jour de la table : " + biens);
+        DefaultTableModel model = (DefaultTableModel) tableBiens.getModel();
+        model.setRowCount(0);
+
+        for (BienLocatif bien : biens) {
+            model.addRow(new Object[]{bien.getNumeroFiscal(), bien.getAdresse(), bien.getTypeBien()});
+        }
+    }
+
+
+
 }

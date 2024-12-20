@@ -42,7 +42,7 @@ public class FenLocataires extends JFrame {
     // Panel latéral, contenant la liste des locataires
     JPanel sidePanel = new JPanel(new BorderLayout(5, 5));
     sidePanel.setBorder(
-        new TitledBorder(new EtchedBorder(), "Liste des locataires", TitledBorder.CENTER, TitledBorder.TOP));
+        new TitledBorder(new EtchedBorder(), "Vos locataires", TitledBorder.CENTER, TitledBorder.TOP));
 
     locatairesList = new JList<>(model);
     locatairesList.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));

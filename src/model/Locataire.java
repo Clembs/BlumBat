@@ -1,5 +1,6 @@
 package model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Locataire {
@@ -16,7 +17,7 @@ public class Locataire {
     this.prenom = prenom;
     this.email = email;
     this.telephone = telephone;
-
+    this.locations = new LinkedList<>();
   }
 
   public String getId() {

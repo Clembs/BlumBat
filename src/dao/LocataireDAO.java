@@ -1,97 +1,163 @@
 package dao;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import db.DatabaseConnexion;
 import model.BienImmobilier;
 import model.Locataire;
+import model.Location;
+import model.Proprietaire;
+import model.TypeBien;
 
 public class LocataireDAO {
-    private final Connection connection;
+  private final Connection connection;
 
-    public LocataireDAO() {
-        this.connection = DatabaseConnexion.getConnexion();
+  public LocataireDAO() {
+    this.connection = DatabaseConnexion.getConnexion();
+  }
+
+  public void create(Locataire locataire, Proprietaire proprietaire) {
+    try {
+      String query = "INSERT INTO locataires (id_locataire, id_proprietaire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ? )";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, locataire.getId());
+      preparedStatement.setInt(2, proprietaire.getId());
+      preparedStatement.setString(3, locataire.getNom());
+      preparedStatement.setString(3, locataire.getPrenom());
+      preparedStatement.setString(4, locataire.getEmail());
+      preparedStatement.setString(5, locataire.getTelephone());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la création du propriétaire", e);
     }
+  }
 
-    public void create(Locataire locataire) {
-        try {
-            String query = "INSERT INTO locataires (id_locataire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ? )";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, locataire.getId());
-            preparedStatement.setString(2, locataire.getNom());
-            preparedStatement.setString(3, locataire.getPrenom());
-            preparedStatement.setString(4, locataire.getEmail());
-            preparedStatement.setString(5, locataire.getTelephone());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la création du propriétaire", e);
+  // récupération d'un locataire à partir de son identifiant,
+  // de ses locations et des biens associés
+  public Locataire read(String id) {
+    Locataire locataire = null;
+
+    try {
+      // comme un locataire peut avoir plusieurs locations,
+      // on risque d'avoir des doublons
+      String query = "SELECT * FROM locataires AS lt, locations AS lo, biens AS b WHERE lt.id_locataire = 'test' AND lt.id_locataire = lo.id_locataire AND lo.id_bien = b.id_bien";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, id);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      while (resultSet.next()) {
+        // on crée le locataire s'il n'existe pas
+        if (locataire == null) {
+          locataire = new Locataire(
+              resultSet.getString("id_locataire"),
+              resultSet.getString("nom"),
+              resultSet.getString("prenom"),
+              resultSet.getString("email"),
+              resultSet.getString("telephone"));
         }
+
+        String typeBienStr = resultSet.getString("type_bien");
+        TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+
+        // Fetch the Bien and Location data
+        BienImmobilier bien = new BienImmobilier(
+            resultSet.getString("bien_id"),
+            typeBien,
+            resultSet.getString("adresse"),
+            resultSet.getString("complement_adresse"),
+            resultSet.getString("code_postal"),
+            resultSet.getString("ville"));
+
+        Date dateSortie = resultSet.getDate("date_sortie");
+
+        Location location = new Location(
+            resultSet.getDouble("loyer"),
+            resultSet.getDate("date_entree").toLocalDate(),
+            dateSortie == null ? null : dateSortie.toLocalDate(),
+            bien,
+            locataire);
+
+        locataire.addLocation(location);
+      }
+
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la lecture du locataire", e);
     }
 
-    // récupération d'un propriétaire à partir de son identifiant
-    public Locataire read(String id) {
-        Locataire locataire = null;
+    return locataire;
+  }
 
-        try {
-            String query = "SELECT * FROM Locataires WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+  public void modifierLocataire(Locataire locataire) {
+    try {
+      String query = "UPDATE locataires SET nom = ?, prenom = ?, email = ?, telephone = ? WHERE id_locataire = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, locataire.getNom());
+      preparedStatement.setString(2, locataire.getPrenom());
+      preparedStatement.setString(3, locataire.getEmail());
+      preparedStatement.setString(4, locataire.getTelephone());
+      preparedStatement.setString(5, locataire.getId());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la modification du locataire", e);
+    }
+  }
 
-            if (resultSet.next()) {
-                locataire = new Locataire(
-                        resultSet.getString("id"),
-                        resultSet.getString("nom"),
-                        resultSet.getString("prenom"),
-                        resultSet.getString("email"),
-                        resultSet.getString("telephone"));
-            }
+  // retourne une liste de locataires avec leurs locations et les biens associés
+  public List<Locataire> getAllLocataires(Proprietaire proprietaire) {
+    Map<String, Locataire> locataires = new HashMap<>();
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la lecture du locataire", e);
+    try {
+      String query = "SELECT * FROM locataires AS lt, locations AS lo, biens AS b WHERE lt.id_proprietaire = ? AND lt.id_locataire = lo.id_locataire AND lo.id_bien = b.id_bien";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setInt(1, proprietaire.getId());
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      while (resultSet.next()) {
+        String idLocataire = resultSet.getString("id_locataire");
+
+        // on crée le locataire s'il n'existe pas
+        if (!locataires.containsKey(idLocataire)) {
+          Locataire locataire = new Locataire(
+              idLocataire,
+              resultSet.getString("nom"),
+              resultSet.getString("prenom"),
+              resultSet.getString("email"),
+              resultSet.getString("telephone"));
+          locataires.put(idLocataire, locataire);
         }
-        return locataire;
+
+        Locataire locataire = locataires.get(idLocataire);
+
+        String typeBienStr = resultSet.getString("type_bien");
+        TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+
+        BienImmobilier bien = new BienImmobilier(
+            resultSet.getString("id_bien"),
+            typeBien,
+            resultSet.getString("adresse"),
+            resultSet.getString("complement_adresse"),
+            resultSet.getString("code_postal"),
+            resultSet.getString("ville"));
+
+        Date dateSortie = resultSet.getDate("date_sortie");
+
+        Location location = new Location(
+            resultSet.getDouble("loyer"),
+            resultSet.getDate("date_entree").toLocalDate(),
+            dateSortie == null ? null : dateSortie.toLocalDate(),
+            bien,
+            locataire);
+
+        locataire.addLocation(location);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la récupération des locataires", e);
     }
 
-
-    public void modifierLocataire(Locataire locataire) {
-        try {
-            String query = "UPDATE locataires SET nom = ?, prenom = ?, email = ?, telephone = ? WHERE id_locataire = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, locataire.getNom());
-            preparedStatement.setString(2, locataire.getPrenom());
-            preparedStatement.setString(3, locataire.getEmail());
-            preparedStatement.setString(4, locataire.getTelephone());
-            preparedStatement.setString(5, locataire.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la modification du locataire", e);
-        }
-    }
-
-    public List<Locataire> getAllLocataires() {
-        List<Locataire> locataires = new ArrayList<>();
-        try {
-            String query = "SELECT * FROM locataires";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-                Locataire locataire = new Locataire(
-                        resultSet.getString("id_locataire"),
-                        resultSet.getString("nom"),
-                        resultSet.getString("prenom"),
-                        resultSet.getString("email"),
-                        resultSet.getString("telephone")
-                );
-                locataires.add(locataire);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la récupération des locataires", e);
-        }
-        return locataires;
-    }
-
+    return locataires.values().stream().collect(Collectors.toList());
+  }
 }

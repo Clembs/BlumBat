@@ -18,7 +18,7 @@ public class BienDAO {
 			String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, bien.getId().toString());
-			preparedStatement.setInt(2, Integer.parseInt(proprietaire.getId()));
+			preparedStatement.setInt(2, proprietaire.getId());
 			preparedStatement.setString(3, bien.getTypeBien().toString());
 			preparedStatement.setString(4, bien.getAdresse());
 			preparedStatement.setString(5, bien.getComplementAdresse());
@@ -35,7 +35,7 @@ public class BienDAO {
 			String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville, numero_fiscal, surface, nombre_pieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, bien.getId().toString());
-			preparedStatement.setInt(2, Integer.parseInt(proprietaire.getId()));
+			preparedStatement.setInt(2, proprietaire.getId());
 			preparedStatement.setString(3, bien.getTypeBien().toString());
 			preparedStatement.setString(4, bien.getAdresse());
 			preparedStatement.setString(5, bien.getComplementAdresse());
@@ -56,7 +56,7 @@ public class BienDAO {
 		try {
 			String query = "SELECT * FROM biens WHERE id_proprietaire = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, Integer.parseInt(proprietaire.getId()));
+			preparedStatement.setInt(1, proprietaire.getId());
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
@@ -103,10 +103,11 @@ public class BienDAO {
 		List<BienLocatif> logements = new ArrayList<>();
 
 		try {
-			String query = "SELECT * FROM biens WHERE type_bien != 'BATIMENT' AND id_proprietaire = " + proprietaire.getId();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-
+			String query = "SELECT * FROM biens WHERE type_bien != 'BATIMENT' AND id_proprietaire = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, proprietaire.getId());
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
 			while (resultSet.next()) {
 				String typeBienStr = resultSet.getString("type_bien");
 				TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
@@ -136,7 +137,7 @@ public class BienDAO {
 
 	public List<BienLocatif> getBiensByLocataire(String locataireId) {
 		List<BienLocatif> biens = new ArrayList<>();
-
+ 
 		String query = "SELECT * "+
 				"FROM biens b " +
 				"JOIN locations l ON b.id_bien = l.id_bien " +
@@ -160,8 +161,7 @@ public class BienDAO {
 							resultSet.getString("code_postal"),
 							resultSet.getString("ville"),
 							resultSet.getString("numero_fiscal"),
-							resultSet.getFloat("surface"),
-							resultSet.getInt("nombre_pieces")
+							resultSet.getFloat("surface"),		resultSet.getInt("nombre_pieces")
 					);
 
 					biens.add(bien);
@@ -174,8 +174,3 @@ public class BienDAO {
 		return biens;
 	}
 }
-
-
-
-
-

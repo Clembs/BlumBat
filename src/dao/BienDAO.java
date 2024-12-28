@@ -1,6 +1,10 @@
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,130 +15,142 @@ import model.Proprietaire;
 import model.TypeBien;
 
 public class BienDAO {
-	private final Connection connection;
 
-	public BienDAO() {
-		this.connection = DatabaseConnexion.getConnexion();
-	}
+    private final Connection connection;
 
-	public void create(BienImmobilier bien, Proprietaire proprietaire) {
-		try {
-			String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville) VALUES (?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, bien.getId().toString());
-			preparedStatement.setInt(2, Integer.parseInt(proprietaire.getId()));
-			preparedStatement.setString(3, bien.getTypeBien().toString());
-			preparedStatement.setString(4, bien.getAdresse());
-			preparedStatement.setString(5, bien.getComplementAdresse());
-			preparedStatement.setString(6, bien.getCodePostal());
-			preparedStatement.setString(7, bien.getVille());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			throw new RuntimeException("Erreur lors de la création du bien immobilier", e);
-		}
-	}
+    public BienDAO() {
+        this.connection = DatabaseConnexion.getConnexion();
+    }
 
-	public void create(BienLocatif bien, Proprietaire proprietaire) {
-		try {
-			String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville, numero_fiscal, surface, nombre_pieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, bien.getId().toString());
-			preparedStatement.setInt(2, Integer.parseInt(proprietaire.getId()));
-			preparedStatement.setString(3, bien.getTypeBien().toString());
-			preparedStatement.setString(4, bien.getAdresse());
-			preparedStatement.setString(5, bien.getComplementAdresse());
-			preparedStatement.setString(6, bien.getCodePostal());
-			preparedStatement.setString(7, bien.getVille());
-			preparedStatement.setString(8, bien.getNumeroFiscal());
-			preparedStatement.setFloat(9, bien.getSurface());
-			preparedStatement.setInt(10, bien.getNombrePieces());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			throw new RuntimeException("Erreur lors de la création du logement", e);
-		}
-	}
+    public void create(BienImmobilier bien, Proprietaire proprietaire) {
+        try {
+            String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, bien.getId().toString());
+            preparedStatement.setInt(2, Integer.parseInt(proprietaire.getId()));
+            preparedStatement.setString(3, bien.getTypeBien().toString());
+            preparedStatement.setString(4, bien.getAdresse());
+            preparedStatement.setString(5, bien.getComplementAdresse());
+            preparedStatement.setString(6, bien.getCodePostal());
+            preparedStatement.setString(7, bien.getVille());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la création du bien immobilier", e);
+        }
+    }
 
-	public List<BienImmobilier> getAllBiens(Proprietaire proprietaire) {
-		List<BienImmobilier> biens = new ArrayList<>();
+    public void create(BienLocatif bien, Proprietaire proprietaire) {
+        try {
+            String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville, numero_fiscal, surface, nombre_pieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, bien.getId().toString());
+            preparedStatement.setInt(2, Integer.parseInt(proprietaire.getId()));
+            preparedStatement.setString(3, bien.getTypeBien().toString());
+            preparedStatement.setString(4, bien.getAdresse());
+            preparedStatement.setString(5, bien.getComplementAdresse());
+            preparedStatement.setString(6, bien.getCodePostal());
+            preparedStatement.setString(7, bien.getVille());
+            preparedStatement.setString(8, bien.getNumeroFiscal());
+            preparedStatement.setFloat(9, bien.getSurface());
+            preparedStatement.setInt(10, bien.getNombrePieces());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la création du logement", e);
+        }
+    }
 
-		try {
-			String query = "SELECT * FROM biens WHERE id_proprietaire = ?";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, Integer.parseInt(proprietaire.getId()));
-			ResultSet resultSet = preparedStatement.executeQuery();
+    public List<BienImmobilier> getAllBiens(Proprietaire proprietaire) {
+        List<BienImmobilier> biens = new ArrayList<>();
 
-			while (resultSet.next()) {
-				String typeBienStr = resultSet.getString("type_bien");
-				TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+        try {
+            String query = "SELECT * FROM biens WHERE id_proprietaire = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, Integer.parseInt(proprietaire.getId()));
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-				if (typeBien != TypeBien.BATIMENT) {
-					BienLocatif bien = new BienLocatif(
-							resultSet.getString("id_bien"),
-							typeBien,
-							resultSet.getString("adresse"),
-							resultSet.getString("complement_adresse"),
-							resultSet.getString("code_postal"),
-							resultSet.getString("ville"),
-							resultSet.getString("numero_fiscal"),
-							resultSet.getFloat("surface"),
-							resultSet.getInt("nombre_pieces"));
+            while (resultSet.next()) {
+                String typeBienStr = resultSet.getString("type_bien");
+                TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
 
-					LocationDAO locationDAO = new LocationDAO();
-					bien.setLocations(locationDAO.getAllLocations(bien));
+                if (typeBien != TypeBien.BATIMENT) {
+                    BienLocatif bien = new BienLocatif(
+                            resultSet.getString("id_bien"),
+                            typeBien,
+                            resultSet.getString("adresse"),
+                            resultSet.getString("complement_adresse"),
+                            resultSet.getString("code_postal"),
+                            resultSet.getString("ville"),
+                            resultSet.getString("numero_fiscal"),
+                            resultSet.getFloat("surface"),
+                            resultSet.getInt("nombre_pieces"));
 
-					biens.add(bien);
-				} else {
-					BienImmobilier bien = new BienImmobilier(
-							resultSet.getString("id_bien"),
-							typeBien,
-							resultSet.getString("adresse"),
-							resultSet.getString("complement_adresse"),
-							resultSet.getString("code_postal"),
-							resultSet.getString("ville"));
+                    LocationDAO locationDAO = new LocationDAO();
+                    bien.setLocations(locationDAO.getAllLocations(bien));
 
-					biens.add(bien);
-				}
+                    biens.add(bien);
+                } else {
+                    BienImmobilier bien = new BienImmobilier(
+                            resultSet.getString("id_bien"),
+                            typeBien,
+                            resultSet.getString("adresse"),
+                            resultSet.getString("complement_adresse"),
+                            resultSet.getString("code_postal"),
+                            resultSet.getString("ville"));
 
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Erreur lors de la récupération des biens", e);
-		}
+                    biens.add(bien);
+                }
 
-		return biens;
-	}
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la récupération des biens", e);
+        }
 
-	public List<BienLocatif> getAllLogements(Proprietaire proprietaire) {
-		List<BienLocatif> logements = new ArrayList<>();
+        return biens;
+    }
 
-		try {
-			String query = "SELECT * FROM biens WHERE type_bien != 'BATIMENT' AND id_proprietaire = " + proprietaire.getId();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+    public List<BienLocatif> getAllLogements(Proprietaire proprietaire) {
+        List<BienLocatif> logements = new ArrayList<>();
 
-			while (resultSet.next()) {
-				String typeBienStr = resultSet.getString("type_bien");
-				TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+        try {
+            String query = "SELECT * FROM biens WHERE type_bien != 'BATIMENT' AND id_proprietaire = " + proprietaire.getId();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
 
-				BienLocatif bien = new BienLocatif(
-						resultSet.getString("id_bien"),
-						typeBien,
-						resultSet.getString("adresse"),
-						resultSet.getString("complement_adresse"),
-						resultSet.getString("code_postal"),
-						resultSet.getString("ville"),
-						resultSet.getString("numero_fiscal"),
-						resultSet.getFloat("surface"),
-						resultSet.getInt("nombre_pieces"));
+            while (resultSet.next()) {
+                String typeBienStr = resultSet.getString("type_bien");
+                TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
 
-				LocationDAO locationDAO = new LocationDAO();
-				bien.setLocations(locationDAO.getAllLocations(bien));
+                BienLocatif bien = new BienLocatif(
+                        resultSet.getString("id_bien"),
+                        typeBien,
+                        resultSet.getString("adresse"),
+                        resultSet.getString("complement_adresse"),
+                        resultSet.getString("code_postal"),
+                        resultSet.getString("ville"),
+                        resultSet.getString("numero_fiscal"),
+                        resultSet.getFloat("surface"),
+                        resultSet.getInt("nombre_pieces"));
 
-				logements.add(bien);
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Erreur lors de la récupération des logements", e);
-		}
+                LocationDAO locationDAO = new LocationDAO();
+                bien.setLocations(locationDAO.getAllLocations(bien));
 
-		return logements;
-	}
+                logements.add(bien);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la récupération des logements", e);
+        }
+
+        return logements;
+    }
+
+    public void delete(BienImmobilier bien, Proprietaire proprietaire) {
+        try {
+            String query = "DELETE FROM biens WHERE id_bien = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, bien.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la suppresion du bien immobilier", e);
+        }
+    }
 }

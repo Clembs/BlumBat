@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PanelModifierUnBien extends JPanel {
-
     private JComboBox<TypeBien> comboTypeBien;
     private JTextField textIdBien;
     private JTextField textAdresse;
@@ -22,15 +21,12 @@ public class PanelModifierUnBien extends JPanel {
 
     public PanelModifierUnBien(TypeBien typeBien, String idBien, String adresse, String cadresse, String ville,
                                String CP, float surface, String nbFiscal, int nbPiece) {
-
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(40, 40, 40));
 
-        // Initialisation du modèle de liste des erreurs
         erreursListModel = new DefaultListModel<>();
         erreursList = new JList<>(erreursListModel);
 
-        // Titre
         JLabel lblTitle = new JLabel("Modifier un bien", SwingConstants.CENTER);
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
         lblTitle.setForeground(new Color(240, 240, 240));
@@ -39,27 +35,12 @@ public class PanelModifierUnBien extends JPanel {
         lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(lblTitle, BorderLayout.NORTH);
 
-        // Panneau de formulaire avec deux colonnes
         JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         formPanel.setBackground(new Color(50, 50, 50));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Champs de formulaire du bien
-        // Initialisation du JComboBox avec les valeurs de l'énumération
         comboTypeBien = new JComboBox<>(TypeBien.values());
-
-        // Création et ajout du JLabel pour "Type:"
-        JLabel lblTypeBien = new JLabel("Type:*");
-        lblTypeBien.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        lblTypeBien.setForeground(new Color(230, 230, 230));  // Couleur de texte claire pour l'étiquette
-        formPanel.add(lblTypeBien);
-
-        // Configuration du JComboBox
-        comboTypeBien.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        comboTypeBien.setBackground(new Color(60, 60, 60));  // Fond sombre pour le combo
-        comboTypeBien.setForeground(Color.WHITE);  // Texte en blanc pour le combo
-        comboTypeBien.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));  // Bordure claire pour le combo
-        formPanel.add(comboTypeBien);  // Ajouter le JComboBox au formulaire
+        addField(formPanel, "Type:*", comboTypeBien);
 
         textIdBien = new JTextField(idBien);
         addField(formPanel, "Identifiant:*", textIdBien);
@@ -87,7 +68,6 @@ public class PanelModifierUnBien extends JPanel {
 
         add(formPanel, BorderLayout.CENTER);
 
-        // Panneau des erreurs
         JPanel erreurPanel = new JPanel(new BorderLayout());
         erreurPanel.setBackground(new Color(40, 40, 40));
 
@@ -101,7 +81,6 @@ public class PanelModifierUnBien extends JPanel {
         erreurPanel.add(erreurScrollPane, BorderLayout.CENTER);
         add(erreurPanel, BorderLayout.WEST);
 
-        // Panneau des boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.setBackground(new Color(40, 40, 40));
 
@@ -128,21 +107,19 @@ public class PanelModifierUnBien extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    // Méthodes pour ajouter un champ de saisie
-    private void addField(JPanel panel, String label, JTextField textField) {
+    private void addField(JPanel panel, String label, JComponent field) {
         JLabel lbl = new JLabel(label);
         lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lbl.setForeground(new Color(230, 230, 230));
         panel.add(lbl);
 
-        textField.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        textField.setBackground(new Color(60, 60, 60));
-        textField.setForeground(Color.WHITE);
-        textField.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-        panel.add(textField);
+        field.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        field.setBackground(new Color(60, 60, 60));
+        field.setForeground(Color.WHITE);
+        field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+        panel.add(field);
     }
 
-    // Méthodes pour récupérer les valeurs
     public String getIdBien() {
         return textIdBien.getText();
     }
@@ -164,7 +141,7 @@ public class PanelModifierUnBien extends JPanel {
     }
 
     public TypeBien getTypeBien() {
-        return (TypeBien) comboTypeBien.getSelectedItem();  // Récupérer l'objet sélectionné dans le combo
+        return (TypeBien) comboTypeBien.getSelectedItem();
     }
 
     public float getSurface() {
@@ -179,7 +156,6 @@ public class PanelModifierUnBien extends JPanel {
         return Integer.parseInt(textNbPiece.getText());
     }
 
-    // Méthodes pour gérer les erreurs
     public void addErreur(String erreur) {
         erreursListModel.addElement(erreur);
     }

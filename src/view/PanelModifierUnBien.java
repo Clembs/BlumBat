@@ -13,7 +13,6 @@ public class PanelModifierUnBien extends JPanel {
     private JTextField textAdresse;
     private JTextField textComplementAdresse;
     private JTextField textVille;
-    private JTextField textDepartement;
     private JTextField textCP;
     private JTextField textSurface;
     private JTextField textNbFiscal;
@@ -21,8 +20,8 @@ public class PanelModifierUnBien extends JPanel {
     private DefaultListModel<String> erreursListModel;
     private JList<String> erreursList;
 
-    public PanelModifierUnBien(String typeBien, String idBien, String adresse, String cadresse, String ville, String departement,
-                               String CP, String surface, String nbFiscal, String nbPiece) {
+    public PanelModifierUnBien(TypeBien typeBien, String idBien, String adresse, String cadresse, String ville,
+                               String CP, float surface, String nbFiscal, int nbPiece) {
 
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(40, 40, 40));
@@ -49,14 +48,13 @@ public class PanelModifierUnBien extends JPanel {
         // Initialisation du JComboBox avec les valeurs de l'énumération
         comboTypeBien = new JComboBox<>(TypeBien.values());
 
-
-// Création et ajout du JLabel pour "Type:"
+        // Création et ajout du JLabel pour "Type:"
         JLabel lblTypeBien = new JLabel("Type:*");
         lblTypeBien.setFont(new Font("SansSerif", Font.PLAIN, 14));
         lblTypeBien.setForeground(new Color(230, 230, 230));  // Couleur de texte claire pour l'étiquette
         formPanel.add(lblTypeBien);
 
-// Configuration du JComboBox
+        // Configuration du JComboBox
         comboTypeBien.setFont(new Font("SansSerif", Font.PLAIN, 14));
         comboTypeBien.setBackground(new Color(60, 60, 60));  // Fond sombre pour le combo
         comboTypeBien.setForeground(Color.WHITE);  // Texte en blanc pour le combo
@@ -74,9 +72,6 @@ public class PanelModifierUnBien extends JPanel {
 
         textVille = new JTextField(ville);
         addField(formPanel, "Ville:*", textVille);
-
-        textDepartement = new JTextField(departement);
-        addField(formPanel, "Département:*", textDepartement);
 
         textCP = new JTextField(String.valueOf(CP));
         addField(formPanel, "Code Postal:*", textCP);
@@ -127,13 +122,11 @@ public class PanelModifierUnBien extends JPanel {
         btnAnnuler.setForeground(Color.WHITE);
         btnAnnuler.setFocusPainted(false);
         btnAnnuler.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        btnAnnuler.addActionListener(e -> closePanel());
         buttonPanel.add(btnAnnuler);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
-
-
-
 
     // Méthodes pour ajouter un champ de saisie
     private void addField(JPanel panel, String label, JTextField textField) {
@@ -161,9 +154,6 @@ public class PanelModifierUnBien extends JPanel {
     public String getComplementAdresse() {
         return textComplementAdresse.getText();
     }
-    public String getDepartement() {
-        return textDepartement.getText();
-    }
 
     public String getVille() {
         return textVille.getText();
@@ -177,16 +167,16 @@ public class PanelModifierUnBien extends JPanel {
         return (TypeBien) comboTypeBien.getSelectedItem();  // Récupérer l'objet sélectionné dans le combo
     }
 
-    public String getSurface() {
-        return textSurface.getText();
+    public float getSurface() {
+        return Float.parseFloat(textSurface.getText());
     }
 
     public String getNbFiscal() {
         return textNbFiscal.getText();
     }
 
-    public String getNbPiece() {
-        return textNbPiece.getText();
+    public int getNbPiece() {
+        return Integer.parseInt(textNbPiece.getText());
     }
 
     // Méthodes pour gérer les erreurs
@@ -198,8 +188,12 @@ public class PanelModifierUnBien extends JPanel {
         erreursListModel.clear();
     }
 
-
-
-
-
+    public void closePanel() {
+        Container parent = getParent();
+        if (parent != null) {
+            parent.remove(this);
+            parent.revalidate();
+            parent.repaint();
+        }
+    }
 }

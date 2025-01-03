@@ -21,54 +21,43 @@ public class ControleurModifierBien implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton boutonClique = (JButton) e.getSource();
+        String action = boutonClique.getText();
 
-        if (boutonClique.getText().equals("Modifier")) {
-            fenetre.clearErreurs();  // Effacer les erreurs précédentes
+        if (action.equals("Modifier")) {
+            modifierBien();
+            fenetre.closePanel();
+        }
+    }
 
-            // Récupérer les valeurs des champs de texte
-            String idBien = fenetre.getIdBien();
-            String adresse = fenetre.getAdresse();
-            String complementAdresse = fenetre.getComplementAdresse();
-            String ville = fenetre.getVille();
-            String codePostal = fenetre.getCodePostal();
-            TypeBien typeBien = fenetre.getTypeBien();
-            String surfaceStr = fenetre.getSurface();
-            String nbFiscalStr = fenetre.getNbFiscal();
-            String nbPieceStr = fenetre.getNbPiece();
+    private void modifierBien() {
+        fenetre.clearErreurs();
 
-            boolean valide = true;
+        // Récupérer les données des champs
+        String idBien = fenetre.getIdBien();
+        String adresse = fenetre.getAdresse();
+        String complementAdresse = fenetre.getComplementAdresse();
+        String ville = fenetre.getVille();
+        String codePostal = fenetre.getCodePostal();
+        TypeBien typeBien = fenetre.getTypeBien();
+        float surface = fenetre.getSurface();
+        String nbFiscal = fenetre.getNbFiscal();
+        int nbPiece = fenetre.getNbPiece();
 
-            // Validation des champs vides
-            if (idBien.isEmpty() || adresse.isEmpty() || ville.isEmpty() || codePostal.isEmpty() ||
-                    surfaceStr.isEmpty() || nbFiscalStr.isEmpty() || nbPieceStr.isEmpty()) {
-                valide = false;
-                fenetre.addErreur("Veuillez remplir tous les champs.");
-            }
+        boolean valide = true;
 
-            if (valide) {
-                try {
-                    float surface = Float.parseFloat(surfaceStr);
-                    int nbFiscal = Integer.parseInt(nbFiscalStr);
-                    int nbPiece = Integer.parseInt(nbPieceStr);
+        // Vérification des champs vides
+        if (idBien.isEmpty() || adresse.isEmpty() || ville.isEmpty() || codePostal.isEmpty() ||
+                surface == 0 || nbFiscal.isEmpty() || nbPiece == 0) {
+            valide = false;
+            fenetre.addErreur("Veuillez remplir tous les champs.");
+        }
 
-                    // Vérification de la validité des valeurs numériques
-                    if (surface <= 0 || nbFiscal <= 0 || nbPiece <= 0) {
-                        valide = false;
-                        fenetre.addErreur("Les valeurs doivent être supérieures à zéro.");
-                    } else {
-                        // Créer l'objet BienLocatif et effectuer la modification dans la base de données
-                        BienLocatif bien = new BienLocatif(idBien, typeBien, adresse, complementAdresse, codePostal,ville , nbFiscalStr, surface, nbPiece);
-                        bienDAO.modifierBien(bien);
-
-                        // Effacer les erreurs et informer l'utilisateur
-                        fenetre.clearErreurs();
-                        JOptionPane.showMessageDialog(fenetre, "Votre bien a été modifié avec succès.");
-                    }
-                } catch (NumberFormatException ex) {
-                    valide = false;
-                    fenetre.addErreur("Les valeurs numériques sont invalides.");
-                }
-            }
+        if (valide) {
+            BienLocatif bien = new BienLocatif(idBien, typeBien, adresse, complementAdresse, codePostal, ville, nbFiscal, surface, nbPiece);
+            bienDAO.modifierBienDao(bien);
+            System.out.println(bien);
+            fenetre.clearErreurs();
+            JOptionPane.showMessageDialog(fenetre, "Votre bien a été modifié avec succès.");
         }
     }
 }

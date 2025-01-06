@@ -1,13 +1,13 @@
 package model;
 
 public class Proprietaire {
-  private String id;
+  private int id;
   private String nom;
   private String prenom;
   private String email;
   private String motDePasse;
 
-  public Proprietaire(String id, String nom, String prenom, String email, String motDePasse) {
+  public Proprietaire(int id, String nom, String prenom, String email, String motDePasse) {
     this.id = id;
     this.nom = nom;
     this.prenom = prenom;
@@ -15,7 +15,7 @@ public class Proprietaire {
     this.motDePasse = motDePasse;
   }
 
-  public String getId() {
+  public int getId() {
     return this.id;
   }
 

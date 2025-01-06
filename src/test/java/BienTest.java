@@ -18,7 +18,6 @@ import model.TypeBien;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class BienTest {
-
   private BienDAO bienDAO;
   private Proprietaire P;
   private BienImmobilier bien;
@@ -35,7 +34,6 @@ public class BienTest {
 
   @Test
   public void testConstructeurAvecValeurCorrecte() {
-
     assertNotNull(bien);
     assertEquals("dnwdndn2", bien.getId());
     assertEquals(TypeBien.BATIMENT, bien.getTypeBien());
@@ -131,7 +129,6 @@ public class BienTest {
 
   @Test
   public void TestInsertionEtRecuperationBien() {
-
     bienDAO.create(bien, P);
 
     List<BienImmobilier> listbien = bienDAO.getAllBiens(P);
@@ -144,7 +141,6 @@ public class BienTest {
 
     assertNotNull(bienTrouvé);
     assertEquals(id, bienTrouvé.getId());
-
   }
 
   @AfterEach

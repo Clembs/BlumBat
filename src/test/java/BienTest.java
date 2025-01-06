@@ -38,7 +38,7 @@ public class BienTest {
     }
 
     @Test
-    public void testConstructorWithValidValues() {
+    public void testConstructeurAvecValeurCorrecte() {
 
         assertNotNull(bien);
         assertEquals("dnwdndn2", bien.getId());
@@ -50,7 +50,7 @@ public class BienTest {
     }
 
     @Test
-    public void testConstructorWithNullValues() {
+    public void testConstructeurAvecValeurNull() {
         BienImmobilier bien2 = new BienImmobilier(
                 null,
                 null,
@@ -70,7 +70,7 @@ public class BienTest {
     }
 
     @Test
-    public void testConstructorWithEmptyStrings() {
+    public void testConstructeurAvecStringVide() {
         BienImmobilier bien3 = new BienImmobilier(
                 "",
                 TypeBien.BATIMENT,
@@ -101,14 +101,14 @@ public class BienTest {
     }
 
     @Test
-    public void testToStringWithValidValues() {
+    public void testToStringAvecValeurValide() {
 
         String expected = "Bâtiment - 11 rue des tulipes, 31400 Toulouse";
         assertEquals(expected, bien.toString());
     }
 
     @Test
-    public void testToStringWithNullValues() {
+    public void testToStringAvecValeurNull() {
         BienImmobilier bien4 = new BienImmobilier(
                 null,
                 null,
@@ -123,7 +123,7 @@ public class BienTest {
     }
 
     @Test
-    public void testToStringWithEmptyValues() {
+    public void testToStringAvecStringVide() {
         BienImmobilier bien5 = new BienImmobilier(
                 "",
                 TypeBien.BATIMENT,
@@ -138,7 +138,7 @@ public class BienTest {
     }
 
     @Test
-    public void TestInsertion() {
+    public void TestInsertionEtRecuperationBien() {
 
         bienDAO.create(bien, P);
 

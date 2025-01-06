@@ -4,178 +4,171 @@ import controller.ControleurModificationBien;
 import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
-import model.TypeBien;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PanelModificationBien extends JPanel {
-    private JComboBox<TypeBien> comboTypeBien;
-    private JTextField textIdBien;
-    private JTextField textAdresse;
-    private JTextField textComplementAdresse;
-    private JTextField textVille;
-    private JTextField textCP;
-    private JTextField textSurface;
-    private JTextField textNbFiscal;
-    private JTextField textNbPiece;
-    private DefaultListModel<String> erreursListModel;
-    private JList<String> erreursList;
+  private JTextField adresseField;
+  private JTextField comlementAdresseField;
+  private JTextField villeField;
+  private JTextField codePostalField;
+  private JSpinner surfaceSpinner;
+  private JTextField nbFiscalField;
+  private JSpinner nbPiecesSpinner;
+  private DefaultListModel<String> erreursListModel;
+  private JList<String> erreursList;
 
-    public PanelModificationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
-        setLayout(new BorderLayout(10, 10));
-        setBackground(new Color(40, 40, 40));
+  public PanelModificationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
+    setLayout(new BorderLayout(10, 10));
+    setBackground(new Color(40, 40, 40));
 
-        erreursListModel = new DefaultListModel<>();
-        erreursList = new JList<>(erreursListModel);
+    erreursListModel = new DefaultListModel<>();
+    erreursList = new JList<>(erreursListModel);
 
-        JLabel lblTitle = new JLabel("Modifier un bien", SwingConstants.CENTER);
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
-        lblTitle.setForeground(new Color(240, 240, 240));
-        lblTitle.setOpaque(true);
-        lblTitle.setBackground(new Color(60, 60, 60));
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(lblTitle, BorderLayout.NORTH);
+    JLabel lblTitle = new JLabel("Modifier un bien", SwingConstants.CENTER);
+    lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+    lblTitle.setForeground(new Color(240, 240, 240));
+    lblTitle.setOpaque(true);
+    lblTitle.setBackground(new Color(60, 60, 60));
+    lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    add(lblTitle, BorderLayout.NORTH);
 
-        JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
-        formPanel.setBackground(new Color(50, 50, 50));
-        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
+    formPanel.setBackground(new Color(50, 50, 50));
+    formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        comboTypeBien = new JComboBox<>(TypeBien.values());
-        addField(formPanel, "Type:*", comboTypeBien);
+    JTextField textTypeBien = new JTextField(bien.getTypeBien().toString());
+    textTypeBien.setEditable(false);
+    addField(formPanel, "Type :", textTypeBien);
 
-        textIdBien = new JTextField(bien.getId());
-        addField(formPanel, "Identifiant:*", textIdBien);
+    JTextField textIdBien = new JTextField(bien.getId());
+    textIdBien.setEditable(false);
+    addField(formPanel, "Identifiant :", textIdBien);
 
-        textAdresse = new JTextField(bien.getAdresse());
-        addField(formPanel, "Adresse:*", textAdresse);
+    adresseField = new JTextField(bien.getAdresse());
+    addField(formPanel, "Adresse :", adresseField);
 
-        textComplementAdresse = new JTextField(bien.getComplementAdresse());
-        addField(formPanel, "Complément Adresse:*", textComplementAdresse);
+    comlementAdresseField = new JTextField(bien.getComplementAdresse());
+    addField(formPanel, "Complément d'adresse (facultatif) :", comlementAdresseField);
 
-        textVille = new JTextField(bien.getVille());
-        addField(formPanel, "Ville:*", textVille);
+    villeField = new JTextField(bien.getVille());
+    addField(formPanel, "Ville :", villeField);
 
-        textCP = new JTextField(bien.getCodePostal());
-        addField(formPanel, "Code Postal:*", textCP);
+    codePostalField = new JTextField(bien.getCodePostal());
+    addField(formPanel, "Code postal :", codePostalField);
 
-        if (bien instanceof BienLocatif) {
-            BienLocatif bienL = (BienLocatif) bien;
+    if (bien instanceof BienLocatif) {
+      BienLocatif bienL = (BienLocatif) bien;
 
-            textSurface = new JTextField(String.valueOf(bienL.getSurface()));
-            addField(formPanel, "Surface:*", textSurface);
+      surfaceSpinner = new JSpinner();
+      surfaceSpinner.setModel(new SpinnerNumberModel(bienL.getSurface(), null, null, Float.valueOf(1)));
+      addField(formPanel, "Surface (en m²) :", surfaceSpinner);
 
-            textNbFiscal = new JTextField(String.valueOf(bienL.getNombrePieces()));
-            addField(formPanel, "Numéro Fiscal:*", textNbFiscal);
+      nbFiscalField = new JTextField(bienL.getNumeroFiscal());
+      addField(formPanel, "Numéro fiscal:*", nbFiscalField);
 
-            textNbPiece = new JTextField(String.valueOf(bienL.getNombrePieces()));
-            addField(formPanel, "Nombre de Pièces:*", textNbPiece);
-        }
-
-        add(formPanel, BorderLayout.CENTER);
-
-        JPanel erreurPanel = new JPanel(new BorderLayout());
-        erreurPanel.setBackground(new Color(40, 40, 40));
-
-        erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        erreursList.setBackground(new Color(60, 60, 60));
-        erreursList.setForeground(Color.RED);
-
-        JScrollPane erreurScrollPane = new JScrollPane(erreursList);
-        erreurScrollPane.setPreferredSize(new Dimension(200, 100));
-
-        erreurPanel.add(erreurScrollPane, BorderLayout.CENTER);
-        add(erreurPanel, BorderLayout.WEST);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        buttonPanel.setBackground(new Color(40, 40, 40));
-
-        JButton btnModifier = new JButton("Enregistrer");
-        btnModifier.setFont(new Font("SansSerif", Font.BOLD, 14));
-        btnModifier.setBackground(new Color(0, 170, 85));
-        btnModifier.setForeground(Color.WHITE);
-        btnModifier.setFocusPainted(false);
-        btnModifier.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        buttonPanel.add(btnModifier);
-
-        ControleurModificationBien controleur = new ControleurModificationBien(fenetre, this, proprietaire, bien);
-        btnModifier.addActionListener(controleur);
-
-        JButton btnAnnuler = new JButton("Annuler");
-        btnAnnuler.setFont(new Font("SansSerif", Font.BOLD, 14));
-        btnAnnuler.setBackground(new Color(200, 50, 50));
-        btnAnnuler.setForeground(Color.WHITE);
-        btnAnnuler.setFocusPainted(false);
-        btnAnnuler.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        btnAnnuler.addActionListener(e -> closePanel());
-        buttonPanel.add(btnAnnuler);
-
-        add(buttonPanel, BorderLayout.SOUTH);
+      nbPiecesSpinner = new JSpinner();
+      nbPiecesSpinner.setModel(new SpinnerNumberModel(bienL.getNombrePieces(), null, null, Integer.valueOf(1)));
+      addField(formPanel, "Nombre de pièces:*", nbPiecesSpinner);
     }
 
-    private void addField(JPanel panel, String label, JComponent field) {
-        JLabel lbl = new JLabel(label);
-        lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        lbl.setForeground(new Color(230, 230, 230));
-        panel.add(lbl);
+    add(formPanel, BorderLayout.CENTER);
 
-        field.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        field.setBackground(new Color(60, 60, 60));
-        field.setForeground(Color.WHITE);
-        field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-        panel.add(field);
+    JPanel erreurPanel = new JPanel(new BorderLayout());
+    erreurPanel.setBackground(new Color(40, 40, 40));
+
+    erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
+    erreursList.setBackground(new Color(60, 60, 60));
+    erreursList.setForeground(Color.RED);
+
+    JScrollPane erreurScrollPane = new JScrollPane(erreursList);
+    erreurScrollPane.setPreferredSize(new Dimension(200, 100));
+
+    erreurPanel.add(erreurScrollPane, BorderLayout.CENTER);
+    add(erreurPanel, BorderLayout.WEST);
+
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+    buttonPanel.setBackground(new Color(40, 40, 40));
+
+    JButton btnModifier = new JButton("Enregistrer");
+    btnModifier.setFont(new Font("SansSerif", Font.BOLD, 14));
+    btnModifier.setBackground(new Color(0, 170, 85));
+    btnModifier.setForeground(Color.WHITE);
+    btnModifier.setFocusPainted(false);
+    btnModifier.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    buttonPanel.add(btnModifier);
+
+    ControleurModificationBien controleur = new ControleurModificationBien(fenetre, this, proprietaire, bien);
+    btnModifier.addActionListener(controleur);
+
+    JButton btnAnnuler = new JButton("Annuler");
+    btnAnnuler.setFont(new Font("SansSerif", Font.BOLD, 14));
+    btnAnnuler.setBackground(new Color(200, 50, 50));
+    btnAnnuler.setForeground(Color.WHITE);
+    btnAnnuler.setFocusPainted(false);
+    btnAnnuler.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    btnAnnuler.addActionListener(controleur);
+    buttonPanel.add(btnAnnuler);
+
+    add(buttonPanel, BorderLayout.SOUTH);
+  }
+
+  private void addField(JPanel panel, String label, JComponent field) {
+    JLabel lbl = new JLabel(label);
+    lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
+    lbl.setForeground(new Color(230, 230, 230));
+    panel.add(lbl);
+
+    field.setFont(new Font("SansSerif", Font.PLAIN, 14));
+    field.setBackground(new Color(60, 60, 60));
+    field.setForeground(Color.WHITE);
+    field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+    panel.add(field);
+  }
+
+  public String getAdresse() {
+    return adresseField.getText();
+  }
+
+  public String getComplementAdresse() {
+    return comlementAdresseField.getText();
+  }
+
+  public String getVille() {
+    return villeField.getText();
+  }
+
+  public String getCodePostal() {
+    return codePostalField.getText();
+  }
+
+  public float getSurface() {
+    return (float) surfaceSpinner.getValue();
+  }
+
+  public String getNbFiscal() {
+    return nbFiscalField.getText();
+  }
+
+  public int getNbPieces() {
+    return (int) nbPiecesSpinner.getValue();
+  }
+
+  public void addErreur(String erreur) {
+    erreursListModel.addElement(erreur);
+  }
+
+  public void clearErreurs() {
+    if (erreursListModel != null) {
+      erreursListModel = new DefaultListModel<String>();
     }
 
-    public String getIdBien() {
-        return textIdBien.getText();
-    }
+    erreursListModel.clear();
+    erreursList.setModel(erreursListModel);
+  }
 
-    public String getAdresse() {
-        return textAdresse.getText();
-    }
-
-    public String getComplementAdresse() {
-        return textComplementAdresse.getText();
-    }
-
-    public String getVille() {
-        return textVille.getText();
-    }
-
-    public String getCodePostal() {
-        return textCP.getText();
-    }
-
-    public TypeBien getTypeBien() {
-        return (TypeBien) comboTypeBien.getSelectedItem();
-    }
-
-    public float getSurface() {
-        return Float.parseFloat(textSurface.getText());
-    }
-
-    public String getNbFiscal() {
-        return textNbFiscal.getText();
-    }
-
-    public int getNbPiece() {
-        return Integer.parseInt(textNbPiece.getText());
-    }
-
-    public void addErreur(String erreur) {
-        erreursListModel.addElement(erreur);
-    }
-
-    public void clearErreurs() {
-        erreursListModel.clear();
-    }
-
-    public void closePanel() {
-        Container parent = getParent();
-        if (parent != null) {
-            parent.remove(this);
-            parent.revalidate();
-            parent.repaint();
-        }
-    }
+  public boolean hasErreurs() {
+    return erreursListModel.size() > 0;
+  }
 }

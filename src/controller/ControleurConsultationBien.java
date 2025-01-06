@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 import dao.BienDAO;
 import model.BienImmobilier;
+import model.BienLocatif;
 import model.Proprietaire;
 import view.FenBiens;
 import view.PanelConsultationBien;
@@ -43,7 +44,13 @@ public class ControleurConsultationBien implements ActionListener {
         break;
       }
       case "Louer": {
-        FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bien, proprietaire);
+        if (!(bien instanceof BienLocatif)) {
+          return;
+        }
+
+        BienLocatif bienL = (BienLocatif) bien;
+
+        FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bienL, proprietaire);
         fenAjoutLocation.setVisible(true);
         break;
       }

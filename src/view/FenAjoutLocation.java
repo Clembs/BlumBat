@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ControleurAjoutLocation;
-import model.BienImmobilier;
+import model.BienLocatif;
 import model.Locataire;
 import model.Proprietaire;
 
@@ -22,8 +22,8 @@ public class FenAjoutLocation extends JFrame {
   private JList<String> erreursList;
   private DefaultListModel<String> erreursListModel;
 
-  public FenAjoutLocation(FenBiens fenetre, BienImmobilier bien, Proprietaire proprietaire) {
-    ControleurAjoutLocation controleur = new ControleurAjoutLocation(this, bien, proprietaire);
+  public FenAjoutLocation(FenBiens fenBiens, BienLocatif bien, Proprietaire proprietaire) {
+    ControleurAjoutLocation controleur = new ControleurAjoutLocation(this, bien, proprietaire, fenBiens);
 
     setBounds(100, 100, 600, 500);
     setTitle("Louer");

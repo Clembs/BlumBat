@@ -10,6 +10,7 @@ import model.BienImmobilier;
 import model.Proprietaire;
 import view.FenBiens;
 import view.PanelConsultationBien;
+import view.FenAjoutLocation;
 
 public class ControleurConsultationBien implements ActionListener {
   private FenBiens fenetre;
@@ -40,7 +41,8 @@ public class ControleurConsultationBien implements ActionListener {
         // TODO: suppression d'un bien
       }
       case "Louer": {
-        // TODO: louer un bien
+        FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bien, proprietaire);
+        fenAjoutLocation.setVisible(true);
       }
     }
   }

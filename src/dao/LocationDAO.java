@@ -26,7 +26,11 @@ public class LocationDAO {
       preparedStatement.setString(2, location.getBien().getId());
       preparedStatement.setDouble(3, location.getLoyer());
       preparedStatement.setDate(4, Date.valueOf(location.getDateEntree()));
-      preparedStatement.setDate(5, Date.valueOf(location.getDateSortie()));
+      if (location.getDateSortie() == null) {
+        preparedStatement.setNull(5, Types.DATE);
+      } else {
+        preparedStatement.setDate(5, Date.valueOf(location.getDateSortie()));
+      }
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException("Erreur lors de la création du logement", e);

@@ -1,9 +1,6 @@
 package view;
 
 import java.awt.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.swing.*;
@@ -17,17 +14,19 @@ import model.Proprietaire;
 
 public class FenAjoutLocation extends JFrame {
   private static final long serialVersionUID = 1L;
-  private JTextField loyerField;
+  private JSpinner loyerSpinner;
   private JTextField dateEntreeField;
   private JTextField dateSortieField;
   private List<Locataire> locataires;
   private JTable tableLocatairesSelectionnes;
+  private JList<String> erreursList;
+  private DefaultListModel<String> erreursListModel;
 
   public FenAjoutLocation(FenBiens fenetre, BienImmobilier bien, Proprietaire proprietaire) {
     ControleurAjoutLocation controleur = new ControleurAjoutLocation(this, bien, proprietaire);
 
     setBounds(100, 100, 600, 500);
-    setTitle("Louer un bien");
+    setTitle("Louer");
     setResizable(true);
 
     JPanel contentPane = new JPanel();
@@ -53,12 +52,13 @@ public class FenAjoutLocation extends JFrame {
     lblLoyer.setForeground(Color.WHITE);
     panelCenter.add(lblLoyer);
 
-    loyerField = new JTextField();
-    loyerField.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    loyerField.setBackground(new Color(60, 60, 75));
-    loyerField.setForeground(Color.WHITE);
-    loyerField.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 100)));
-    panelCenter.add(loyerField);
+    loyerSpinner = new JSpinner();
+    loyerSpinner.setModel(new SpinnerNumberModel(Double.valueOf(0), null, null, Double.valueOf(1)));
+    loyerSpinner.setFont(new Font("SansSerif", Font.PLAIN, 14));
+    loyerSpinner.setBackground(new Color(60, 60, 75));
+    loyerSpinner.setForeground(Color.WHITE);
+    loyerSpinner.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 100)));
+    panelCenter.add(loyerSpinner);
 
     JLabel lblDateEntree = new JLabel("Date d'entrée (dd/MM/yyyy) :");
     lblDateEntree.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -110,12 +110,20 @@ public class FenAjoutLocation extends JFrame {
 
     JPanel panelFooter = new JPanel();
     panelFooter.setBackground(new Color(45, 45, 60));
-    contentPane.add(panelFooter, BorderLayout.SOUTH);
     panelFooter.setLayout(new BorderLayout(0, 0));
 
-    JPanel panelBtn = new JPanel();
-    panelBtn.setBackground(new Color(45, 45, 60));
-    panelFooter.add(panelBtn, BorderLayout.EAST);
+    erreursListModel = new DefaultListModel<String>();
+    erreursList = new JList<>(erreursListModel);
+    erreursList.setEnabled(false);
+    erreursList.setFont(new Font("Rockwell", Font.PLAIN, 14));
+    erreursList.setForeground(Color.RED);
+    erreursList.setBorder(BorderFactory.createLineBorder(Color.RED));
+    erreursList.setModel(erreursListModel);
+    panelFooter.add(erreursList, BorderLayout.CENTER);
+
+    JPanel panelBoutons = new JPanel();
+    panelBoutons.setBackground(new Color(45, 45, 60));
+    panelFooter.add(panelBoutons, BorderLayout.SOUTH);
 
     JButton btnLouer = new JButton("Louer");
     btnLouer.setForeground(Color.WHITE);
@@ -123,8 +131,10 @@ public class FenAjoutLocation extends JFrame {
     btnLouer.setFocusPainted(false);
     btnLouer.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
     btnLouer.setBackground(new Color(0, 170, 85));
-    panelBtn.add(btnLouer);
+    panelBoutons.add(btnLouer);
     btnLouer.addActionListener(controleur);
+
+    contentPane.add(panelFooter, BorderLayout.SOUTH);
   }
 
   public List<Locataire> getLocataires() {
@@ -149,28 +159,31 @@ public class FenAjoutLocation extends JFrame {
   }
 
   public double getLoyer() {
-    try {
-      return Double.parseDouble(loyerField.getText().trim());
-    } catch (NumberFormatException e) {
-      throw new IllegalArgumentException("Le loyer doit être un nombre valide.", e);
+    return (double) this.loyerSpinner.getValue();
+  }
+
+  public String getDateEntree() {
+    return this.dateEntreeField.getText().trim();
+  }
+
+  public String getDateSortie() {
+    return this.dateSortieField.getText().trim();
+  }
+
+  public void addErreur(String erreur) {
+    erreursListModel.addElement(erreur);
+    erreursList.setModel(erreursListModel);
+  }
+
+  public void clearErreurs() {
+    if (erreursListModel != null) {
+      erreursListModel = new DefaultListModel<String>();
     }
+    erreursListModel.clear();
+    erreursList.setModel(erreursListModel);
   }
 
-  public LocalDate getDateEntree() throws java.text.ParseException {
-    return parseDate(dateEntreeField.getText().trim(), "Date d'entrée invalide. Utilisez le format dd/MM/yyyy.");
+  public boolean hasErreurs() {
+    return erreursListModel.size() > 0;
   }
-
-  public LocalDate getDateSortie() throws java.text.ParseException {
-    return parseDate(dateSortieField.getText().trim(), "Date de sortie invalide. Utilisez le format dd/MM/yyyy.");
-  }
-
-  private LocalDate parseDate(String dateStr, String errorMessage) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    try {
-      return LocalDate.parse(dateStr, formatter);
-    } catch (DateTimeParseException e) {
-      throw new IllegalArgumentException(errorMessage, e);
-    }
-  }
-
 }

@@ -50,5 +50,6 @@ public class Locataire {
 
   public void removeLocation(Location location) {
     this.locations.remove(location);
+
   }
 }

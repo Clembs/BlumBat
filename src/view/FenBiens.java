@@ -197,7 +197,7 @@ public class FenBiens extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				Proprietaire proprietaire = new Proprietaire("1", "Voisin", "Clément", "clembs@clembs.com", "truc");
+				Proprietaire proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "truc");
 				FenBiens frame = new FenBiens(proprietaire);
 				frame.setVisible(true);
 			} catch (Exception e) {

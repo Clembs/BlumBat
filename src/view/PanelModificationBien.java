@@ -1,12 +1,15 @@
 package view;
 
-import controller.ControleurModifierBien;
+import controller.ControleurModificationBien;
+import model.BienImmobilier;
+import model.BienLocatif;
+import model.Proprietaire;
 import model.TypeBien;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelModifierUnBien extends JPanel {
+public class PanelModificationBien extends JPanel {
     private JComboBox<TypeBien> comboTypeBien;
     private JTextField textIdBien;
     private JTextField textAdresse;
@@ -19,8 +22,7 @@ public class PanelModifierUnBien extends JPanel {
     private DefaultListModel<String> erreursListModel;
     private JList<String> erreursList;
 
-    public PanelModifierUnBien(TypeBien typeBien, String idBien, String adresse, String cadresse, String ville,
-                               String CP, float surface, String nbFiscal, int nbPiece) {
+    public PanelModificationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(40, 40, 40));
 
@@ -42,29 +44,33 @@ public class PanelModifierUnBien extends JPanel {
         comboTypeBien = new JComboBox<>(TypeBien.values());
         addField(formPanel, "Type:*", comboTypeBien);
 
-        textIdBien = new JTextField(idBien);
+        textIdBien = new JTextField(bien.getId());
         addField(formPanel, "Identifiant:*", textIdBien);
 
-        textAdresse = new JTextField(adresse);
+        textAdresse = new JTextField(bien.getAdresse());
         addField(formPanel, "Adresse:*", textAdresse);
 
-        textComplementAdresse = new JTextField(cadresse);
+        textComplementAdresse = new JTextField(bien.getComplementAdresse());
         addField(formPanel, "Complément Adresse:*", textComplementAdresse);
 
-        textVille = new JTextField(ville);
+        textVille = new JTextField(bien.getVille());
         addField(formPanel, "Ville:*", textVille);
 
-        textCP = new JTextField(String.valueOf(CP));
+        textCP = new JTextField(bien.getCodePostal());
         addField(formPanel, "Code Postal:*", textCP);
 
-        textSurface = new JTextField(String.valueOf(surface));
-        addField(formPanel, "Surface:*", textSurface);
+        if (bien instanceof BienLocatif) {
+            BienLocatif bienL = (BienLocatif) bien;
 
-        textNbFiscal = new JTextField(String.valueOf(nbFiscal));
-        addField(formPanel, "Numéro Fiscal:*", textNbFiscal);
+            textSurface = new JTextField(String.valueOf(bienL.getSurface()));
+            addField(formPanel, "Surface:*", textSurface);
 
-        textNbPiece = new JTextField(String.valueOf(nbPiece));
-        addField(formPanel, "Nombre de Pièces:*", textNbPiece);
+            textNbFiscal = new JTextField(String.valueOf(bienL.getNombrePieces()));
+            addField(formPanel, "Numéro Fiscal:*", textNbFiscal);
+
+            textNbPiece = new JTextField(String.valueOf(bienL.getNombrePieces()));
+            addField(formPanel, "Nombre de Pièces:*", textNbPiece);
+        }
 
         add(formPanel, BorderLayout.CENTER);
 
@@ -84,7 +90,7 @@ public class PanelModifierUnBien extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.setBackground(new Color(40, 40, 40));
 
-        JButton btnModifier = new JButton("Modifier");
+        JButton btnModifier = new JButton("Enregistrer");
         btnModifier.setFont(new Font("SansSerif", Font.BOLD, 14));
         btnModifier.setBackground(new Color(0, 170, 85));
         btnModifier.setForeground(Color.WHITE);
@@ -92,7 +98,7 @@ public class PanelModifierUnBien extends JPanel {
         btnModifier.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         buttonPanel.add(btnModifier);
 
-        ControleurModifierBien controleur = new ControleurModifierBien(this);
+        ControleurModificationBien controleur = new ControleurModificationBien(fenetre, this, proprietaire, bien);
         btnModifier.addActionListener(controleur);
 
         JButton btnAnnuler = new JButton("Annuler");

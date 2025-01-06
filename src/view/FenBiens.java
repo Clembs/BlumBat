@@ -9,8 +9,6 @@ import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ControleurBiens;
-import controller.ControleurConsultationBien;
-import controller.ControleurModifierBien;
 import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
@@ -21,7 +19,6 @@ public class FenBiens extends JFrame {
 	private ControleurBiens controleur;
 	private List<BienImmobilier> biens;
 	private JPanel panelCentralCourant;
-	private PanelModifierUnBien panelModifyBien;
 
 	public FenBiens(Proprietaire proprietaire) {
 		setTitle("Gestion des biens");
@@ -138,22 +135,6 @@ public class FenBiens extends JFrame {
 		// Lorsque l'on clique sur le bouton "Ajouter"
 		btnAdd.addActionListener(controleur);
 
-		JButton btnModify = new JButton("Modifier");
-		btnModify.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
-		btnModify.setBackground(new Color(46, 139, 87));
-		btnModify.setForeground(Color.WHITE);
-		buttonPanel.add(btnModify);
-
-		PanelModifierUnBien panelConsultationBien = new PanelModifierUnBien();
-
-
-		ControleurConsultationBien controleurconsultation = new ControleurConsultationBien(this, panelConsultationBien, proprietaire, null);
-
-		btnModify.addActionListener(controleurconsultation);
-
-
-
-
 		mainPanel.add(sidePanel, BorderLayout.WEST);
 
 		// Panel central, initialisé avec un panel vide avec du texte centré "Choissisez
@@ -208,5 +189,20 @@ public class FenBiens extends JFrame {
 		panelCentralCourant = panel;
 		add(panelCentralCourant, BorderLayout.CENTER);
 		panelCentralCourant.setVisible(true);
+	}
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> {
+			try {
+				Proprietaire proprietaire = new Proprietaire("1", "Voisin", "Clément", "clembs@clembs.com", "truc");
+				FenBiens frame = new FenBiens(proprietaire);
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 	}
 }

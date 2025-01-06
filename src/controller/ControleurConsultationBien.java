@@ -7,22 +7,20 @@ import javax.swing.JButton;
 
 import dao.BienDAO;
 import model.BienImmobilier;
-import model.BienLocatif;
 import model.Proprietaire;
 import view.FenBiens;
 import view.PanelConsultationBien;
-import view.PanelModifierUnBien;
+import view.PanelModificationBien;
 
 public class ControleurConsultationBien implements ActionListener {
   private FenBiens fenetre;
-  private PanelModifierUnBien fenetreModify;
   private PanelConsultationBien panel;
-  private BienLocatif bien;
+  private BienImmobilier bien;
   private Proprietaire proprietaire;
   private BienDAO bienDAO;
 
   public ControleurConsultationBien(FenBiens fenetre, PanelConsultationBien panel, Proprietaire proprietaire,
-      BienLocatif bien) {
+      BienImmobilier bien) {
     this.fenetre = fenetre;
     this.panel = panel;
     this.proprietaire = proprietaire;
@@ -37,18 +35,7 @@ public class ControleurConsultationBien implements ActionListener {
 
     switch (boutonTexte) {
       case "Modifier le bien": {
-        PanelModifierUnBien panelModification = new PanelModifierUnBien(
-                fenetreModify.getTypeBien().toString(),
-                fenetreModify.getIdBien(),
-                fenetreModify.getAdresse(),
-                fenetreModify.getComplementAdresse(),
-                fenetreModify.getVille(),
-                fenetreModify.getDepartement(),
-                fenetreModify.getCodePostal(),
-                fenetreModify.getSurface(),
-                fenetreModify.getNbFiscal(),
-                fenetreModify.getNbPiece()
-        );
+        PanelModificationBien panelModification = new PanelModificationBien(fenetre, proprietaire, bien);
 
         fenetre.setPanelCentral(panelModification);
         break;

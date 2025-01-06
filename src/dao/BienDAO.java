@@ -90,6 +90,7 @@ public class BienDAO {
 
           biens.add(bien);
         }
+
       }
     } catch (SQLException e) {
       throw new RuntimeException("Erreur lors de la récupération des biens", e);
@@ -200,5 +201,16 @@ public class BienDAO {
     }
 
     return biens;
+  }
+
+  public void delete(BienImmobilier bien, Proprietaire proprietaire) {
+    try {
+      String query = "DELETE FROM biens WHERE id_bien = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, bien.getId());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la suppresion du bien immobilier", e);
+    }
   }
 }

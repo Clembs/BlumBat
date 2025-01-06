@@ -26,7 +26,7 @@ public class FenLocataires extends JFrame {
     boolean modeSelection = fenAjoutLocation != null;
 
     setTitle("Gestion des locataires");
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 720, 500);
 
     JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
@@ -126,18 +126,4 @@ public class FenLocataires extends JFrame {
     // locatairesList.setModel(model);
     // locatairesList.setSelectedIndex(0);
   }
-
-  public static void main(String[] args) {
-    EventQueue.invokeLater(() -> {
-      try {
-        Proprietaire proprietaire = new Proprietaire(1, "VOISIN", "Clément", "clembs@clembs.com", "1234567890");
-
-        FenLocataires frame = new FenLocataires(proprietaire, null);
-        frame.setVisible(true);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    });
-  }
-
 }

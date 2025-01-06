@@ -36,13 +36,16 @@ public class ControleurConsultationBien implements ActionListener {
     switch (boutonTexte) {
       case "Modifier le bien": {
         // TODO: aller to PanelModificationBien lorsqu'il sera implémenté
+        break;
       }
       case "Supprimer le bien": {
         // TODO: suppression d'un bien
+        break;
       }
       case "Louer": {
         FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bien, proprietaire);
         fenAjoutLocation.setVisible(true);
+        break;
       }
     }
   }

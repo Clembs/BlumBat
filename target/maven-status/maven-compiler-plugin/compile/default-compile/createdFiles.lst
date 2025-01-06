@@ -1,6 +1,6 @@
 controller\ControleurConsultationBien.class
 view\PanelConsultationBien.class
 view\PopupAjoutLocation.class
-view\PanelConsultationBien$2.class
 view\PanelConsultationBien$1.class
 controller\ControleurAjoutLocation.class
+view\PanelConsultationBien$2.class

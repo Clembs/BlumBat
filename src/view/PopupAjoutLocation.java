@@ -141,7 +141,7 @@ public class PopupAjoutLocation extends JInternalFrame {
                 frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
                 PopupAjoutLocation popup = new PopupAjoutLocation(
-                        new BienImmobilier("truc2", TypeBien.BATIMENT, "Rue ta mere", "ap4", "81000", "Toulouse"));
+                        new BienImmobilier("truc2", TypeBien.BATIMENT, "Rue truc", "ap4", "81000", "Toulouse"));
                 desktopPane.add(popup);
                 popup.setVisible(true);
 

@@ -60,19 +60,18 @@ public class PopupModifierLocataire extends JInternalFrame {
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
 
-        // Panneau des erreurs
-        Panel erreurPanel = new Panel(new BorderLayout());
-        erreurPanel.setBackground(new Color(40, 40, 40));
+        // Panneau des erreurs et des boutons
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.setBackground(new Color(40, 40, 40));
 
+        // Panneau des erreurs
         erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
         erreursList.setBackground(new Color(60, 60, 60));
         erreursList.setForeground(Color.RED);
 
         JScrollPane erreurScrollPane = new JScrollPane(erreursList);
         erreurScrollPane.setPreferredSize(new Dimension(200, 100));
-
-        erreurPanel.add(erreurScrollPane, BorderLayout.CENTER);
-        getContentPane().add(erreurPanel, BorderLayout.WEST);
+        southPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
         // Panneau des boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -101,7 +100,8 @@ public class PopupModifierLocataire extends JInternalFrame {
             dispose();
         });
 
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        southPanel.add(buttonPanel, BorderLayout.SOUTH);
+        getContentPane().add(southPanel, BorderLayout.SOUTH);
     }
 
     // Méthodes utilitaires pour les champs
@@ -147,6 +147,7 @@ public class PopupModifierLocataire extends JInternalFrame {
     public void clearErreurs() {
         erreursListModel.clear();
     }
+
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {

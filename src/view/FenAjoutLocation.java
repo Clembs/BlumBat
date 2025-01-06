@@ -115,11 +115,13 @@ public class FenAjoutLocation extends JFrame {
     btnLouer.addActionListener(controleur);
   }
 
-  // public Locataire getLocataire() {
-  // this.locataire = new Locataire("test", "Adbel", "Clement",
-  // "AbdelOfi@gmail.fr", "123456789");
-  // return this.locataire;
-  // }
+  public List<Locataire> getLocataires() {
+    return this.locataires;
+  }
+
+  public void setLocataires(List<Locataire> locataires) {
+    this.locataires = locataires;
+  }
 
   public double getLoyer() {
     try {

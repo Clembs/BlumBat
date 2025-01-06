@@ -52,10 +52,9 @@ public class ControleurAjoutLocation implements ActionListener {
             // Fermer la fenêtre après ajout
             // this.fenetre.dispose();
 
+        } else if (boutonClique.getText().equals("Sélectionner")) {
+            FenLocataires nouvelleFenetre = new FenLocataires(proprietaire, fenetre);
+            nouvelleFenetre.setVisible(true);
         }
-        // else if (boutonClique.getText().equals("Sélectionner")) {
-        // FenLocataires nouvelleFenetre = new FenLocataires(proprietaire);
-        // nouvelleFenetre.setVisible(true);
-        // }
     }
 }

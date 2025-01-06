@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import controller.ControleurAjoutLocation;
 import model.BienImmobilier;
@@ -20,6 +21,7 @@ public class FenAjoutLocation extends JFrame {
   private JTextField dateEntreeField;
   private JTextField dateSortieField;
   private List<Locataire> locataires;
+  private JTable tableLocatairesSelectionnes;
 
   public FenAjoutLocation(FenBiens fenetre, BienImmobilier bien, Proprietaire proprietaire) {
     ControleurAjoutLocation controleur = new ControleurAjoutLocation(this, bien, proprietaire);
@@ -96,6 +98,16 @@ public class FenAjoutLocation extends JFrame {
     panelCenter.add(btnSelectionner);
     btnSelectionner.addActionListener(controleur);
 
+    DefaultTableModel locatairesModel = new DefaultTableModel(new Object[] { "ID", "Nom", "Prénom" }, 0);
+    tableLocatairesSelectionnes = new JTable(locatairesModel);
+    tableLocatairesSelectionnes.setFont(new Font("SansSerif", Font.PLAIN, 14));
+    tableLocatairesSelectionnes.setBackground(new Color(60, 60, 75));
+    tableLocatairesSelectionnes.setForeground(Color.WHITE);
+
+    JScrollPane scrollPane = new JScrollPane(tableLocatairesSelectionnes);
+    scrollPane.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 100)));
+    panelCenter.add(scrollPane);
+
     JPanel panelFooter = new JPanel();
     panelFooter.setBackground(new Color(45, 45, 60));
     contentPane.add(panelFooter, BorderLayout.SOUTH);
@@ -121,6 +133,19 @@ public class FenAjoutLocation extends JFrame {
 
   public void setLocataires(List<Locataire> locataires) {
     this.locataires = locataires;
+
+    // Vider la table
+    DefaultTableModel model = (DefaultTableModel) tableLocatairesSelectionnes.getModel();
+    model.setRowCount(0);
+
+    // Pour chaque locataire, ajouter une ligne dans la table
+    for (Locataire locataire : locataires) {
+      model.addRow(new Object[] { locataire.getId(), locataire.getNom(), locataire.getPrenom() });
+    }
+
+    // Rafraîchir la table
+    tableLocatairesSelectionnes.revalidate();
+    tableLocatairesSelectionnes.repaint();
   }
 
   public double getLoyer() {

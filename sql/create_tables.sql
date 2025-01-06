@@ -59,11 +59,13 @@ CREATE TABLE IF NOT EXISTS factures_travaux (
 
 CREATE TABLE IF NOT EXISTS locataires (
 	id_locataire       varchar(50)                            NOT NULL,
+  id_proprietaire    int                                    NOT NULL,
   nom                varchar(100)                           NOT NULL,
   prenom             varchar(100)                           NOT NULL,
   email              varchar(100)                           NOT NULL,
   telephone          varchar(10)                            NOT NULL,
-  PRIMARY KEY(id_locataire)
+  PRIMARY KEY(id_locataire),
+  FOREIGN KEY(id_proprietaire) REFERENCES proprietaires(id_proprietaire)
 );
 
 CREATE TABLE IF NOT EXISTS locations (

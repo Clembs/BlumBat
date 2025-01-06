@@ -110,7 +110,7 @@ public class FenAjoutBien extends JFrame {
 
     JLabel lblSurface = new JLabel("Surface (en m²) :");
     lblSurface.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblSurface.setForeground(new Color(80, 80, 100));
+    lblSurface.setForeground(new Color( 80, 80, 100));
     // centerPanel.add(lblSurface);
 
     surfaceField = new JSpinner();

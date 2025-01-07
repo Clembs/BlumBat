@@ -75,19 +75,20 @@ public class PanelModificationBien extends JPanel {
 
     add(formPanel, BorderLayout.CENTER);
 
-    JPanel erreurPanel = new JPanel(new BorderLayout());
-    erreurPanel.setBackground(new Color(40, 40, 40));
+    // Panneau contenant les erreurs et les boutons
+    JPanel southPanel = new JPanel(new BorderLayout());
+    southPanel.setBackground(new Color(40, 40, 40));
 
+    // Liste des erreurs
     erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
     erreursList.setBackground(new Color(60, 60, 60));
     erreursList.setForeground(Color.RED);
 
     JScrollPane erreurScrollPane = new JScrollPane(erreursList);
     erreurScrollPane.setPreferredSize(new Dimension(200, 100));
+    southPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
-    erreurPanel.add(erreurScrollPane, BorderLayout.CENTER);
-    add(erreurPanel, BorderLayout.WEST);
-
+    // Boutons
     JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
     buttonPanel.setBackground(new Color(40, 40, 40));
 
@@ -111,7 +112,8 @@ public class PanelModificationBien extends JPanel {
     btnAnnuler.addActionListener(controleur);
     buttonPanel.add(btnAnnuler);
 
-    add(buttonPanel, BorderLayout.SOUTH);
+    southPanel.add(buttonPanel, BorderLayout.SOUTH);
+    add(southPanel, BorderLayout.SOUTH);
   }
 
   private void addField(JPanel panel, String label, JComponent field) {
@@ -126,6 +128,8 @@ public class PanelModificationBien extends JPanel {
     field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
     panel.add(field);
   }
+
+
 
   public String getAdresse() {
     return adresseField.getText();

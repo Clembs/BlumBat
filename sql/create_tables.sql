@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS charges (
   montant_total      double                                 NOT NULL,
   taxe_ordures       double                                 NOT NULL,
   PRIMARY KEY(id_charge),
-  FOREIGN KEY(id_bien) REFERENCES biens(id_bien)
+  FOREIGN KEY(id_bien) REFERENCES biens(id_bien) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS assurances (
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS assurances (
   id_bien            varchar(50)                            NOT NULL,
   montant            double                                 NOT NULL,
   PRIMARY KEY(id_assurance),
-  FOREIGN KEY(id_bien) REFERENCES biens(id_bien)
+  FOREIGN KEY(id_bien) REFERENCES biens(id_bien) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS compteurs (
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS compteurs (
   index_courant      double                                 NOT NULL,
   date_releve        date                                   NOT NULL,
   PRIMARY KEY(id_compteur),
-  FOREIGN KEY(id_bien) REFERENCES biens(id_bien)
+  FOREIGN KEY(id_bien) REFERENCES biens(id_bien) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS factures_travaux (
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS factures_travaux (
   id_bien            varchar(50)                            NOT NULL,
   montant_facture    double                                 NOT NULL,
   PRIMARY KEY(id_facture),
-  FOREIGN KEY(id_bien) REFERENCES biens(id_bien)
+  FOREIGN KEY(id_bien) REFERENCES biens(id_bien) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS locataires (
@@ -75,6 +75,6 @@ CREATE TABLE IF NOT EXISTS locations (
   date_entree        date                                   NOT NULL,
   date_sortie        date,
   CONSTRAINT id_location PRIMARY KEY(id_locataire, id_bien),
-  FOREIGN KEY(id_bien) REFERENCES biens(id_bien),
-  FOREIGN KEY(id_locataire) REFERENCES locataires(id_locataire)
+  FOREIGN KEY(id_bien) REFERENCES biens(id_bien) ON DELETE CASCADE,
+  FOREIGN KEY(id_locataire) REFERENCES locataires(id_locataire) ON DELETE CASCADE
 );

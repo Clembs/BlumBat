@@ -24,7 +24,7 @@ public class ProprietaireDAO {
 
       if (resultSet.next()) {
         proprietaire = new Proprietaire(
-            resultSet.getString("id_proprietaire"),
+            resultSet.getInt("id_proprietaire"),
             resultSet.getString("nom"),
             resultSet.getString("prenom"),
             resultSet.getString("email"),
@@ -53,7 +53,7 @@ public class ProprietaireDAO {
 
       if (resultSet.next()) {
         proprietaire = new Proprietaire(
-            resultSet.getString("id_proprietaire"),
+            resultSet.getInt("id_proprietaire"),
             resultSet.getString("nom"),
             resultSet.getString("prenom"),
             resultSet.getString("email"),

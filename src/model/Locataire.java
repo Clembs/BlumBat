@@ -40,4 +40,15 @@ public class Locataire {
     return telephone;
   }
 
+  public List<Location> getLocations() {
+    return this.locations;
+  }
+
+  public void addLocation(Location location) {
+    this.locations.add(location);
+  }
+
+  public void removeLocation(Location location) {
+    this.locations.remove(location);
+  }
 }

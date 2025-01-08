@@ -26,17 +26,17 @@ public class LocataireDAO {
 
   public void create(Locataire locataire, Proprietaire proprietaire) {
     try {
-      String query = "INSERT INTO locataires (id_locataire, id_proprietaire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ? )";
+      String query = "INSERT INTO locataires (id_locataire, id_proprietaire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, locataire.getId());
       preparedStatement.setInt(2, proprietaire.getId());
       preparedStatement.setString(3, locataire.getNom());
-      preparedStatement.setString(3, locataire.getPrenom());
-      preparedStatement.setString(4, locataire.getEmail());
-      preparedStatement.setString(5, locataire.getTelephone());
+      preparedStatement.setString(4, locataire.getPrenom());
+      preparedStatement.setString(5, locataire.getEmail());
+      preparedStatement.setString(6, locataire.getTelephone());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la création du propriétaire", e);
+      throw new RuntimeException("Erreur lors de la création du locataire", e);
     }
   }
 
@@ -167,7 +167,7 @@ public class LocataireDAO {
 
   public void delete(Locataire locataire) {
     try {
-      new LocationDAO().deleteAllLocations(locataire);
+      // new LocationDAO().deleteAllLocations(locataire);
 
       String query = "DELETE FROM locataires WHERE id_locataire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);

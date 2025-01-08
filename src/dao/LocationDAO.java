@@ -79,4 +79,28 @@ public class LocationDAO {
 
     return locations;
   }
+
+  public void delete(Location location) {
+    try {
+      String query = "DELETE FROM locations WHERE id_locataire = ? AND id_bien = ? AND date_entree = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, location.getLocataire().getId());
+      preparedStatement.setString(2, location.getBien().getId());
+      preparedStatement.setDate(3, Date.valueOf(location.getDateEntree()));
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la suppression de la location", e);
+    }
+  }
+
+  public void deleteAllLocations(BienLocatif bien) {
+    try {
+      String query = "DELETE FROM locations WHERE id_bien = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, bien.getId());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la suppression des locations", e);
+    }
+  }
 }

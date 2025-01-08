@@ -173,14 +173,20 @@ public class BienDAO {
     return biens;
   }
 
+  // Supprime un bien immobilier et tous les entrées associées
   public void delete(BienImmobilier bien, Proprietaire proprietaire) {
     try {
+      // Suppression des locations associées
+      if (bien.getTypeBien() != TypeBien.BATIMENT) {
+        new LocationDAO().deleteAllLocations((BienLocatif) bien);
+      }
+
       String query = "DELETE FROM biens WHERE id_bien = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, bien.getId());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la suppresion du bien immobilier", e);
+      throw new RuntimeException("Erreur lors de la suppression du bien immobilier", e);
     }
   }
 }

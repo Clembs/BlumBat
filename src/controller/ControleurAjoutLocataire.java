@@ -15,6 +15,7 @@ public class ControleurAjoutLocataire implements ActionListener {
     private PopupAjoutLocataire fenetre;
     private LocataireDAO locataireDao;
     private LocataireDAO LocataireDAO;
+    private Proprietaire proprio;
 
     private String nom, prenom, email, telephone, id;
 
@@ -22,6 +23,7 @@ public class ControleurAjoutLocataire implements ActionListener {
         this.fenetre = fenetre;
         this.locataireDao = new LocataireDAO();
         this.LocataireDAO = new LocataireDAO();
+        this.proprio  = P;
     }
 
     @Override
@@ -68,8 +70,9 @@ public class ControleurAjoutLocataire implements ActionListener {
 
             // Création de l'objet Locataire si tout est valide
             if (valide) {
+
                 Locataire locataire = new Locataire(id, nom, prenom, email, telephone);
-                this.LocataireDAO.create(locataire);
+                this.LocataireDAO.create(locataire , proprio);
                 JOptionPane.showMessageDialog(this.fenetre, "Locataire ajouté avec succès");
             }
         }

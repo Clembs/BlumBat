@@ -1,9 +1,13 @@
 package dao;
 
 import java.sql.Connection;
-import java.util.List;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.LinkedList;
-import java.sql.*;
+import java.util.List;
 
 import db.DatabaseConnexion;
 import model.BienLocatif;
@@ -33,7 +37,7 @@ public class LocationDAO {
       }
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la création du logement", e);
+      throw new RuntimeException("Erreur lors de la création de la location", e);
     }
   }
 
@@ -98,6 +102,17 @@ public class LocationDAO {
       String query = "DELETE FROM locations WHERE id_bien = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, bien.getId());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la suppression des locations", e);
+    }
+  }
+
+  public void deleteAllLocations(Locataire locataire) {
+    try {
+      String query = "DELETE FROM locations WHERE id_locataire = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, locataire.getId());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException("Erreur lors de la suppression des locations", e);

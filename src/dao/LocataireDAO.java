@@ -45,7 +45,7 @@ public class LocataireDAO {
     try {
       // comme un locataire peut avoir plusieurs locations,
       // on risque d'avoir des doublons
-      String query = "SELECT * FROM locataires AS lt, locations AS lo, biens AS b WHERE lt.id_locataire = 'test' AND lt.id_locataire = lo.id_locataire AND lo.id_bien = b.id_bien";
+      String query = "SELECT * FROM locataires AS lt, locations AS lo, biens AS b WHERE lt.id_locataire = ? AND lt.id_locataire = lo.id_locataire AND lo.id_bien = b.id_bien";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();

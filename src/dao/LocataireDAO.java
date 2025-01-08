@@ -1,6 +1,10 @@
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,5 +163,18 @@ public class LocataireDAO {
     }
 
     return locataires.values().stream().collect(Collectors.toList());
+  }
+
+  public void delete(Locataire locataire) {
+    try {
+      new LocationDAO().deleteAllLocations(locataire);
+
+      String query = "DELETE FROM locataires WHERE id_locataire = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, locataire.getId());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la suppression du locataire");
+    }
   }
 }

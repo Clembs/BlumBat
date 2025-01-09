@@ -63,14 +63,14 @@ public class PanelModificationBien extends JPanel {
 
       surfaceSpinner = new JSpinner();
       surfaceSpinner.setModel(new SpinnerNumberModel(bienL.getSurface(), null, null, Float.valueOf(1)));
-      addField(formPanel, "Surface (en m²) :", surfaceSpinner);
+      addSpinnerField(formPanel, "Surface (en m²) :", surfaceSpinner);
 
       nbFiscalField = new JTextField(bienL.getNumeroFiscal());
       addField(formPanel, "Numéro fiscal:*", nbFiscalField);
 
       nbPiecesSpinner = new JSpinner();
       nbPiecesSpinner.setModel(new SpinnerNumberModel(bienL.getNombrePieces(), null, null, Integer.valueOf(1)));
-      addField(formPanel, "Nombre de pièces:*", nbPiecesSpinner);
+      addSpinnerField(formPanel, "Nombre de pièces:*", nbPiecesSpinner);
     }
 
     add(formPanel, BorderLayout.CENTER);
@@ -128,6 +128,28 @@ public class PanelModificationBien extends JPanel {
     field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
     panel.add(field);
   }
+  private void addSpinnerField(JPanel panel, String label, JSpinner spinner) {
+    JLabel lbl = new JLabel(label);
+    lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
+    lbl.setForeground(new Color(230, 230, 230));
+    panel.add(lbl);
+
+    JComponent editor = spinner.getEditor();
+    if (editor instanceof JSpinner.DefaultEditor) {
+      JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor) editor;
+      spinnerEditor.getTextField().setFont(new Font("SansSerif", Font.PLAIN, 14));
+      spinnerEditor.getTextField().setBackground(new Color(60, 60, 60));
+      spinnerEditor.getTextField().setForeground(Color.WHITE);
+      spinnerEditor.getTextField().setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+    }
+
+    spinner.setFont(new Font("SansSerif", Font.PLAIN, 14));
+    spinner.setBackground(new Color(60, 60, 60));
+    spinner.setForeground(Color.WHITE);
+    spinner.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+    panel.add(spinner);
+  }
+
 
 
 

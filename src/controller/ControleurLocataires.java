@@ -13,7 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import dao.LocataireDAO;
 import model.Locataire;
 import model.Proprietaire;
-import view.FenAjoutBien;
+import view.FenAjoutLocataire;
 import view.FenAjoutLocation;
 import view.FenLocataires;
 import view.PanelConsultationLocataire;
@@ -34,7 +34,7 @@ public class ControleurLocataires implements ActionListener, ListSelectionListen
     this.fenAjoutLocation = fenAjoutLocation;
     this.locatairesSelectionnes = new LinkedList<>();
 
-    fenetre.setLocataires(this.locataires);
+    this.fenetre.setLocataires(this.locataires);
   }
 
   // Lorsque l'on clique sur le bouton "Ajouter"
@@ -45,9 +45,8 @@ public class ControleurLocataires implements ActionListener, ListSelectionListen
 
     switch (boutonTexte) {
       case "Ajouter": {
-        FenAjoutBien fenetreAjoutBien = new FenAjoutBien(this.proprietaire);
+        FenAjoutLocataire fenetreAjoutBien = new FenAjoutLocataire(this.fenetre, this.proprietaire);
         fenetreAjoutBien.setVisible(true);
-        this.fenetre.dispose();
         break;
       }
       case "Sélectionner": {

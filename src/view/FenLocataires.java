@@ -13,11 +13,9 @@ import javax.swing.border.TitledBorder;
 
 public class FenLocataires extends JFrame {
   private static final long serialVersionUID = 1L;
-  private ControleurLocataires controleur;
   private List<Locataire> locataires;
-  private JList<String> locatairesList;
+  private JList<String> listeLocataires;
   private JPanel panelCentralCourant;
-  private DefaultListModel<String> model;
 
   // la fenêtre de consultation & sélection des locataires
   // on peut optionnellement passer une fenêtre d'ajout de location pour
@@ -41,26 +39,27 @@ public class FenLocataires extends JFrame {
     titlePanel.add(lblTitle);
     mainPanel.add(titlePanel, BorderLayout.NORTH);
 
-    // Initialisation du controleur
-    controleur = new ControleurLocataires(proprietaire, this, fenAjoutLocation);
-
     // Panel latéral, contenant la liste des locataires
     JPanel sidePanel = new JPanel(new BorderLayout(5, 5));
     sidePanel.setBorder(
         new TitledBorder(new EtchedBorder(), "Vos locataires", TitledBorder.CENTER, TitledBorder.TOP));
 
-    locatairesList = new JList<>(model);
+    DefaultListModel<String> model = new DefaultListModel<String>();
+    this.listeLocataires = new JList<String>(model);
     // Autoriser la sélection multiple si on est en mode sélection
     if (modeSelection) {
-      locatairesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+      this.listeLocataires.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
-    locatairesList.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
-    locatairesList.setBackground(Color.LIGHT_GRAY);
+    this.listeLocataires.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
+    this.listeLocataires.setBackground(Color.LIGHT_GRAY);
+
+    // Initialisation du controleur
+    ControleurLocataires controleur = new ControleurLocataires(proprietaire, this, fenAjoutLocation);
 
     // Lorsqu'on clique sur un locataire
-    locatairesList.addListSelectionListener(controleur);
+    this.listeLocataires.addListSelectionListener(controleur);
 
-    JScrollPane scrollPane = new JScrollPane(locatairesList);
+    JScrollPane scrollPane = new JScrollPane(listeLocataires);
     sidePanel.add(scrollPane, BorderLayout.CENTER);
 
     // Panel (Bouttons)
@@ -88,9 +87,42 @@ public class FenLocataires extends JFrame {
 
     mainPanel.add(sidePanel, BorderLayout.WEST);
 
-    // Panel central, initialisé avec un panel qui incite à sélectionner un
-    // locataire
-    JPanel centralPanel = new JPanel(new BorderLayout(5, 5));
+    this.resetPanelCentral(modeSelection);
+  }
+
+  public List<Locataire> getLocataires() {
+    return this.locataires;
+  }
+
+  // Changer le panel central
+  public void setPanelCentral(JPanel panel) {
+    if (this.panelCentralCourant != null) {
+      this.panelCentralCourant.setVisible(false);
+      this.remove(this.panelCentralCourant);
+    }
+
+    this.panelCentralCourant = panel;
+    this.add(panelCentralCourant, BorderLayout.CENTER);
+    this.panelCentralCourant.setVisible(true);
+  }
+
+  // Mettre à jour la liste des locataires
+  public void setLocataires(List<Locataire> locataires) {
+    this.locataires = locataires;
+    DefaultListModel<String> model = new DefaultListModel<String>();
+
+    for (Locataire locataire : locataires) {
+      model.addElement(locataire.getNom() + " " + locataire.getPrenom());
+    }
+
+    this.listeLocataires.setModel(model);
+  }
+
+  public void resetPanelCentral(boolean modeSelection) {
+    // Panel central par défaut, affiché lorsqu'aucun locataire n'est sélectionné
+    // incite à sélectionner un locataire en mode sélection
+
+    JPanel panel = new JPanel(new BorderLayout(5, 5));
 
     JTextArea lblChoix = new JTextArea(modeSelection
         ? "Sélectionnez un ou plusieurs locataires pour la location.\nRestez appuyé sur Ctrl pour en sélectionner plusieurs."
@@ -99,31 +131,6 @@ public class FenLocataires extends JFrame {
     lblChoix.setOpaque(false);
     lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
 
-    setPanelCentral(centralPanel);
-  }
-
-  // Changer le panel central
-  public void setPanelCentral(JPanel panel) {
-    if (panelCentralCourant != null) {
-      panelCentralCourant.setVisible(false);
-      remove(panelCentralCourant);
-    }
-
-    panelCentralCourant = panel;
-    add(panelCentralCourant, BorderLayout.CENTER);
-    panelCentralCourant.setVisible(true);
-  }
-
-  // Mettre à jour la liste des locataires
-  public void setLocataires(List<Locataire> locataires) {
-    this.locataires = locataires;
-    model = new DefaultListModel<String>();
-
-    for (Locataire locataire : locataires) {
-      model.addElement(locataire.getNom() + " " + locataire.getPrenom());
-    }
-
-    // locatairesList.setModel(model);
-    // locatairesList.setSelectedIndex(0);
+    setPanelCentral(panel);
   }
 }

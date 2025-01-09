@@ -104,7 +104,7 @@ public class LocataireDAO {
     return locataire;
   }
 
-  public boolean update(Locataire locataire) {
+  public void update(Locataire locataire) {
     try {
       String query = "UPDATE locataires SET nom = ?, prenom = ?, email = ?, telephone = ? WHERE id_locataire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -114,8 +114,7 @@ public class LocataireDAO {
       preparedStatement.setString(4, locataire.getTelephone());
       preparedStatement.setString(5, locataire.getId());
 
-      int rowsAffected = preparedStatement.executeUpdate();
-      return rowsAffected > 0; // Retourne true si au moins une ligne a été mise à jour
+      preparedStatement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException("Erreur lors de la modification du locataire", e);
     }

@@ -52,14 +52,6 @@ public class LocataireTest {
   }
 
   @Test
-  public void testUpdateLocataireQuiNExistePas() {
-    Locataire locataireNull = new Locataire("inexistant", "Inexistant", "Inexistant", "inexistant@mail.com",
-        "0000000000");
-    boolean updated = locataireDao.update(locataireNull);
-    assertFalse(updated);
-  }
-
-  @Test
   public void testCreatePlusieursLocataires() {
     locataireDao.create(l1, proprietaire);
     locataireDao.create(l2, proprietaire);
@@ -75,12 +67,9 @@ public class LocataireTest {
     // Étape 2 : Modifier le locataire
     Locataire updatedLocataire = new Locataire(locataire.getId(), "UpdatedName", "UpdatedPrenom",
         locataire.getEmail(), locataire.getTelephone());
-    boolean updated = locataireDao.update(updatedLocataire);
+    locataireDao.update(updatedLocataire);
 
-    // Étape 3 : Vérifier le résultat de l'update
-    assertTrue(updated, "La mise à jour a échoué");
-
-    // Étape 4 : Lire et vérifier les nouvelles données
+    // Étape 3 : Lire et vérifier les nouvelles données
     Locataire getLocataire = locataireDao.read(locataire.getId());
     assertNotNull(getLocataire, "Le locataire mis à jour est introuvable");
     assertEquals("UpdatedName", getLocataire.getNom(), "Le nom n'a pas été mis à jour correctement");

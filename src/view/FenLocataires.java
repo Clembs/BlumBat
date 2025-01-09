@@ -1,11 +1,14 @@
 package view;
 
 import controller.ControleurLocataires;
+import model.BienImmobilier;
 import model.Locataire;
 import model.Proprietaire;
 
 import java.awt.*;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -16,6 +19,7 @@ public class FenLocataires extends JFrame {
   private List<Locataire> locataires;
   private JList<String> listeLocataires;
   private JPanel panelCentralCourant;
+  private Proprietaire proprietaire;
 
   // la fenêtre de consultation & sélection des locataires
   // on peut optionnellement passer une fenêtre d'ajout de location pour
@@ -23,9 +27,11 @@ public class FenLocataires extends JFrame {
   public FenLocataires(Proprietaire proprietaire, FenAjoutLocation fenAjoutLocation) {
     boolean modeSelection = fenAjoutLocation != null;
 
-    setTitle("Gestion des locataires");
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    setBounds(100, 100, 720, 500);
+    this.proprietaire = proprietaire;
+
+    this.setTitle("Gestion des locataires");
+    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    this.setBounds(100, 100, 720, 500);
 
     JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
     mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -94,6 +100,24 @@ public class FenLocataires extends JFrame {
     return this.locataires;
   }
 
+  // mise à jour d'un locataire
+  public void updateLocataire(Locataire nouveauLocataire) {
+    this.locataires = this.locataires.stream()
+        .map(locataireCourant -> locataireCourant.getId().equals(nouveauLocataire.getId()) ? nouveauLocataire
+            : locataireCourant)
+        .collect(Collectors.toList());
+
+    // rafraîchir la liste des biens
+    this.setLocataires(this.locataires);
+
+    // rafraîchir le panel courant (s'il est en consultation) en le remplaçant
+    if (this.panelCentralCourant instanceof PanelConsultationLocataire) {
+      PanelConsultationLocataire panel = new PanelConsultationLocataire(this, this.proprietaire, nouveauLocataire);
+
+      this.setPanelCentral(panel);
+    }
+  }
+
   // Changer le panel central
   public void setPanelCentral(JPanel panel) {
     if (this.panelCentralCourant != null) {
@@ -122,15 +146,30 @@ public class FenLocataires extends JFrame {
     // Panel central par défaut, affiché lorsqu'aucun locataire n'est sélectionné
     // incite à sélectionner un locataire en mode sélection
 
-    JPanel panel = new JPanel(new BorderLayout(5, 5));
-
+    JPanel panel = new JPanel();
     JTextArea lblChoix = new JTextArea(modeSelection
         ? "Sélectionnez un ou plusieurs locataires pour la location.\nRestez appuyé sur Ctrl pour en sélectionner plusieurs."
         : "Choisissez un locataire pour afficher ses détails");
     lblChoix.setEditable(false);
     lblChoix.setOpaque(false);
     lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
+    panel.add(lblChoix);
 
-    setPanelCentral(panel);
+    this.setPanelCentral(panel);
+  }
+
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(() -> {
+      try {
+        Proprietaire proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "truc");
+        FenLocataires frame = new FenLocataires(proprietaire, null);
+        frame.setVisible(true);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    });
   }
 }

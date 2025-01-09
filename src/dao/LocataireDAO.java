@@ -167,7 +167,7 @@ public class LocataireDAO {
 
   public void delete(Locataire locataire) {
     try {
-      // new LocationDAO().deleteAllLocations(locataire);
+      new LocationDAO().deleteAllLocations(locataire);
 
       String query = "DELETE FROM locataires WHERE id_locataire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);

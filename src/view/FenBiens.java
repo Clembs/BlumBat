@@ -141,16 +141,11 @@ public class FenBiens extends JFrame {
 
 		mainPanel.add(sidePanel, BorderLayout.WEST);
 
-		// Panel central, initialisé avec un panel vide avec du texte centré "Choissisez
-		// un bien pour afficher ses détails"
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		JLabel lblChoix = new JLabel("Choisissez un bien pour afficher ses détails");
-		lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
-		lblChoix.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblChoix);
+		resetPanelCentral();
+	}
 
-		setPanelCentral(panel);
+	public List<BienImmobilier> getBiens() {
+		return this.biens;
 	}
 
 	// mise à jour d'un bien
@@ -225,5 +220,18 @@ public class FenBiens extends JFrame {
 				e.printStackTrace();
 			}
 		});
+	}
+
+	public void resetPanelCentral() {
+		// Panel central par défaut, affiché lorsqu'aucun bien n'est sélectionné
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		JLabel lblChoix = new JLabel("Choisissez un bien pour afficher ses détails");
+		lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
+		lblChoix.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lblChoix);
+
+		setPanelCentral(panel);
+
 	}
 }

@@ -1,8 +1,8 @@
 package test.java;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -12,7 +12,12 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import dao.BienDAO;
+import dao.LocataireDAO;
+import dao.LocationDAO;
 import model.BienImmobilier;
+import model.BienLocatif;
+import model.Locataire;
+import model.Location;
 import model.Proprietaire;
 import model.TypeBien;
 
@@ -133,7 +138,6 @@ public class BienTest {
     bienDAO.delete(bien, P);
   }
 
-  @Test
   public void TestModificationAvecValeurValide() {
     bienDAO.create(bien, P);
 
@@ -159,5 +163,45 @@ public class BienTest {
     assertEquals("Paris", bienTrouvé.getVille());
 
     bienDAO.delete(bien, P);
+  }
+
+  @Test
+  public void TestSuppressionBien() {
+    bienDAO.create(bien, P);
+
+    bienDAO.delete(bien, P);
+
+    List<BienImmobilier> listbien = bienDAO.getAllBiens(P);
+
+    BienImmobilier bienTrouvé = listbien
+        .stream()
+        .filter(b -> b.getId().equals(id))
+        .findFirst()
+        .orElse(null);
+
+    assertNull(bienTrouvé);
+  }
+
+  @Test
+  public void TestSuppressionBienSupprimeLocations() {
+    BienLocatif bienLocatif = new BienLocatif(bien.getId(), TypeBien.LOGEMENT, bien.getAdresse(),
+        bien.getComplementAdresse(), bien.getCodePostal(), bien.getVille(), "123456789012", 12, 20);
+    bienDAO.create(bienLocatif, P);
+
+    LocataireDAO locataireDAO = new LocataireDAO();
+    Locataire locataire = new Locataire("LocataireTest", "Dupont", "Jean", "jean@dupont.com", "0123456789");
+    locataireDAO.create(locataire, P);
+
+    LocationDAO locationDAO = new LocationDAO();
+    Location location = new Location(1000, LocalDate.now(), null, bien, locataire);
+    locationDAO.create(location);
+
+    bienDAO.delete(bienLocatif, P);
+
+    List<Location> locations = locationDAO.getAllLocations(bienLocatif);
+
+    assertEquals(0, locations.size());
+
+    locataireDAO.delete(locataire);
   }
 }

@@ -23,6 +23,10 @@ public enum TypeBien {
     return this.niceString;
   }
 
+  public String toScreamingString() {
+    return this.screamingString;
+  }
+
   public static TypeBien getTypeBien(String typeBienString) {
     for (TypeBien t : TypeBien.values()) {
       // Check si le paramètre en entrée est égal à l'un des deux attributs de notre

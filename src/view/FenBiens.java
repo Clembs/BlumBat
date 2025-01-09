@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -19,11 +20,14 @@ public class FenBiens extends JFrame {
 	private ControleurBiens controleur;
 	private List<BienImmobilier> biens;
 	private JPanel panelCentralCourant;
+	private Proprietaire proprietaire;
 
 	public FenBiens(Proprietaire proprietaire) {
-		setTitle("Gestion des biens");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1200, 700);
+		this.proprietaire = proprietaire;
+
+		this.setTitle("Gestion des biens");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(100, 100, 1200, 700);
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -132,34 +136,45 @@ public class FenBiens extends JFrame {
 		btnAdd.setForeground(Color.WHITE);
 		buttonPanel.add(btnAdd);
 		sidePanel.add(buttonPanel, BorderLayout.SOUTH);
-
 		// Lorsque l'on clique sur le bouton "Ajouter"
 		btnAdd.addActionListener(controleur);
 
 		mainPanel.add(sidePanel, BorderLayout.WEST);
 
-		// Panel central, initialisé avec un panel vide avec du texte centré "Choissisez
-		// un bien pour afficher ses détails"
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		JLabel lblChoix = new JLabel("Choisissez un bien pour afficher ses détails");
-		lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
-		lblChoix.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblChoix);
+		resetPanelCentral();
+	}
 
-		setPanelCentral(panel);
+	public List<BienImmobilier> getBiens() {
+		return this.biens;
+	}
+
+	// mise à jour d'un bien
+	public void updateBien(BienImmobilier nouveauBien) {
+		this.biens = this.biens.stream()
+				.map(bienCourant -> bienCourant.getId().equals(nouveauBien.getId()) ? nouveauBien : bienCourant)
+				.collect(Collectors.toList());
+
+		// rafraîchir la liste des biens
+		this.setBiens(biens);
+
+		// rafraîchir le panel courant (s'il est en consultation) en le remplaçant
+		if (this.panelCentralCourant instanceof PanelConsultationBien) {
+			PanelConsultationBien panel = new PanelConsultationBien(this, this.proprietaire, nouveauBien);
+
+			this.setPanelCentral(panel);
+		}
 	}
 
 	// Setter utilisé par le contrôleur
 	public void setBiens(List<BienImmobilier> biens) {
 		this.biens = biens;
 
-		rafraîchirTableBiens(biens);
+		this.rafraîchirTableBiens(biens);
 	}
 
 	public void rafraîchirTableBiens(List<BienImmobilier> biens) {
 		// Vider la table
-		DefaultTableModel model = (DefaultTableModel) tableBiens.getModel();
+		DefaultTableModel model = (DefaultTableModel) this.tableBiens.getModel();
 		model.setRowCount(0);
 
 		// Pour chaque bien, ajouter une ligne dans la table
@@ -176,19 +191,47 @@ public class FenBiens extends JFrame {
 		}
 
 		// Rafraîchir la table
-		tableBiens.revalidate();
-		tableBiens.repaint();
+		this.tableBiens.revalidate();
+		this.tableBiens.repaint();
 	}
 
 	// Changer le panel central
 	public void setPanelCentral(JPanel panel) {
-		if (panelCentralCourant != null) {
-			panelCentralCourant.setVisible(false);
-			remove(panelCentralCourant);
+		if (this.panelCentralCourant != null) {
+			this.panelCentralCourant.setVisible(false);
+			this.remove(this.panelCentralCourant);
 		}
 
-		panelCentralCourant = panel;
-		add(panelCentralCourant, BorderLayout.CENTER);
-		panelCentralCourant.setVisible(true);
+		this.panelCentralCourant = panel;
+		this.add(this.panelCentralCourant, BorderLayout.CENTER);
+		this.panelCentralCourant.setVisible(true);
+	}
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> {
+			try {
+				Proprietaire proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "truc");
+				FenBiens frame = new FenBiens(proprietaire);
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	public void resetPanelCentral() {
+		// Panel central par défaut, affiché lorsqu'aucun bien n'est sélectionné
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		JLabel lblChoix = new JLabel("Choisissez un bien pour afficher ses détails");
+		lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
+		lblChoix.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lblChoix);
+
+		setPanelCentral(panel);
+
 	}
 }

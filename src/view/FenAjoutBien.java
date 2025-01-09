@@ -27,7 +27,7 @@ public class FenAjoutBien extends JFrame {
 
   public FenAjoutBien(Proprietaire P) {
     this.setTitle("Ajout d'un bien immobilier");
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setBounds(100, 100, 800, 500);
 
     this.contentPane = new JPanel();

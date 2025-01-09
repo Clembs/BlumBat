@@ -22,17 +22,17 @@ public class LocataireDAO {
 
   public void create(Locataire locataire, Proprietaire proprietaire) {
     try {
-      String query = "INSERT INTO locataires (id_locataire, id_proprietaire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ? )";
+      String query = "INSERT INTO locataires (id_locataire, id_proprietaire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, locataire.getId());
       preparedStatement.setInt(2, proprietaire.getId());
       preparedStatement.setString(3, locataire.getNom());
-      preparedStatement.setString(3, locataire.getPrenom());
-      preparedStatement.setString(4, locataire.getEmail());
-      preparedStatement.setString(5, locataire.getTelephone());
+      preparedStatement.setString(4, locataire.getPrenom());
+      preparedStatement.setString(5, locataire.getEmail());
+      preparedStatement.setString(6, locataire.getTelephone());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la création du propriétaire", e);
+      throw new RuntimeException("Erreur lors de la création du locataire", e);
     }
   }
 
@@ -159,5 +159,17 @@ public class LocataireDAO {
     }
 
     return locataires.values().stream().collect(Collectors.toList());
+  }
+
+  public void delete(Locataire locataire, Proprietaire proprietaire) {
+    try {
+      String query = "DELETE FROM locataires WHERE id_locataire = ? AND id_proprietaire = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, locataire.getId());
+      preparedStatement.setInt(2, proprietaire.getId());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la suppression du locataire", e);
+    }
   }
 }

@@ -1,5 +1,6 @@
 package test.java;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,7 +13,12 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import dao.BienDAO;
+import dao.LocataireDAO;
+import dao.LocationDAO;
 import model.BienImmobilier;
+import model.BienLocatif;
+import model.Locataire;
+import model.Location;
 import model.Proprietaire;
 import model.TypeBien;
 
@@ -141,6 +147,32 @@ public class BienTest {
 
     assertNotNull(bienTrouvé);
     assertEquals(id, bienTrouvé.getId());
+  }
+
+  @Test
+  public void TestSuppressionBienSupprimeLocations() {
+    BienLocatif bienLocatif = new BienLocatif(bien.getId(), TypeBien.LOGEMENT, bien.getAdresse(),
+        bien.getComplementAdresse(), bien.getCodePostal(), bien.getVille(), "123456789012", 12.0f, 20);
+
+    bienDAO.create(bienLocatif, P);
+
+    LocataireDAO locataireDAO = new LocataireDAO();
+    Locataire locataire = new Locataire("locataire-test", "Dupont", "Jean", "jean@dupont.com", "0123456789");
+    locataireDAO.create(locataire, P);
+
+    LocationDAO locationDAO = new LocationDAO();
+    Location location = new Location(1000f,
+        LocalDate.now(),
+        LocalDate.now(),
+        bien, locataire);
+    locationDAO.create(location);
+
+    bienDAO.delete(bien, P);
+    locataireDAO.delete(locataire, P);
+
+    List<Location> locations = locationDAO.getAllLocations(bienLocatif);
+
+    assertEquals(0, locations.size());
   }
 
   @AfterEach

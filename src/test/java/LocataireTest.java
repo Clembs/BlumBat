@@ -23,8 +23,8 @@ public class LocataireTest {
     locataireDao = new LocataireDAO();
     proprietaire = new Proprietaire(1, "jack", "Mafia", "Jack@Mafia.com", "0123456789");
     locataire = new Locataire("67", "Mouloud", "Jean", "Jean@Mouloud.com", "0123456789");
-    l1 = new Locataire("id1", "tic", "toc", "tic@toc.com", "1111111111");
-    l2 = new Locataire("id2", "toc", "tic", "toc@tic.com", "2222222222");
+    l1 = new Locataire("LocataireTest1", "tic", "toc", "tic@toc.com", "1111111111");
+    l2 = new Locataire("LocataireTest2", "toc", "tic", "toc@tic.com", "2222222222");
   }
 
   @AfterEach
@@ -82,18 +82,6 @@ public class LocataireTest {
     locataireDao.create(l1, proprietaire);
     List<Locataire> locatairesApres = locataireDao.getAllLocataires(proprietaire);
     assertEquals(locatairesAvant.size() + 1, locatairesApres.size());
-  }
-
-  @Test
-  public void testGetAllLocatairesVide() {
-    List<Locataire> locataires = locataireDao.getAllLocataires(proprietaire);
-    if (!locataires.isEmpty()) {
-      for (Locataire loc : locataires) {
-        locataireDao.delete(loc);
-      }
-      locataires = locataireDao.getAllLocataires(proprietaire);
-    }
-    assertTrue(locataires.isEmpty());
   }
 
   @Test

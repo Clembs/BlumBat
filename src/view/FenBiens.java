@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -135,7 +136,6 @@ public class FenBiens extends JFrame {
 		btnAdd.setForeground(Color.WHITE);
 		buttonPanel.add(btnAdd);
 		sidePanel.add(buttonPanel, BorderLayout.SOUTH);
-
 		// Lorsque l'on clique sur le bouton "Ajouter"
 		btnAdd.addActionListener(controleur);
 
@@ -154,15 +154,17 @@ public class FenBiens extends JFrame {
 	}
 
 	// mise à jour d'un bien
-	public void updateBien(BienImmobilier bien) {
-		this.biens.set(this.biens.indexOf(bien), bien);
+	public void updateBien(BienImmobilier nouveauBien) {
+		this.biens = this.biens.stream()
+				.map(bienCourant -> bienCourant.getId().equals(nouveauBien.getId()) ? nouveauBien : bienCourant)
+				.collect(Collectors.toList());
 
 		// rafraîchir la liste des biens
 		this.setBiens(biens);
 
 		// rafraîchir le panel courant (s'il est en consultation) en le remplaçant
 		if (this.panelCentralCourant instanceof PanelConsultationBien) {
-			PanelConsultationBien panel = new PanelConsultationBien(this, this.proprietaire, bien);
+			PanelConsultationBien panel = new PanelConsultationBien(this, this.proprietaire, nouveauBien);
 
 			this.setPanelCentral(panel);
 		}
@@ -208,5 +210,20 @@ public class FenBiens extends JFrame {
 		this.panelCentralCourant = panel;
 		this.add(this.panelCentralCourant, BorderLayout.CENTER);
 		this.panelCentralCourant.setVisible(true);
+	}
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> {
+			try {
+				Proprietaire proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "truc");
+				FenBiens frame = new FenBiens(proprietaire);
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 	}
 }

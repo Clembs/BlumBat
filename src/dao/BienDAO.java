@@ -142,6 +142,36 @@ public class BienDAO {
     return logements;
   }
 
+  // Mise à jour d'un bien dans la db
+  public void update(BienImmobilier bien) {
+    try {
+      String query = "UPDATE biens SET adresse = ?, complement_adresse = ?, code_postal = ?, ville = ?, numero_fiscal = ?, surface = ?, nombre_pieces = ? WHERE id_bien = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+      preparedStatement.setString(1, bien.getAdresse());
+      preparedStatement.setString(2, bien.getComplementAdresse());
+      preparedStatement.setString(3, bien.getCodePostal());
+      preparedStatement.setString(4, bien.getVille());
+
+      if (bien instanceof BienLocatif) {
+        BienLocatif bienL = (BienLocatif) bien;
+        preparedStatement.setString(5, bienL.getNumeroFiscal());
+        preparedStatement.setFloat(6, bienL.getSurface());
+        preparedStatement.setInt(7, bienL.getNombrePieces());
+      } else {
+        preparedStatement.setString(5, null);
+        preparedStatement.setString(6, null);
+        preparedStatement.setString(7, null);
+      }
+
+      preparedStatement.setString(8, bien.getId());
+
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la modification du bien", e);
+    }
+  }
+
   public List<BienLocatif> getBiensByLocataire(String locataireId) {
     List<BienLocatif> biens = new ArrayList<>();
 

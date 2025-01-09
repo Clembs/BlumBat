@@ -11,6 +11,7 @@ import model.BienLocatif;
 import model.Proprietaire;
 import view.FenBiens;
 import view.PanelConsultationBien;
+import view.PanelModificationBien;
 import view.FenAjoutLocation;
 
 public class ControleurConsultationBien implements ActionListener {
@@ -36,9 +37,12 @@ public class ControleurConsultationBien implements ActionListener {
 
     switch (boutonTexte) {
       case "Modifier le bien": {
-        // TODO: aller to PanelModificationBien lorsqu'il sera implémenté
+        PanelModificationBien panelModification = new PanelModificationBien(fenetre, proprietaire, bien);
+
+        fenetre.setPanelCentral(panelModification);
         break;
       }
+
       case "Supprimer le bien": {
         // TODO: suppression d'un bien
         break;

@@ -14,6 +14,8 @@ import model.BienLocatif;
 import model.Proprietaire;
 import view.FenBiens;
 import view.PanelConsultationBien;
+import view.PanelModificationBien;
+import view.FenAjoutLocation;
 
 public class ControleurConsultationBien implements ActionListener {
   private FenBiens fenetre;
@@ -38,7 +40,10 @@ public class ControleurConsultationBien implements ActionListener {
 
     switch (boutonTexte) {
       case "Modifier le bien": {
-        // TODO: aller to PanelModificationBien lorsqu'il sera implémenté
+        PanelModificationBien panelModification = new PanelModificationBien(fenetre, proprietaire, bien);
+
+        fenetre.setPanelCentral(panelModification);
+        break;
       }
       case "Supprimer le bien": {
         int entrée = JOptionPane.showConfirmDialog(boutonClique,
@@ -67,7 +72,15 @@ public class ControleurConsultationBien implements ActionListener {
         break;
       }
       case "Louer": {
-        // TODO: louer un bien
+        if (!(bien instanceof BienLocatif)) {
+          return;
+        }
+
+        BienLocatif bienL = (BienLocatif) bien;
+
+        FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bienL, proprietaire);
+        fenAjoutLocation.setVisible(true);
+        break;
       }
     }
   }

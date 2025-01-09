@@ -69,12 +69,13 @@ CREATE TABLE IF NOT EXISTS locataires (
 );
 
 CREATE TABLE IF NOT EXISTS locations (
+  id_location        int                                    NOT NULL AUTO_INCREMENT,
 	id_locataire       varchar(50)                            NOT NULL,
   id_bien            varchar(50)                            NOT NULL,
   loyer              double                                 NOT NULL,
   date_entree        date                                   NOT NULL,
   date_sortie        date,
-  CONSTRAINT id_location PRIMARY KEY(id_locataire, id_bien),
+  PRIMARY KEY(id_location),
   FOREIGN KEY(id_bien) REFERENCES biens(id_bien),
   FOREIGN KEY(id_locataire) REFERENCES locataires(id_locataire)
 );

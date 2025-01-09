@@ -38,6 +38,8 @@ $ mvn clean compile exec:java # Pour faire les deux en une seule commande
 
 ```bash
 $ mvn clean test
+
+$ mvn test -Dtest=[nom de la classe] # Pour tester une classe
 ```
 
 ## Structure du projet

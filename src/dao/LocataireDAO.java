@@ -21,11 +21,9 @@ public class LocataireDAO {
     this.connection = DatabaseConnexion.getConnexion();
   }
 
-
-
   public void create(Locataire locataire, Proprietaire proprietaire) {
     try {
-      String query = "INSERT INTO locataires (id_locataire, id_proprietaire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ? ,?)";
+      String query = "INSERT INTO locataires (id_locataire, id_proprietaire, nom, prenom, email, telephone) VALUES (?, ?, ?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, locataire.getId());
       preparedStatement.setInt(2, proprietaire.getId());
@@ -123,7 +121,6 @@ public class LocataireDAO {
     }
   }
 
-
   // retourne une liste de locataires avec leurs locations et les biens associés
   public List<Locataire> getAllLocataires(Proprietaire proprietaire) {
     Map<String, Locataire> locataires = new HashMap<>();
@@ -162,7 +159,7 @@ public class LocataireDAO {
 
           BienImmobilier bien = new BienImmobilier(
               idBien,
-                  TypeBien.getTypeBien(resultSet.getString("type_bien")),
+              TypeBien.getTypeBien(resultSet.getString("type_bien")),
               resultSet.getString("adresse"),
               resultSet.getString("complement_adresse"),
               resultSet.getString("code_postal"),
@@ -186,14 +183,17 @@ public class LocataireDAO {
 
     return locataires.values().stream().collect(Collectors.toList());
   }
-  public  void delete(Locataire locataire , Proprietaire proprietaire) {
+
+  public void delete(Locataire locataire) {
     try {
+      new LocationDAO().deleteAllLocations(locataire);
+
       String query = "DELETE FROM locataires WHERE id_locataire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, locataire.getId());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la suppression du locataire", e);
+      throw new RuntimeException("Erreur lors de la suppression du locataire");
     }
   }
 }

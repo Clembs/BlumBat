@@ -166,6 +166,23 @@ public class BienTest {
   }
 
   @Test
+  public void TestSuppressionBien() {
+    bienDAO.create(bien, P);
+
+    bienDAO.delete(bien, P);
+
+    List<BienImmobilier> listbien = bienDAO.getAllBiens(P);
+
+    BienImmobilier bienTrouvé = listbien
+        .stream()
+        .filter(b -> b.getId().equals(id))
+        .findFirst()
+        .orElse(null);
+
+    assertNull(bienTrouvé);
+  }
+
+  @Test
   public void TestSuppressionBienSupprimeLocations() {
     BienLocatif bienLocatif = new BienLocatif(bien.getId(), TypeBien.LOGEMENT, bien.getAdresse(),
         bien.getComplementAdresse(), bien.getCodePostal(), bien.getVille(), "123456789012", 12, 20);

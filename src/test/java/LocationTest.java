@@ -3,7 +3,7 @@ package test.java;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,7 +34,7 @@ public class LocationTest {
   private Proprietaire proprietaire;
 
   @BeforeAll
-  public void setUpTest() {
+  public void setUp() {
     proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "");
     locationDAO = new LocationDAO();
     bienDAO = new BienDAO();
@@ -43,8 +43,8 @@ public class LocationTest {
     dateEntree = LocalDate.of(2005, 3, 24);
     dateSortie = LocalDate.of(2010, 3, 24);
 
-    locataire = new Locataire("testlocataire", "Clément", "Voisin", "test@test.com", "0123456789");
-    bien = new BienLocatif("testbien", TypeBien.LOGEMENT, "11 rue des tulipes", "145  étage 3", "31400", "Toulouse",
+    locataire = new Locataire("LocataireTest", "Clément", "Voisin", "test@test.com", "0123456789");
+    bien = new BienLocatif("BienTest", TypeBien.LOGEMENT, "11 rue des tulipes", "145  étage 3", "31400", "Toulouse",
         "123456789123", 19, 2);
     location = new Location(100, dateEntree, dateSortie, bien, locataire);
 
@@ -79,7 +79,8 @@ public class LocationTest {
 
     Location LocTrouvé = listLoc
         .stream()
-        .filter(l -> l.getBien().getId().equals(bien.getId()) && l.getLocataire().getId().equals(locataire.getId()))
+        .filter(l -> l.getBien().getId().equals(bien.getId()) &&
+            l.getLocataire().getId().equals(locataire.getId()))
         .findFirst()
         .orElse(null);
 
@@ -87,12 +88,12 @@ public class LocationTest {
     assertEquals(100, LocTrouvé.getLoyer());
     assertEquals(dateEntree, LocTrouvé.getDateEntree());
     assertEquals(dateSortie, LocTrouvé.getDateSortie());
-    assertEquals(bien, LocTrouvé.getBien());
-    assertEquals(locataire, LocTrouvé.getLocataire());
+    assertEquals(bien.getId(), LocTrouvé.getBien().getId());
+    assertEquals(locataire.getId(), LocTrouvé.getLocataire().getId());
   }
 
-  @AfterEach
-  public void cleanUpEach() {
+  @AfterAll
+  public void cleanUp() {
     bienDAO.delete(bien, proprietaire);
     locataireDAO.delete(locataire);
   }

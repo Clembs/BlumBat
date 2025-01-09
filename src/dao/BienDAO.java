@@ -1,10 +1,17 @@
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import db.DatabaseConnexion;
-import model.*;
+import model.BienImmobilier;
+import model.BienLocatif;
+import model.Proprietaire;
+import model.TypeBien;
 
 public class BienDAO {
   private final Connection connection;
@@ -17,7 +24,7 @@ public class BienDAO {
     try {
       String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville) VALUES (?, ?, ?, ?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
-      preparedStatement.setString(1, bien.getId().toString());
+      preparedStatement.setString(1, bien.getId());
       preparedStatement.setInt(2, proprietaire.getId());
       preparedStatement.setString(3, bien.getTypeBien().toString());
       preparedStatement.setString(4, bien.getAdresse());
@@ -34,9 +41,9 @@ public class BienDAO {
     try {
       String query = "INSERT INTO biens (id_bien, id_proprietaire, type_bien, adresse, complement_adresse, code_postal, ville, numero_fiscal, surface, nombre_pieces) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
-      preparedStatement.setString(1, bien.getId().toString());
+      preparedStatement.setString(1, bien.getId());
       preparedStatement.setInt(2, proprietaire.getId());
-      preparedStatement.setString(3, bien.getTypeBien().toString());
+      preparedStatement.setString(3, bien.getTypeBien().toScreamingString());
       preparedStatement.setString(4, bien.getAdresse());
       preparedStatement.setString(5, bien.getComplementAdresse());
       preparedStatement.setString(6, bien.getCodePostal());
@@ -46,7 +53,7 @@ public class BienDAO {
       preparedStatement.setInt(10, bien.getNombrePieces());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la création du logement", e);
+      throw new RuntimeException("Erreur lors de la création du bien", e);
     }
   }
 
@@ -173,14 +180,20 @@ public class BienDAO {
     return biens;
   }
 
+  // Supprime un bien immobilier et tous les entrées associées
   public void delete(BienImmobilier bien, Proprietaire proprietaire) {
     try {
+      // Suppression des locations associées
+      if (bien.getTypeBien() != TypeBien.BATIMENT) {
+        new LocationDAO().deleteAllLocations((BienLocatif) bien);
+      }
+
       String query = "DELETE FROM biens WHERE id_bien = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, bien.getId());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la suppresion du bien immobilier", e);
+      throw new RuntimeException("Erreur lors de la suppression du bien immobilier", e);
     }
   }
 }

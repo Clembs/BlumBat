@@ -294,12 +294,14 @@ public class PanelConsultationBien extends JPanel {
 
     controleur = new ControleurConsultationBien(fenetre, this, proprietaire, bien);
 
-    JButton btnLouer = new JButton("Louer");
-    btnLouer.setFont(new Font("Rockwell", Font.BOLD, 14));
-    btnLouer.setBackground(Color.GRAY);
-    btnLouer.setForeground(Color.WHITE);
-    btnLouer.addActionListener(controleur);
-    buttonsPanel.add(btnLouer);
+    if (bien instanceof BienLocatif) {
+      JButton btnLouer = new JButton("Louer");
+      btnLouer.setFont(new Font("Rockwell", Font.BOLD, 14));
+      btnLouer.setBackground(Color.GRAY);
+      btnLouer.setForeground(Color.WHITE);
+      btnLouer.addActionListener(controleur);
+      buttonsPanel.add(btnLouer);
+    }
 
     JButton btnSupprimer = new JButton("Supprimer le bien");
     btnSupprimer.setFont(new Font("Rockwell", Font.BOLD, 14));

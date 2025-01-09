@@ -7,9 +7,11 @@ import javax.swing.JButton;
 
 import dao.BienDAO;
 import model.BienImmobilier;
+import model.BienLocatif;
 import model.Proprietaire;
 import view.FenBiens;
 import view.PanelConsultationBien;
+import view.FenAjoutLocation;
 
 public class ControleurConsultationBien implements ActionListener {
   private FenBiens fenetre;
@@ -35,12 +37,22 @@ public class ControleurConsultationBien implements ActionListener {
     switch (boutonTexte) {
       case "Modifier le bien": {
         // TODO: aller to PanelModificationBien lorsqu'il sera implémenté
+        break;
       }
       case "Supprimer le bien": {
         // TODO: suppression d'un bien
+        break;
       }
       case "Louer": {
-        // TODO: louer un bien
+        if (!(bien instanceof BienLocatif)) {
+          return;
+        }
+
+        BienLocatif bienL = (BienLocatif) bien;
+
+        FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bienL, proprietaire);
+        fenAjoutLocation.setVisible(true);
+        break;
       }
     }
   }

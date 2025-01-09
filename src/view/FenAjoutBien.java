@@ -27,7 +27,7 @@ public class FenAjoutBien extends JFrame {
 
   public FenAjoutBien(Proprietaire P) {
     this.setTitle("Ajout d'un bien immobilier");
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setBounds(100, 100, 800, 500);
 
     this.contentPane = new JPanel();
@@ -110,7 +110,7 @@ public class FenAjoutBien extends JFrame {
 
     JLabel lblSurface = new JLabel("Surface (en m²) :");
     lblSurface.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblSurface.setForeground(new Color( 80, 80, 100));
+    lblSurface.setForeground(new Color(80, 80, 100));
     // centerPanel.add(lblSurface);
 
     surfaceField = new JSpinner();

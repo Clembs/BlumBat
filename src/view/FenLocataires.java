@@ -19,9 +19,14 @@ public class FenLocataires extends JFrame {
   private JPanel panelCentralCourant;
   private DefaultListModel<String> model;
 
-  public FenLocataires(Proprietaire proprietaire) {
+  // la fenêtre de consultation & sélection des locataires
+  // on peut optionnellement passer une fenêtre d'ajout de location pour
+  // sélectionner un ou plusieurs locataires pour une location
+  public FenLocataires(Proprietaire proprietaire, FenAjoutLocation fenAjoutLocation) {
+    boolean modeSelection = fenAjoutLocation != null;
+
     setTitle("Gestion des locataires");
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 720, 500);
 
     JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
@@ -37,7 +42,7 @@ public class FenLocataires extends JFrame {
     mainPanel.add(titlePanel, BorderLayout.NORTH);
 
     // Initialisation du controleur
-    controleur = new ControleurLocataires(proprietaire, this);
+    controleur = new ControleurLocataires(proprietaire, this, fenAjoutLocation);
 
     // Panel latéral, contenant la liste des locataires
     JPanel sidePanel = new JPanel(new BorderLayout(5, 5));
@@ -45,6 +50,10 @@ public class FenLocataires extends JFrame {
         new TitledBorder(new EtchedBorder(), "Vos locataires", TitledBorder.CENTER, TitledBorder.TOP));
 
     locatairesList = new JList<>(model);
+    // Autoriser la sélection multiple si on est en mode sélection
+    if (modeSelection) {
+      locatairesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    }
     locatairesList.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
     locatairesList.setBackground(Color.LIGHT_GRAY);
 
@@ -66,16 +75,29 @@ public class FenLocataires extends JFrame {
     // Lorsqu'on clique sur le bouton "Ajouter"
     btnAdd.addActionListener(controleur);
 
+    if (modeSelection) {
+      JButton btnSelect = new JButton("Sélectionner");
+      btnSelect.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+      btnSelect.setBackground(new Color(46, 139, 87));
+      btnSelect.setForeground(Color.WHITE);
+      buttonPanel.add(btnSelect);
+
+      // Lorsqu'on clique sur le bouton "Sélectionner"
+      btnSelect.addActionListener(controleur);
+    }
+
     mainPanel.add(sidePanel, BorderLayout.WEST);
 
     // Panel central, initialisé avec un panel qui incite à sélectionner un
     // locataire
     JPanel centralPanel = new JPanel(new BorderLayout(5, 5));
 
-    JLabel lblChoix = new JLabel("Choisissez un locataire pour afficher ses détails");
+    JTextArea lblChoix = new JTextArea(modeSelection
+        ? "Sélectionnez un ou plusieurs locataires pour la location.\nRestez appuyé sur Ctrl pour en sélectionner plusieurs."
+        : "Choisissez un locataire pour afficher ses détails");
+    lblChoix.setEditable(false);
+    lblChoix.setOpaque(false);
     lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
-    lblChoix.setHorizontalAlignment(SwingConstants.CENTER);
-    centralPanel.add(lblChoix);
 
     setPanelCentral(centralPanel);
   }
@@ -98,26 +120,10 @@ public class FenLocataires extends JFrame {
     model = new DefaultListModel<String>();
 
     for (Locataire locataire : locataires) {
-      System.out.println(locataire.getNom() + " " + locataire.getPrenom());
-
       model.addElement(locataire.getNom() + " " + locataire.getPrenom());
     }
 
     // locatairesList.setModel(model);
     // locatairesList.setSelectedIndex(0);
   }
-
-  public static void main(String[] args) {
-    EventQueue.invokeLater(() -> {
-      try {
-        Proprietaire proprietaire = new Proprietaire(1, "VOISIN", "Clément", "clembs@clembs.com", "1234567890");
-
-        FenLocataires frame = new FenLocataires(proprietaire);
-        frame.setVisible(true);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    });
-  }
-
 }

@@ -19,11 +19,14 @@ public class FenBiens extends JFrame {
 	private ControleurBiens controleur;
 	private List<BienImmobilier> biens;
 	private JPanel panelCentralCourant;
+	private Proprietaire proprietaire;
 
 	public FenBiens(Proprietaire proprietaire) {
-		setTitle("Gestion des biens");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1200, 700);
+		this.proprietaire = proprietaire;
+
+		this.setTitle("Gestion des biens");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(100, 100, 1200, 700);
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -149,16 +152,31 @@ public class FenBiens extends JFrame {
 		setPanelCentral(panel);
 	}
 
+	// mise à jour d'un bien
+	public void updateBien(BienImmobilier bien) {
+		this.biens.set(this.biens.indexOf(bien), bien);
+
+		// rafraîchir la liste des biens
+		this.setBiens(biens);
+
+		// rafraîchir le panel courant (s'il est en consultation) en le remplaçant
+		if (this.panelCentralCourant instanceof PanelConsultationBien) {
+			PanelConsultationBien panel = new PanelConsultationBien(this, this.proprietaire, bien);
+
+			this.setPanelCentral(panel);
+		}
+	}
+
 	// Setter utilisé par le contrôleur
 	public void setBiens(List<BienImmobilier> biens) {
 		this.biens = biens;
 
-		rafraîchirTableBiens(biens);
+		this.rafraîchirTableBiens(biens);
 	}
 
 	public void rafraîchirTableBiens(List<BienImmobilier> biens) {
 		// Vider la table
-		DefaultTableModel model = (DefaultTableModel) tableBiens.getModel();
+		DefaultTableModel model = (DefaultTableModel) this.tableBiens.getModel();
 		model.setRowCount(0);
 
 		// Pour chaque bien, ajouter une ligne dans la table
@@ -175,20 +193,20 @@ public class FenBiens extends JFrame {
 		}
 
 		// Rafraîchir la table
-		tableBiens.revalidate();
-		tableBiens.repaint();
+		this.tableBiens.revalidate();
+		this.tableBiens.repaint();
 	}
 
 	// Changer le panel central
 	public void setPanelCentral(JPanel panel) {
-		if (panelCentralCourant != null) {
-			panelCentralCourant.setVisible(false);
-			remove(panelCentralCourant);
+		if (this.panelCentralCourant != null) {
+			this.panelCentralCourant.setVisible(false);
+			this.remove(this.panelCentralCourant);
 		}
 
-		panelCentralCourant = panel;
-		add(panelCentralCourant, BorderLayout.CENTER);
-		panelCentralCourant.setVisible(true);
+		this.panelCentralCourant = panel;
+		this.add(this.panelCentralCourant, BorderLayout.CENTER);
+		this.panelCentralCourant.setVisible(true);
 	}
 
 	/**

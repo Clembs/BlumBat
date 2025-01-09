@@ -86,6 +86,8 @@ public class ControleurModificationBien implements ActionListener {
 
         JOptionPane.showMessageDialog(panel, "Votre bien a été modifié avec succès.");
 
+        this.fenetre.updateBien(nouveauBien);
+
         PanelConsultationBien panelConsultation = new PanelConsultationBien(fenetre, proprietaire, nouveauBien);
 
         fenetre.setPanelCentral(panelConsultation);

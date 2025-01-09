@@ -168,26 +168,23 @@ public class BienTest {
   @Test
   public void TestSuppressionBienSupprimeLocations() {
     BienLocatif bienLocatif = new BienLocatif(bien.getId(), TypeBien.LOGEMENT, bien.getAdresse(),
-        bien.getComplementAdresse(), bien.getCodePostal(), bien.getVille(), "123456789012", 12.0f, 20);
-
+        bien.getComplementAdresse(), bien.getCodePostal(), bien.getVille(), "123456789012", 12, 20);
     bienDAO.create(bienLocatif, P);
 
     LocataireDAO locataireDAO = new LocataireDAO();
-    Locataire locataire = new Locataire("locataire-test", "Dupont", "Jean", "jean@dupont.com", "0123456789");
+    Locataire locataire = new Locataire("LocataireTest", "Dupont", "Jean", "jean@dupont.com", "0123456789");
     locataireDAO.create(locataire, P);
 
     LocationDAO locationDAO = new LocationDAO();
-    Location location = new Location(1000f,
-        LocalDate.now(),
-        LocalDate.now(),
-        bien, locataire);
+    Location location = new Location(1000, LocalDate.now(), null, bien, locataire);
     locationDAO.create(location);
 
-    bienDAO.delete(bien, P);
-    locataireDAO.delete(locataire);
+    bienDAO.delete(bienLocatif, P);
 
     List<Location> locations = locationDAO.getAllLocations(bienLocatif);
 
     assertEquals(0, locations.size());
+
+    locataireDAO.delete(locataire);
   }
 }

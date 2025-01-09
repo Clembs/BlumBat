@@ -104,7 +104,7 @@ public class LocataireDAO {
     return locataire;
   }
 
-  public boolean UpdateLocataire(Locataire locataire) {
+  public boolean update(Locataire locataire) {
     try {
       String query = "UPDATE locataires SET nom = ?, prenom = ?, email = ?, telephone = ? WHERE id_locataire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);

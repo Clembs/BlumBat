@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LocataireTest {
   private Locataire locataire;
   private LocataireDAO locataireDao;
-  private Locataire locataireInvalide;
   private Locataire l1;
   private Locataire l2;
   private Proprietaire proprietaire;
@@ -24,7 +23,6 @@ public class LocataireTest {
     locataireDao = new LocataireDAO();
     proprietaire = new Proprietaire(1, "jack", "Mafia", "Jack@Mafia.com", "0123456789");
     locataire = new Locataire("67", "Mouloud", "Jean", "Jean@Mouloud.com", "0123456789");
-    locataireInvalide = new Locataire("", "", "", "", "");
     l1 = new Locataire("id1", "tic", "toc", "tic@toc.com", "1111111111");
     l2 = new Locataire("id2", "toc", "tic", "toc@tic.com", "2222222222");
   }
@@ -57,7 +55,7 @@ public class LocataireTest {
   public void testUpdateLocataireQuiNExistePas() {
     Locataire locataireNull = new Locataire("inexistant", "Inexistant", "Inexistant", "inexistant@mail.com",
         "0000000000");
-    boolean updated = locataireDao.UpdateLocataire(locataireNull);
+    boolean updated = locataireDao.update(locataireNull);
     assertFalse(updated);
   }
 
@@ -77,7 +75,7 @@ public class LocataireTest {
     // Étape 2 : Modifier le locataire
     Locataire updatedLocataire = new Locataire(locataire.getId(), "UpdatedName", "UpdatedPrenom",
         locataire.getEmail(), locataire.getTelephone());
-    boolean updated = locataireDao.UpdateLocataire(updatedLocataire);
+    boolean updated = locataireDao.update(updatedLocataire);
 
     // Étape 3 : Vérifier le résultat de l'update
     assertTrue(updated, "La mise à jour a échoué");

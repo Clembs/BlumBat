@@ -5,6 +5,7 @@ import model.Locataire;
 import model.Proprietaire;
 import view.FenLocataires;
 import view.PanelConsultationLocataire;
+import view.PanelModificationLocataire;
 
 import javax.swing.JButton;
 
@@ -18,7 +19,7 @@ public class ControleurConsultationLocataire implements ActionListener {
   private Proprietaire proprietaire;
   private LocataireDAO locataireDAO;
 
-  public ControleurConsultationLocataire(FenLocataires feneter, PanelConsultationLocataire panel,
+  public ControleurConsultationLocataire(FenLocataires fenetre, PanelConsultationLocataire panel,
       Proprietaire proprietaire,
       Locataire locataire) {
     // Initialisation de la vue et des DAO
@@ -37,7 +38,13 @@ public class ControleurConsultationLocataire implements ActionListener {
 
     switch (boutonTexte) {
       case "Modifier le locataire": {
-        // TODO: aller to PanelModificationLocataire lorsqu'il sera implémenté
+        PanelModificationLocataire panelModificationLocataire = new PanelModificationLocataire(
+            this.fenetre,
+            this.proprietaire,
+            this.locataire);
+
+        this.fenetre.setPanelCentral(panelModificationLocataire);
+        break;
       }
       case "Supprimer le locataire": {
         // TODO: suppression d'un locataire

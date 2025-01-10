@@ -169,7 +169,7 @@ public class PanelAPropos extends JPanel {
 	        // Ajustement de la taille et affichage
 	        frame.pack(); // Ajuste la taille en fonction du contenu
 	        frame.setLocationRelativeTo(null); // Centre la fenêtre à l'écran
-	        frame.setSize(400, 600);
+	        frame.setSize(630, 450);
 	        frame.setVisible(true);
 	    });
 	}

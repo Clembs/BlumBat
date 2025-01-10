@@ -35,8 +35,7 @@ public class ControleurModificationLocataire implements ActionListener {
     JButton boutonClique = (JButton) e.getSource();
     String boutonTexte = boutonClique.getText();
 
-    // Vérifier si le bouton "Modifier" est cliqué
-    if (boutonTexte == "Modifier") {
+    if (boutonTexte == "Enregistrer") {
       // Remettre à zéro les erreurs affichées
       panel.clearErreurs();
 

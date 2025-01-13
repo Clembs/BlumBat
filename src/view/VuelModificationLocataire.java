@@ -7,7 +7,7 @@ import model.Proprietaire;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelModificationLocataire extends JPanel {
+public class VuelModificationLocataire extends JPanel {
   private JTextField nomField;
   private JTextField prenomField;
   private JTextField emailField;
@@ -15,7 +15,7 @@ public class PanelModificationLocataire extends JPanel {
   private DefaultListModel<String> erreursListModel;
   private JList<String> erreursList;
 
-  public PanelModificationLocataire(FenLocataires fenLocataires, Proprietaire proprietaire, Locataire locataire) {
+  public VuelModificationLocataire(VueLocataires fenLocataires, Proprietaire proprietaire, Locataire locataire) {
     this.setLayout(new BorderLayout(10, 10));
     this.setBackground(new Color(40, 40, 40));
 

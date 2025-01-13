@@ -10,7 +10,7 @@ import controller.ControleurAjoutBien;
 import model.Proprietaire;
 import model.TypeBien;
 
-public class FenAjoutBien extends JFrame {
+public class VueAjoutBien extends JFrame {
   private static final long serialVersionUID = 1L;
   private JPanel contentPane;
   private JTextField villeField;
@@ -25,7 +25,7 @@ public class FenAjoutBien extends JFrame {
   private JList<String> erreursList;
   private DefaultListModel<String> erreursListModel;
 
-  public FenAjoutBien(Proprietaire P) {
+  public VueAjoutBien(Proprietaire P) {
     this.setTitle("Ajout d'un bien immobilier");
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setBounds(100, 100, 800, 500);

@@ -14,7 +14,7 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 
-public class FenBiens extends JFrame {
+public class VueBiens extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTable tableBiens;
 	private ControleurBiens controleur;
@@ -22,7 +22,7 @@ public class FenBiens extends JFrame {
 	private JPanel panelCentralCourant;
 	private Proprietaire proprietaire;
 
-	public FenBiens(Proprietaire proprietaire) {
+	public VueBiens(Proprietaire proprietaire) {
 		this.proprietaire = proprietaire;
 
 		this.setTitle("Gestion des biens");
@@ -158,9 +158,9 @@ public class FenBiens extends JFrame {
 		this.setBiens(biens);
 
 		// rafraîchir le panel courant (s'il est en consultation) en le remplaçant
-		if (this.panelCentralCourant instanceof PanelConsultationBien) {
-			PanelConsultationBien panel = new PanelConsultationBien(this, this.proprietaire, nouveauBien,
-					PanelConsultationBien.Onglets.DÉTAILS);
+		if (this.panelCentralCourant instanceof VuelConsultationBien) {
+			VuelConsultationBien panel = new VuelConsultationBien(this, this.proprietaire, nouveauBien,
+					VuelConsultationBien.Onglets.DÉTAILS);
 
 			this.setPanelCentral(panel);
 		}
@@ -215,7 +215,7 @@ public class FenBiens extends JFrame {
 		EventQueue.invokeLater(() -> {
 			try {
 				Proprietaire proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "truc");
-				FenBiens frame = new FenBiens(proprietaire);
+				VueBiens frame = new VueBiens(proprietaire);
 				frame.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();

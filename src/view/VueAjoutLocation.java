@@ -12,7 +12,7 @@ import model.BienLocatif;
 import model.Locataire;
 import model.Proprietaire;
 
-public class FenAjoutLocation extends JFrame {
+public class VueAjoutLocation extends JFrame {
   private static final long serialVersionUID = 1L;
   private JSpinner loyerSpinner;
   private JTextField dateEntreeField;
@@ -22,7 +22,7 @@ public class FenAjoutLocation extends JFrame {
   private JList<String> erreursList;
   private DefaultListModel<String> erreursListModel;
 
-  public FenAjoutLocation(FenBiens fenBiens, BienLocatif bien, Proprietaire proprietaire) {
+  public VueAjoutLocation(VueBiens fenBiens, BienLocatif bien, Proprietaire proprietaire) {
     ControleurAjoutLocation controleur = new ControleurAjoutLocation(this, bien, proprietaire, fenBiens);
 
     setBounds(100, 100, 600, 500);

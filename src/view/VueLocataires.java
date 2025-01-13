@@ -1,7 +1,6 @@
 package view;
 
 import controller.ControleurLocataires;
-import model.BienImmobilier;
 import model.Locataire;
 import model.Proprietaire;
 
@@ -14,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class FenLocataires extends JFrame {
+public class VueLocataires extends JFrame {
   private static final long serialVersionUID = 1L;
   private List<Locataire> locataires;
   private JList<String> listeLocataires;
@@ -24,7 +23,7 @@ public class FenLocataires extends JFrame {
   // la fenêtre de consultation & sélection des locataires
   // on peut optionnellement passer une fenêtre d'ajout de location pour
   // sélectionner un ou plusieurs locataires pour une location
-  public FenLocataires(Proprietaire proprietaire, FenAjoutLocation fenAjoutLocation) {
+  public VueLocataires(Proprietaire proprietaire, VueAjoutLocation fenAjoutLocation) {
     boolean modeSelection = fenAjoutLocation != null;
 
     this.proprietaire = proprietaire;
@@ -111,8 +110,8 @@ public class FenLocataires extends JFrame {
     this.setLocataires(this.locataires);
 
     // rafraîchir le panel courant (s'il est en consultation) en le remplaçant
-    if (this.panelCentralCourant instanceof PanelConsultationLocataire) {
-      PanelConsultationLocataire panel = new PanelConsultationLocataire(this, this.proprietaire, nouveauLocataire);
+    if (this.panelCentralCourant instanceof VueConsultationLocataire) {
+      VueConsultationLocataire panel = new VueConsultationLocataire(this, this.proprietaire, nouveauLocataire);
 
       this.setPanelCentral(panel);
     }
@@ -165,7 +164,7 @@ public class FenLocataires extends JFrame {
     EventQueue.invokeLater(() -> {
       try {
         Proprietaire proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "truc");
-        FenLocataires frame = new FenLocataires(proprietaire, null);
+        VueLocataires frame = new VueLocataires(proprietaire, null);
         frame.setVisible(true);
       } catch (Exception e) {
         e.printStackTrace();

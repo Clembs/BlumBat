@@ -11,17 +11,17 @@ import javax.swing.JTable;
 import dao.BienDAO;
 import model.BienImmobilier;
 import model.Proprietaire;
-import view.FenAjoutBien;
-import view.FenBiens;
-import view.PanelConsultationBien;
+import view.VueAjoutBien;
+import view.VueBiens;
+import view.VuelConsultationBien;
 
 public class ControleurBiens implements ActionListener, MouseListener {
-  private FenBiens fenetre;
+  private VueBiens fenetre;
   private Proprietaire proprietaire;
   private BienDAO bienDAO;
   private List<BienImmobilier> biens;
 
-  public ControleurBiens(Proprietaire proprietaire, FenBiens fenetre) {
+  public ControleurBiens(Proprietaire proprietaire, VueBiens fenetre) {
     this.proprietaire = proprietaire;
     this.fenetre = fenetre;
     this.bienDAO = new BienDAO();
@@ -33,7 +33,7 @@ public class ControleurBiens implements ActionListener, MouseListener {
   // Lorsque l'on clique sur le bouton "Ajouter"
   @Override
   public void actionPerformed(ActionEvent e) {
-    FenAjoutBien fenetreAjoutBien = new FenAjoutBien(proprietaire);
+    VueAjoutBien fenetreAjoutBien = new VueAjoutBien(proprietaire);
     fenetreAjoutBien.setVisible(true);
   }
 
@@ -48,8 +48,8 @@ public class ControleurBiens implements ActionListener, MouseListener {
     if (row != -1) {
       BienImmobilier bien = biens.get(row);
 
-      PanelConsultationBien menu = new PanelConsultationBien(fenetre, proprietaire, bien,
-          PanelConsultationBien.Onglets.DÉTAILS);
+      VuelConsultationBien menu = new VuelConsultationBien(fenetre, proprietaire, bien,
+          VuelConsultationBien.Onglets.DÉTAILS);
       fenetre.setPanelCentral(menu);
       menu.setVisible(true);
     }

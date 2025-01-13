@@ -13,18 +13,18 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 import view.FenBiens;
-import view.PanelConsultationBien;
+import view.PanelDétailsBien;
 import view.PanelModificationBien;
 import view.FenAjoutLocation;
 
-public class ControleurConsultationBien implements ActionListener {
+public class ControleurDétailsBien implements ActionListener {
   private FenBiens fenetre;
-  private PanelConsultationBien panel;
+  private PanelDétailsBien panel;
   private BienImmobilier bien;
   private Proprietaire proprietaire;
   private BienDAO bienDAO;
 
-  public ControleurConsultationBien(FenBiens fenetre, PanelConsultationBien panel, Proprietaire proprietaire,
+  public ControleurDétailsBien(FenBiens fenetre, PanelDétailsBien panel, Proprietaire proprietaire,
       BienImmobilier bien) {
     this.fenetre = fenetre;
     this.panel = panel;
@@ -39,13 +39,13 @@ public class ControleurConsultationBien implements ActionListener {
     String boutonTexte = boutonClique.getText();
 
     switch (boutonTexte) {
-      case "Modifier le bien": {
+      case "Modifier": {
         PanelModificationBien panelModification = new PanelModificationBien(fenetre, proprietaire, bien);
 
         fenetre.setPanelCentral(panelModification);
         break;
       }
-      case "Supprimer le bien": {
+      case "Supprimer": {
         int entrée = JOptionPane.showConfirmDialog(boutonClique,
             "Voulez-vous vraiment supprimer ce bien ?"
                 + (this.bien instanceof BienLocatif && ((BienLocatif) bien).estLoué()
@@ -84,7 +84,4 @@ public class ControleurConsultationBien implements ActionListener {
       }
     }
   }
-
-  // TODO: double-clic sur un locataire pour afficher ses informations avec
-  // MouseListener
 }

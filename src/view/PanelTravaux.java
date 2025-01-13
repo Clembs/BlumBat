@@ -13,15 +13,21 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controller.ControleurTravaux;
+import model.BienImmobilier;
+import model.TypeBien;
+
 public class PanelTravaux extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
+	private JLabel PrixTotalText;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelTravaux() {
+	public PanelTravaux(BienImmobilier bien) {
+		ControleurTravaux controleur = new ControleurTravaux(this, bien);
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -39,7 +45,7 @@ public class PanelTravaux extends JPanel {
 		JLabel PrixTotal = new JLabel("Prix Total des Travaux :");
 		panel_2.add(PrixTotal);
 		
-		JLabel PrixTotalText = new JLabel("20.000€");
+		this.PrixTotalText = new JLabel("20.000€");
 		panel_2.add(PrixTotalText);
 		
 		JPanel panel_3 = new JPanel();
@@ -74,16 +80,28 @@ public class PanelTravaux extends JPanel {
 		JButton ButtonAjouter = new JButton("Ajouter Nouvele Travaux");
 		ButtonAjouter.setBackground(new Color(192, 192, 192));
 		panel_6.add(ButtonAjouter);
+		ButtonAjouter.addActionListener(controleur);
 		
 		JButton ButtonSuprimer = new JButton("Supprimer");
 		ButtonSuprimer.setBackground(new Color(255, 128, 128));
 		panel_6.add(ButtonSuprimer);
+		ButtonSuprimer.addActionListener(controleur);
 		
 		JButton ButtonModifier = new JButton("Modifier");
 		ButtonModifier.setBackground(new Color(128, 255, 255));
 		panel_6.add(ButtonModifier);
+		ButtonModifier.addActionListener(controleur);
 
 	}
+	
+	public JTable getTable() {
+		return table;
+	}
+	
+	public void setPrixTotal(String prixTotal) {
+		PrixTotalText.setText(prixTotal);
+	}
+	
 	
 	public static void main(String[] args) {
 	    EventQueue.invokeLater(() -> {
@@ -92,7 +110,7 @@ public class PanelTravaux extends JPanel {
 	        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 	        
 	        // Ajout du JPanel PanelAPropos au JFrame
-	        PanelTravaux Travaux = new PanelTravaux();
+	        PanelTravaux Travaux = new PanelTravaux(new BienImmobilier("123456",TypeBien.BATIMENT,"rue compte","ap4","36000","Toulouse"));
 	        frame.getContentPane().add(Travaux);
 
 	        // Ajustement de la taille et affichage

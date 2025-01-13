@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import model.BienImmobilier;
+import model.BienLocatif;
 import model.Proprietaire;
 
 public class PanelConsultationBien extends JPanel {
@@ -42,8 +43,14 @@ public class PanelConsultationBien extends JPanel {
     JTabbedPane tabs = new JTabbedPane();
 
     PanelDétailsBien panelBienDetails = new PanelDétailsBien(fenetre, proprietaire, bien);
-
     tabs.addTab("Détails", null, panelBienDetails);
+
+    if (bien instanceof BienLocatif) {
+      BienLocatif bienLocatif = (BienLocatif) bien;
+
+      PanelLocationsPassésBien panelLocationsPassées = new PanelLocationsPassésBien(fenetre, proprietaire, bienLocatif);
+      tabs.addTab("Locations passées", null, panelLocationsPassées);
+    }
 
     tabs.setSelectedIndex(ongletSélectionné.ordinal());
 

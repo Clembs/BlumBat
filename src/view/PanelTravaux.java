@@ -71,17 +71,17 @@ public class PanelTravaux extends JPanel {
 		JPanel panel_6 = new JPanel();
 		panel_1.add(panel_6, BorderLayout.EAST);
 		
-		JButton btnNewButton = new JButton("Ajouter Nouvele Travaux");
-		btnNewButton.setBackground(new Color(192, 192, 192));
-		panel_6.add(btnNewButton);
+		JButton ButtonAjouter = new JButton("Ajouter Nouvele Travaux");
+		ButtonAjouter.setBackground(new Color(192, 192, 192));
+		panel_6.add(ButtonAjouter);
 		
-		JButton btnNewButton_1 = new JButton("Supprimer");
-		btnNewButton_1.setBackground(new Color(255, 128, 128));
-		panel_6.add(btnNewButton_1);
+		JButton ButtonSuprimer = new JButton("Supprimer");
+		ButtonSuprimer.setBackground(new Color(255, 128, 128));
+		panel_6.add(ButtonSuprimer);
 		
-		JButton btnNewButton_2 = new JButton("Modifier");
-		btnNewButton_2.setBackground(new Color(128, 255, 255));
-		panel_6.add(btnNewButton_2);
+		JButton ButtonModifier = new JButton("Modifier");
+		ButtonModifier.setBackground(new Color(128, 255, 255));
+		panel_6.add(ButtonModifier);
 
 	}
 	

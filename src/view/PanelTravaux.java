@@ -1,4 +1,4 @@
-package view;
+package oui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -79,13 +79,24 @@ public class PanelTravaux extends JPanel {
 		panel_10.add(panel_5);
 		panel_5.setLayout(new GridLayout(2, 0, 3, 0));
 		
-		JLabel Prix = new JLabel("Prix");
-		Prix.setVerticalAlignment(SwingConstants.BOTTOM);
-		panel_5.add(Prix);
+		JLabel MontantDevis = new JLabel("Montant Devis");
+		MontantDevis.setVerticalAlignment(SwingConstants.BOTTOM);
+		panel_5.add(MontantDevis);
 		
-		JLabel PrixText = new JLabel("14.000€");
-		PrixText.setForeground(Color.GRAY);
-		panel_5.add(PrixText);
+		JLabel MontantDevisText = new JLabel("14.000€");
+		MontantDevisText.setForeground(Color.GRAY);
+		panel_5.add(MontantDevisText);
+		
+		JPanel panel_11 = new JPanel();
+		panel_10.add(panel_11);
+		panel_11.setLayout(new GridLayout(2, 0, 3, 0));
+		
+		JLabel MontantFacture = new JLabel("Montant Facture");
+		panel_11.add(MontantFacture);
+		
+		JLabel MontantFactureText = new JLabel("20.000€");
+		MontantFactureText.setForeground(Color.GRAY);
+		panel_11.add(MontantFactureText);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));

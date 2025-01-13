@@ -34,6 +34,33 @@ public class TravauxDAO {
     }
   }
 
+  // recuperation d'un travaux associé a un bien a partir de l'id du bien et de sont description
+  public FactureTravaux getFactureByDescription(String description, BienImmobilier bien) {
+    FactureTravaux factureTravaux = null;
+
+    try {
+        String query = "SELECT * FROM factures_travaux WHERE description_travaux = ? AND id_bien = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, description);
+        preparedStatement.setString(2, bien.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            factureTravaux = new FactureTravaux(
+                resultSet.getString("id_facture"),
+                bien,
+                resultSet.getDouble("montant_facture"),
+                resultSet.getString("description_travaux"),
+                resultSet.getDouble("montant_devis"),
+                resultSet.getString("entreprise")
+            );
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("Erreur lors de la récupération de la facture par description", e);
+    }
+    return factureTravaux;
+  }
+
   // recuperation de tout les travaux associé a un bien a partir de l'id du bien
   public List<FactureTravaux> getAllFacture(BienImmobilier bien) {
     List<FactureTravaux> factures = new LinkedList<>();

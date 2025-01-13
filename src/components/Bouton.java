@@ -9,16 +9,21 @@ public class Bouton extends JButton {
   private VarianteButton variante;
 
   public Bouton(String text) {
-    this(text, VarianteButton.PRIMARY);
+    this(text, VarianteButton.PRIMAIRE, false);
   }
 
   public Bouton(String text, VarianteButton variante) {
+    this(text, variante, false);
+  }
+
+  // constructeur privé appelé par les deux constructeurs publiques
+  // (pour définir une variante par défaut et éviter de répéter le code)
+  private Bouton(String text, VarianteButton variante, boolean privé) {
     super(text);
     this.variante = variante;
 
-
     // Paramètres de style du bouton
-    this.setFont(new Font("Arial", Font.BOLD, 14));
+    this.setFont(Layout.POLICE_SOUSTITRE_GRAS);
     this.setFocusPainted(false);
     this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     this.setOpaque(false);
@@ -64,7 +69,7 @@ public class Bouton extends JButton {
     Graphics2D g2 = (Graphics2D) g;
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     // Ombre légère
-    g2.setColor(new Color(0, 0, 0, 50));
+    g2.setColor(Layout.COULEUR_OMBRES);
     g2.fillRoundRect(2, 2, getWidth() - 4, getHeight() - 4, 20, 20);
     // Fond du bouton
     g2.setColor(getBackground());
@@ -73,50 +78,50 @@ public class Bouton extends JButton {
   }
 
   public enum VarianteButton {
-    PRIMARY, SECONDARY, SUCCESS, DANGER;
+    PRIMAIRE, SECONDAIRE, SUCCES, DANGER;
 
     public Color getBackgroundColor() {
       switch (this) {
-        case PRIMARY:
-          return new Color(0x4682b4); // Bleu
-        case SECONDARY:
-          return new Color(0x828282); // Gris
-        case SUCCESS:
-          return new Color(0x00aa55); // Vert
+        case PRIMAIRE:
+          return Layout.COULEUR_PRIMAIRE;
+        case SECONDAIRE:
+          return Layout.COULEUR_SECONDAIRE;
+        case SUCCES:
+          return Layout.COULEUR_SUCCES;
         case DANGER:
-          return new Color(0xc83232); // Rouge
+          return Layout.COULEUR_DANGER;
         default:
-          return new Color(0x4682b4);
+          return Layout.COULEUR_PRIMAIRE;
       }
     }
 
     public Color getBackgroundHoverColor() {
       switch (this) {
-        case PRIMARY:
-          return new Color(0x38678F);
-        case SECONDARY:
-          return new Color(0x696969);
-        case SUCCESS:
-          return new Color(0x00753B);
+        case PRIMAIRE:
+          return Layout.COULEUR_PRIMAIRE_VARIANTE;
+        case SECONDAIRE:
+          return Layout.COULEUR_SECONDAIRE_VARIANTE;
+        case SUCCES:
+          return Layout.COULEUR_SUCCES_VARIANTE;
         case DANGER:
-          return new Color(0x9F2828);
+          return Layout.COULEUR_DANGER_VARIANTE;
         default:
-          return new Color(0x6496dc);
+          return Layout.COULEUR_PRIMAIRE_VARIANTE;
       }
     }
 
     public Color getBackgroundPressedColor() {
       switch (this) {
-        case PRIMARY:
-          return new Color(0x2C4D6E);
-        case SECONDARY:
-          return new Color(0x4F4F4F);
-        case SUCCESS:
-          return new Color(0x00522A);
+        case PRIMAIRE:
+          return Layout.COULEUR_PRIMAIRE_SOMBRE;
+        case SECONDAIRE:
+          return Layout.COULEUR_SECONDAIRE_SOMBRE;
+        case SUCCES:
+          return Layout.COULEUR_SUCCES_SOMBRE;
         case DANGER:
-          return new Color(0x6E1E1E);
+          return Layout.COULEUR_DANGER_SOMBRE;
         default:
-          return new Color(0x2C4D6E);
+          return Layout.COULEUR_PRIMAIRE_SOMBRE;
       }
     }
   }

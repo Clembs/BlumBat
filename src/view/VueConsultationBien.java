@@ -8,10 +8,10 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 
-public class PanelConsultationBien extends JPanel {
+public class VueConsultationBien extends JPanel {
   private static final long serialVersionUID = 1L;
 
-  public PanelConsultationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien,
+  public VueConsultationBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien,
       Onglets ongletSélectionné) {
     setLayout(new BorderLayout(10, 10));
     fenetre.setTitle("Consultation d'un bien - " + bien.getId());
@@ -42,7 +42,7 @@ public class PanelConsultationBien extends JPanel {
 
     JTabbedPane tabs = new JTabbedPane();
 
-    PanelDétailsBien panelBienDetails = new PanelDétailsBien(fenetre, proprietaire, bien);
+    VueDétailsBien panelBienDetails = new VueDétailsBien(fenetre, proprietaire, bien);
     tabs.addTab("Détails", null, panelBienDetails);
 
     if (bien instanceof BienLocatif) {
@@ -51,7 +51,7 @@ public class PanelConsultationBien extends JPanel {
           bienLocatif);
       tabs.addTab("Locations en cours", null, panelLocationsEnCours);
 
-      PanelLocationsPassésBien panelLocationsPassées = new PanelLocationsPassésBien(fenetre, proprietaire, bienLocatif);
+      VueLocationsPassésBien panelLocationsPassées = new VueLocationsPassésBien(fenetre, proprietaire, bienLocatif);
       tabs.addTab("Locations passées", null, panelLocationsPassées);
     }
 

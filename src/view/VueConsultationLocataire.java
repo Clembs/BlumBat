@@ -16,11 +16,11 @@ import model.Locataire;
 import model.Location;
 import model.Proprietaire;
 
-public class PanelConsultationLocataire extends JPanel {
+public class VueConsultationLocataire extends JPanel {
   private static final long serialVersionUID = 1L;
   private ControleurConsultationLocataire controleur;
 
-  public PanelConsultationLocataire(FenLocataires fenetre, Proprietaire proprietaire, Locataire locataire) {
+  public VueConsultationLocataire(VueLocataires fenetre, Proprietaire proprietaire, Locataire locataire) {
     setLayout(new BorderLayout(10, 10));
     setBorder(new TitledBorder(new EtchedBorder(), "Informations Personnelles", TitledBorder.CENTER,
         TitledBorder.TOP));

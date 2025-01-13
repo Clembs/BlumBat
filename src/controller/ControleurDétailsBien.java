@@ -12,19 +12,19 @@ import dao.BienDAO;
 import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
-import view.FenBiens;
-import view.PanelDétailsBien;
-import view.PanelModificationBien;
-import view.FenAjoutLocation;
+import view.VueBiens;
+import view.VueDétailsBien;
+import view.VueModificationBien;
+import view.VueAjoutLocation;
 
 public class ControleurDétailsBien implements ActionListener {
-  private FenBiens fenetre;
-  private PanelDétailsBien panel;
+  private VueBiens fenetre;
+  private VueDétailsBien panel;
   private BienImmobilier bien;
   private Proprietaire proprietaire;
   private BienDAO bienDAO;
 
-  public ControleurDétailsBien(FenBiens fenetre, PanelDétailsBien panel, Proprietaire proprietaire,
+  public ControleurDétailsBien(VueBiens fenetre, VueDétailsBien panel, Proprietaire proprietaire,
       BienImmobilier bien) {
     this.fenetre = fenetre;
     this.panel = panel;
@@ -40,7 +40,7 @@ public class ControleurDétailsBien implements ActionListener {
 
     switch (boutonTexte) {
       case "Modifier": {
-        PanelModificationBien panelModification = new PanelModificationBien(fenetre, proprietaire, bien);
+        VueModificationBien panelModification = new VueModificationBien(fenetre, proprietaire, bien);
 
         fenetre.setPanelCentral(panelModification);
         break;
@@ -78,7 +78,7 @@ public class ControleurDétailsBien implements ActionListener {
 
         BienLocatif bienL = (BienLocatif) bien;
 
-        FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bienL, proprietaire);
+        VueAjoutLocation fenAjoutLocation = new VueAjoutLocation(fenetre, bienL, proprietaire);
         fenAjoutLocation.setVisible(true);
         break;
       }

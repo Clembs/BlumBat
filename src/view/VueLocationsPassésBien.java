@@ -12,10 +12,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
-public class PanelLocationsPassésBien extends JPanel {
+public class VueLocationsPassésBien extends JPanel {
   private static final long serialVersionUID = 1L;
 
-  public PanelLocationsPassésBien(FenBiens fenetre, Proprietaire proprietaire, BienLocatif bien) {
+  public VueLocationsPassésBien(VueBiens fenetre, Proprietaire proprietaire, BienLocatif bien) {
     this.setLayout(new BorderLayout());
 
     DefaultTableModel tableModel = new DefaultTableModel(

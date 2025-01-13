@@ -19,10 +19,10 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 
-public class PanelDétailsBien extends JPanel {
+public class VueDétailsBien extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	public PanelDétailsBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
+	public VueDétailsBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
 
 		this.setLayout(new BorderLayout(0, 0));
 

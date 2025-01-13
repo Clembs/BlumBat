@@ -10,20 +10,20 @@ import javax.swing.JOptionPane;
 import model.Locataire;
 import model.Proprietaire;
 import dao.LocataireDAO;
-import view.FenAjoutLocataire;
-import view.FenLocataires;
-import view.PanelConsultationLocataire;
+import view.VueAjoutLocataire;
+import view.VueLocataires;
+import view.VueConsultationLocataire;
 
 public class ControleurAjoutLocataire implements ActionListener {
-  private FenAjoutLocataire fenetre;
+  private VueAjoutLocataire fenetre;
   private Proprietaire proprietaire;
-  private FenLocataires fenLocataires;
+  private VueLocataires fenLocataires;
   private LocataireDAO locataireDAO;
 
   public ControleurAjoutLocataire(
-      FenAjoutLocataire fenetre,
+      VueAjoutLocataire fenetre,
       Proprietaire proprietaire,
-      FenLocataires fenLocataires) {
+      VueLocataires fenLocataires) {
     this.fenetre = fenetre;
     this.proprietaire = proprietaire;
     this.fenLocataires = fenLocataires;
@@ -79,7 +79,7 @@ public class ControleurAjoutLocataire implements ActionListener {
       // on met à jour la liste des locataires
       this.fenLocataires.setLocataires(locataires);
 
-      PanelConsultationLocataire panel = new PanelConsultationLocataire(fenLocataires, proprietaire, locataire);
+      VueConsultationLocataire panel = new VueConsultationLocataire(fenLocataires, proprietaire, locataire);
       this.fenLocataires.setPanelCentral(panel);
 
       // on ferme la fenêtre d'ajout

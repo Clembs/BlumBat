@@ -2,11 +2,13 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+
+import dao.LocataireDAO;
 import model.Locataire;
 import model.Proprietaire;
-import dao.LocataireDAO;
 import view.FenLocataires;
 import view.PanelConsultationLocataire;
 import view.PanelModificationLocataire;

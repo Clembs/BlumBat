@@ -4,18 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class PanelTravaux extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private JTable table;
 
 	/**
 	 * Create the panel.
@@ -25,78 +26,41 @@ public class PanelTravaux extends JPanel {
 		
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.CENTER);
-		panel.setLayout(new GridLayout(4, 0, 0, 0));
+		panel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_8 = new JPanel();
-		panel.add(panel_8);
+		panel.add(panel_8, BorderLayout.NORTH);
+		panel_8.setLayout(new FlowLayout(FlowLayout.LEFT, 40, 20));
 		
 		JPanel panel_2 = new JPanel();
 		panel_8.add(panel_2);
 		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel NomTravaux = new JLabel("Travaux Cuisine");
-		NomTravaux.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		NomTravaux.setVerticalAlignment(SwingConstants.BOTTOM);
-		panel_2.add(NomTravaux);
+		JLabel PrixTotal = new JLabel("Prix Total des Travaux :");
+		panel_2.add(PrixTotal);
 		
-		JPanel panel_7 = new JPanel();
-		panel.add(panel_7);
-		panel_7.setLayout(new FlowLayout(FlowLayout.LEFT, 40, 5));
+		JLabel PrixTotalText = new JLabel("20.000€");
+		panel_2.add(PrixTotalText);
 		
 		JPanel panel_3 = new JPanel();
-		panel_7.add(panel_3);
-		panel_3.setLayout(new GridLayout(2, 0, 3, 0));
+		panel.add(panel_3);
+		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		JLabel Description = new JLabel("Description");
-		Description.setVerticalAlignment(SwingConstants.BOTTOM);
-		panel_3.add(Description);
-		
-		JLabel DescriptionText = new JLabel("Changer le robinet");
-		DescriptionText.setForeground(Color.GRAY);
-		panel_3.add(DescriptionText);
-		
-		JPanel panel_9 = new JPanel();
-		panel.add(panel_9);
-		panel_9.setLayout(new FlowLayout(FlowLayout.LEFT, 40, 5));
-		
-		JPanel panel_4 = new JPanel();
-		panel_9.add(panel_4);
-		panel_4.setLayout(new GridLayout(2, 0, 3, 0));
-		
-		JLabel Entreprise = new JLabel("Entreprise");
-		Entreprise.setVerticalAlignment(SwingConstants.BOTTOM);
-		panel_4.add(Entreprise);
-		
-		JLabel EntrepriseText = new JLabel("Abdel&Co");
-		EntrepriseText.setForeground(Color.GRAY);
-		panel_4.add(EntrepriseText);
-		
-		JPanel panel_10 = new JPanel();
-		panel.add(panel_10);
-		panel_10.setLayout(new FlowLayout(FlowLayout.LEFT, 40, 5));
-		
-		JPanel panel_5 = new JPanel();
-		panel_10.add(panel_5);
-		panel_5.setLayout(new GridLayout(2, 0, 3, 0));
-		
-		JLabel MontantDevis = new JLabel("Montant Devis");
-		MontantDevis.setVerticalAlignment(SwingConstants.BOTTOM);
-		panel_5.add(MontantDevis);
-		
-		JLabel MontantDevisText = new JLabel("14.000€");
-		MontantDevisText.setForeground(Color.GRAY);
-		panel_5.add(MontantDevisText);
-		
-		JPanel panel_11 = new JPanel();
-		panel_10.add(panel_11);
-		panel_11.setLayout(new GridLayout(2, 0, 3, 0));
-		
-		JLabel MontantFacture = new JLabel("Montant Facture");
-		panel_11.add(MontantFacture);
-		
-		JLabel MontantFactureText = new JLabel("20.000€");
-		MontantFactureText.setForeground(Color.GRAY);
-		panel_11.add(MontantFactureText);
+		table = new JTable();
+		table.setFillsViewportHeight(true);
+		table.setModel(new DefaultTableModel(
+		    new Object[][] {
+		        {"Cuisine", "Changer robinet", "Abdel&Co", "400\u20AC", "3000\u20AC"},
+		    },
+		    new String[] {
+		        "Travaux", "Description", "Entreprise", "Montant Devise", "Montant Facture"
+		    }
+		));
+
+		// Encapsulation de la table dans un JScrollPane
+		JScrollPane scrollPane = new JScrollPane(table);
+		panel_3.add(scrollPane, BorderLayout.CENTER);
+
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));

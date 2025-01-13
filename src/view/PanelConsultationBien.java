@@ -50,6 +50,9 @@ public class PanelConsultationBien extends JPanel {
       PanelLocationsEnCoursBien panelLocationsEnCours = new PanelLocationsEnCoursBien(fenetre, proprietaire,
           bienLocatif);
       tabs.addTab("Locations en cours", null, panelLocationsEnCours);
+
+      PanelLocationsPassésBien panelLocationsPassées = new PanelLocationsPassésBien(fenetre, proprietaire, bienLocatif);
+      tabs.addTab("Locations passées", null, panelLocationsPassées);
     }
 
     tabs.setSelectedIndex(ongletSélectionné.ordinal());

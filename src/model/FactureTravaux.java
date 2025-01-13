@@ -6,11 +6,14 @@ public class FactureTravaux {
   private double montantFacture;
   private double montantDevis;
   private String entreprise;
+  private String description;
 
-  public FactureTravaux(String id, BienImmobilier bien, double montantFacture, double montantDevis, String entreprise) {
+  public FactureTravaux(String id, BienImmobilier bien, double montantFacture, String description, double montantDevis,
+      String entreprise) {
     this.id = id;
     this.bien = bien;
     this.montantFacture = montantFacture;
+    this.description = description;
     this.montantDevis = montantDevis;
     this.entreprise = entreprise;
   }
@@ -25,6 +28,10 @@ public class FactureTravaux {
 
   public double getMontantFacture() {
     return montantFacture;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public double getMontantDevis() {

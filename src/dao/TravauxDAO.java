@@ -20,14 +20,17 @@ public class TravauxDAO {
 
   public void create(FactureTravaux factureTravaux, BienImmobilier bien) {
     try {
-      String query = "INSERT INTO factures_travaux(id_facture, id_bien, montant_facture) VALUES(?, ?, ?)";
+      String query = "INSERT INTO factures_travaux(id_facture, id_bien, montant_facture, description_travaux, montant_devis, entreprise) VALUES(?, ?, ?, ?, ?, ?)";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, factureTravaux.getId());
       preparedStatement.setString(2, factureTravaux.getBien().getId());
       preparedStatement.setDouble(3, factureTravaux.getMontantFacture());
+      preparedStatement.setString(4, factureTravaux.getDescription());
+      preparedStatement.setDouble(5, factureTravaux.getMontantDevis());
+      preparedStatement.setString(6, factureTravaux.getEntreprise());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la creation d'une facture travaux", e);
+      throw new RuntimeException("Erreur lors de la creation d'une facture de travaux", e);
     }
   }
 
@@ -45,9 +48,10 @@ public class TravauxDAO {
         FactureTravaux factureTravaux = new FactureTravaux(
             resultSet.getString("id_facture"),
             bien,
-            0,
-            0,
-            resultSet.getString("montant_facture"));
+            resultSet.getDouble("montant_facture"),
+            resultSet.getString("description_travaux"),
+            resultSet.getDouble("montant_devis"),
+            resultSet.getString("entreprise"));
 
         factures.add(factureTravaux);
         // on crée la facture si elle n'existe pas
@@ -66,7 +70,7 @@ public class TravauxDAO {
       preparedStatement.setString(1, factureTravaux.getId());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Erreur lors de la suppression d'une facture", e);
+      throw new RuntimeException("Erreur lors de la suppression d'une facture de travaux", e);
     }
   }
 }

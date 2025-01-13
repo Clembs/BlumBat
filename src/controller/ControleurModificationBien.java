@@ -88,13 +88,15 @@ public class ControleurModificationBien implements ActionListener {
 
         this.fenetre.updateBien(nouveauBien);
 
-        PanelConsultationBien panelConsultation = new PanelConsultationBien(fenetre, proprietaire, nouveauBien);
+        PanelConsultationBien panelConsultation = new PanelConsultationBien(fenetre, proprietaire, nouveauBien,
+            PanelConsultationBien.Onglets.DÉTAILS);
 
         fenetre.setPanelCentral(panelConsultation);
         break;
       }
       case "Annuler": {
-        PanelConsultationBien panelConsultation = new PanelConsultationBien(fenetre, proprietaire, bien);
+        PanelConsultationBien panelConsultation = new PanelConsultationBien(fenetre, proprietaire, bien,
+            PanelConsultationBien.Onglets.DÉTAILS);
 
         fenetre.setPanelCentral(panelConsultation);
         break;

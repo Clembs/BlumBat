@@ -159,7 +159,8 @@ public class FenBiens extends JFrame {
 
 		// rafraîchir le panel courant (s'il est en consultation) en le remplaçant
 		if (this.panelCentralCourant instanceof PanelConsultationBien) {
-			PanelConsultationBien panel = new PanelConsultationBien(this, this.proprietaire, nouveauBien);
+			PanelConsultationBien panel = new PanelConsultationBien(this, this.proprietaire, nouveauBien,
+					PanelConsultationBien.Onglets.DÉTAILS);
 
 			this.setPanelCentral(panel);
 		}
@@ -232,6 +233,5 @@ public class FenBiens extends JFrame {
 		panel.add(lblChoix);
 
 		setPanelCentral(panel);
-
 	}
 }

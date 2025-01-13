@@ -35,7 +35,6 @@ public class ControleurBiens implements ActionListener, MouseListener {
   public void actionPerformed(ActionEvent e) {
     FenAjoutBien fenetreAjoutBien = new FenAjoutBien(proprietaire);
     fenetreAjoutBien.setVisible(true);
-    this.fenetre.dispose();
   }
 
   // Lorsque l'on sélectionne un bien dans la liste
@@ -49,7 +48,8 @@ public class ControleurBiens implements ActionListener, MouseListener {
     if (row != -1) {
       BienImmobilier bien = biens.get(row);
 
-      PanelConsultationBien menu = new PanelConsultationBien(fenetre, proprietaire, bien);
+      PanelConsultationBien menu = new PanelConsultationBien(fenetre, proprietaire, bien,
+          PanelConsultationBien.Onglets.DÉTAILS);
       fenetre.setPanelCentral(menu);
       menu.setVisible(true);
     }

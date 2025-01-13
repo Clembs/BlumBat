@@ -9,18 +9,18 @@ import model.Proprietaire;
 import dao.LocataireDAO;
 import view.VueLocataires;
 import view.VueConsultationLocataire;
-import view.VuelModificationLocataire;
+import view.VueModificationLocataire;
 
 public class ControleurModificationLocataire implements ActionListener {
   private VueLocataires fenLocataires;
-  private VuelModificationLocataire panel;
+  private VueModificationLocataire panel;
   private Locataire locataire;
   private Proprietaire proprietaire;
   private LocataireDAO locataireDAO;
 
   public ControleurModificationLocataire(
       VueLocataires fenLocataires,
-      VuelModificationLocataire panel,
+      VueModificationLocataire panel,
       Proprietaire proprietaire,
       Locataire locataire) {
     this.fenLocataires = fenLocataires;

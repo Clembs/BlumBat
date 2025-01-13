@@ -5,7 +5,7 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 import view.VueBiens;
-import view.VuelConsultationBien;
+import view.VueConsultationBien;
 import view.VueModificationBien;
 
 import javax.swing.*;
@@ -88,15 +88,15 @@ public class ControleurModificationBien implements ActionListener {
 
         this.fenetre.updateBien(nouveauBien);
 
-        VuelConsultationBien panelConsultation = new VuelConsultationBien(fenetre, proprietaire, nouveauBien,
-            VuelConsultationBien.Onglets.DÉTAILS);
+        VueConsultationBien panelConsultation = new VueConsultationBien(fenetre, proprietaire, nouveauBien,
+            VueConsultationBien.Onglets.DÉTAILS);
 
         fenetre.setPanelCentral(panelConsultation);
         break;
       }
       case "Annuler": {
-        VuelConsultationBien panelConsultation = new VuelConsultationBien(fenetre, proprietaire, bien,
-            VuelConsultationBien.Onglets.DÉTAILS);
+        VueConsultationBien panelConsultation = new VueConsultationBien(fenetre, proprietaire, bien,
+            VueConsultationBien.Onglets.DÉTAILS);
 
         fenetre.setPanelCentral(panelConsultation);
         break;

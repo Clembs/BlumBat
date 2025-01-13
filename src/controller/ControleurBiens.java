@@ -13,7 +13,7 @@ import model.BienImmobilier;
 import model.Proprietaire;
 import view.VueAjoutBien;
 import view.VueBiens;
-import view.VuelConsultationBien;
+import view.VueConsultationBien;
 
 public class ControleurBiens implements ActionListener, MouseListener {
   private VueBiens fenetre;
@@ -48,8 +48,8 @@ public class ControleurBiens implements ActionListener, MouseListener {
     if (row != -1) {
       BienImmobilier bien = biens.get(row);
 
-      VuelConsultationBien menu = new VuelConsultationBien(fenetre, proprietaire, bien,
-          VuelConsultationBien.Onglets.DÉTAILS);
+      VueConsultationBien menu = new VueConsultationBien(fenetre, proprietaire, bien,
+          VueConsultationBien.Onglets.DÉTAILS);
       fenetre.setPanelCentral(menu);
       menu.setVisible(true);
     }

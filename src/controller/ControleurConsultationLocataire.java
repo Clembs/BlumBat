@@ -5,7 +5,7 @@ import model.Locataire;
 import model.Proprietaire;
 import view.VueLocataires;
 import view.VueConsultationLocataire;
-import view.VuelModificationLocataire;
+import view.VueModificationLocataire;
 
 import javax.swing.JButton;
 
@@ -38,7 +38,7 @@ public class ControleurConsultationLocataire implements ActionListener {
 
     switch (boutonTexte) {
       case "Modifier le locataire": {
-        VuelModificationLocataire panelModificationLocataire = new VuelModificationLocataire(
+        VueModificationLocataire panelModificationLocataire = new VueModificationLocataire(
             this.fenetre,
             this.proprietaire,
             this.locataire);

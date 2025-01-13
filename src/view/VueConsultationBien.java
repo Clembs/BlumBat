@@ -8,10 +8,10 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 
-public class VuelConsultationBien extends JPanel {
+public class VueConsultationBien extends JPanel {
   private static final long serialVersionUID = 1L;
 
-  public VuelConsultationBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien,
+  public VueConsultationBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien,
       Onglets ongletSélectionné) {
     setLayout(new BorderLayout(10, 10));
     fenetre.setTitle("Consultation d'un bien - " + bien.getId());

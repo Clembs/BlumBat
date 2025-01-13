@@ -158,9 +158,9 @@ public class VueBiens extends JFrame {
 		this.setBiens(biens);
 
 		// rafraîchir le panel courant (s'il est en consultation) en le remplaçant
-		if (this.panelCentralCourant instanceof VuelConsultationBien) {
-			VuelConsultationBien panel = new VuelConsultationBien(this, this.proprietaire, nouveauBien,
-					VuelConsultationBien.Onglets.DÉTAILS);
+		if (this.panelCentralCourant instanceof VueConsultationBien) {
+			VueConsultationBien panel = new VueConsultationBien(this, this.proprietaire, nouveauBien,
+					VueConsultationBien.Onglets.DÉTAILS);
 
 			this.setPanelCentral(panel);
 		}

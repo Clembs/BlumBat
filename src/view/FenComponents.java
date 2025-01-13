@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.FlowLayout;
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.swing.JFrame;

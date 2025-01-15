@@ -1,7 +1,18 @@
 package view;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import model.BienImmobilier;
 import model.TypeBien;
@@ -14,11 +25,11 @@ public class VueModifierTravaux extends JFrame {
     private JTextField textMontantDevise;
     private JTextField textMontantFacture;
     private BienImmobilier bien;
-    private PanelTravaux panelTravaux;
+    private VueTravaux vueTravaux;
 
-    public VueModifierTravaux(BienImmobilier bien, PanelTravaux panelTravaux) {
+    public VueModifierTravaux(BienImmobilier bien, VueTravaux vueTravaux) {
         this.bien = bien;
-        this.panelTravaux = panelTravaux;
+        this.vueTravaux = vueTravaux;
 
         setTitle("Modifier Travaux");
         setBounds(100, 100, 400, 300);
@@ -100,8 +111,8 @@ public class VueModifierTravaux extends JFrame {
         EventQueue.invokeLater(() -> {
             try {
                 BienImmobilier bien = new BienImmobilier("123456", TypeBien.BATIMENT, "rue compte", "ap4", "36000", "Toulouse");
-                PanelTravaux panelTravaux = new PanelTravaux(bien);
-                VueModifierTravaux frame = new VueModifierTravaux(bien, panelTravaux);
+                VueTravaux vueTravaux = new VueTravaux(bien);
+                VueModifierTravaux frame = new VueModifierTravaux(bien, vueTravaux);
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -4,6 +4,9 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
+
+import components.Libellé;
+import components.Libellé.TypeLibellé;
 import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
@@ -13,19 +16,16 @@ public class VueConsultationBien extends JPanel {
 
   public VueConsultationBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien,
       Onglets ongletSélectionné) {
-    setLayout(new BorderLayout(10, 10));
-    fenetre.setTitle("Consultation d'un bien - " + bien.getId());
+    fenetre.setTitle("Gestion des biens - " + bien.getId());
+    this.setLayout(new BorderLayout(0, 16));
+    this.setBorder(new EmptyBorder(16, 16, 16, 16));
 
     // Panel du haut contenant le titre
     JPanel titlePanel = new JPanel();
     titlePanel.setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
 
-    JLabel titleLabel = new JLabel(bien.getId());
-    titleLabel.setFont(new Font("Rockwell", Font.BOLD, 23));
-    titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-
-    titlePanel.add(titleLabel);
-    add(titlePanel, BorderLayout.NORTH);
+    Libellé titleLabel = new Libellé(bien.getId(), TypeLibellé.EN_TETE);
+    this.add(titleLabel, BorderLayout.NORTH);
 
     // Panel central contenant les informations du bien
     JPanel centerPanel = new JPanel();

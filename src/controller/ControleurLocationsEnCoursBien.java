@@ -46,28 +46,41 @@ public class ControleurLocationsEnCoursBien implements ActionListener {
                 if (selectedRow != -1) {
                     Location location = bien.getLocationsCourantes().get(selectedRow);
                     Locataire locataire = location.getLocataire();
+
+                    VueLocataires fenLocataires = new VueLocataires(proprietaire, null);
                     VueConsultationLocataire vueConsultationLocataire = new VueConsultationLocataire(vueLocataires, proprietaire, locataire);
-                    fenetre.setPanelCentral(vueConsultationLocataire);
+
+                    fenLocataires.setPanelCentral(vueConsultationLocataire);
+                    fenLocataires.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
             case "Retirer de la colocation":
-                selectedRow = vue.getTable().getSelectedRow();
-                if (selectedRow != -1) {
-                    Location location = bien.getLocationsCourantes().get(selectedRow);
-                    locationDAO.delete(location);
-                    bien.removeLocation(location);
-                    vue.rafraîchirTableLocationsEnCours(bien);
-                    JOptionPane.showMessageDialog(vue, "Locataire retiré avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire à retirer.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                int confirmation = JOptionPane.showConfirmDialog(fenetre,
+                        "Voulez-vous vraiment retirer ce locataire ?"
+                                + (this.bien instanceof BienLocatif && ((BienLocatif) bien).estLoué()
+                                ? " Cela entraînera la suppression du locataire de cette location."
+                                : ""),
+                        "Confirmation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (confirmation == JOptionPane.YES_OPTION) {
+                    selectedRow = vue.getTable().getSelectedRow();
+                    if (selectedRow != -1) {
+                        Location location = bien.getLocationsCourantes().get(selectedRow);
+                        locationDAO.delete(location);
+                        bien.removeLocation(location);
+                        vue.rafraîchirTableLocationsEnCours(bien);
+                        JOptionPane.showMessageDialog(vue, "Locataire retiré avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire à retirer.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 break;
             case "Modifier part du loyer":
                 // TODO  à faire quand la feneêtre de modification de part de loyer sera créée
                 break;
         }
-        fenetre.updateBien(bien);
     }
 }

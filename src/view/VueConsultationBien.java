@@ -47,7 +47,7 @@ public class VueConsultationBien extends JPanel {
 
     if (bien instanceof BienLocatif) {
       BienLocatif bienLocatif = (BienLocatif) bien;
-      PanelLocationsEnCoursBien panelLocationsEnCours = new PanelLocationsEnCoursBien(fenetre, proprietaire,
+      VueLocationsEnCoursBien panelLocationsEnCours = new VueLocationsEnCoursBien(fenetre, proprietaire,
           bienLocatif);
       tabs.addTab("Locations en cours", null, panelLocationsEnCours);
 

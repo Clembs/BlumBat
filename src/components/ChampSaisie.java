@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import components.Libellé.TypeLibellé;
+
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -82,22 +84,18 @@ public class ChampSaisie extends JPanel {
 
   // Constructeur privé qui initie le libellé
   private ChampSaisie(String libellé, TypeChamp typeChamp, boolean privé) {
-    this.setLayout(new BorderLayout(0, 5));
+    this.setLayout(new BorderLayout(0, 8));
     this.setOpaque(false); // Permet de personnaliser le fond
 
-    // Configuration du label
-    label = new JLabel(libellé);
-    label.setFont(Layout.POLICE_REGULAR);
-    label.setForeground(Layout.COULEUR_SECONDAIRE);
-
+    label = new Libellé(libellé, TypeLibellé.CLEF);
     this.add(label, BorderLayout.NORTH);
   }
 
   private void addChampSaisie(JComponent composant) {
     this.champSaisie = composant;
     composant.setBorder(BorderFactory.createCompoundBorder(
-        new LineBorder(Layout.COULEUR_PRIMAIRE),
-        new EmptyBorder(10, 10, 10, 10)));
+        new LineBorder(Layout.COULEUR_PRIMAIRE_SOMBRE),
+        new EmptyBorder(8, 12, 8, 12)));
     composant.setPreferredSize(new Dimension(180, 40));
     composant.setFont(Layout.POLICE_SMALL);
     composant.setBackground(Color.WHITE);
@@ -107,14 +105,14 @@ public class ChampSaisie extends JPanel {
       public void focusGained(FocusEvent e) {
         composant.setBorder(BorderFactory.createCompoundBorder(
             new LineBorder(Layout.COULEUR_PRIMAIRE),
-            new EmptyBorder(10, 10, 10, 10)));
+            new EmptyBorder(8, 12, 8, 12)));
       }
 
       @Override
       public void focusLost(FocusEvent e) {
         composant.setBorder(BorderFactory.createCompoundBorder(
             new LineBorder(Layout.COULEUR_PRIMAIRE_SOMBRE),
-            new EmptyBorder(10, 10, 10, 10)));
+            new EmptyBorder(8, 12, 8, 12)));
       }
     });
 

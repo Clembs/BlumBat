@@ -5,7 +5,7 @@ import java.awt.*;
 import controller.ControleurAjoutLocataire;
 import model.Proprietaire;
 
-public class FenAjoutLocataire extends JFrame {
+public class VueAjoutLocataire extends JFrame {
   private JTextField textIdentifiant;
   private JTextField textNom;
   private JTextField textPrenom;
@@ -14,7 +14,7 @@ public class FenAjoutLocataire extends JFrame {
   private DefaultListModel<String> erreursListModel;
   private JList<String> erreursList;
 
-  public FenAjoutLocataire(FenLocataires fenLocataires, Proprietaire proprietaire) {
+  public VueAjoutLocataire(VueLocataires fenLocataires, Proprietaire proprietaire) {
     // Configuration de la fenêtre
     setTitle("Ajouter un locataire");
     setBounds(100, 100, 600, 400);

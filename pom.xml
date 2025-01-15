@@ -12,7 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Classe principale qui se lance en mode exécution et en build -->
     <!-- On peut changer dynamiquement avec le flag -Dmain.class=[classe] -->
-    <main.class>view.FenConnexionClient</main.class>
+    <main.class>view.VueConnexionClient</main.class>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
   </properties>

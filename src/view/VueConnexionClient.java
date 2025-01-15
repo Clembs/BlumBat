@@ -5,12 +5,12 @@ import javax.swing.*;
 import javax.swing.border.*;
 import controller.ControleurConnexionClient;
 
-public class FenConnexionClient extends JFrame {
+public class VueConnexionClient extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField emailField;
 	private JPasswordField motDePasseField;
 
-	public FenConnexionClient() {
+	public VueConnexionClient() {
 		setTitle("Se connecter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 480, 320);
@@ -101,7 +101,7 @@ public class FenConnexionClient extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				FenConnexionClient frame = new FenConnexionClient();
+				VueConnexionClient frame = new VueConnexionClient();
 				frame.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();

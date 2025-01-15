@@ -9,20 +9,20 @@ import javax.swing.JOptionPane;
 import dao.LocataireDAO;
 import model.Locataire;
 import model.Proprietaire;
-import view.FenLocataires;
-import view.PanelConsultationLocataire;
-import view.PanelModificationLocataire;
+import view.VueConsultationLocataire;
+import view.VueLocataires;
+import view.VueModificationLocataire;
 
 public class ControleurModificationLocataire implements ActionListener {
-  private FenLocataires fenLocataires;
-  private PanelModificationLocataire panel;
+  private VueLocataires fenLocataires;
+  private VueModificationLocataire panel;
   private Locataire locataire;
   private Proprietaire proprietaire;
   private LocataireDAO locataireDAO;
 
   public ControleurModificationLocataire(
-      FenLocataires fenLocataires,
-      PanelModificationLocataire panel,
+      VueLocataires fenLocataires,
+      VueModificationLocataire panel,
       Proprietaire proprietaire,
       Locataire locataire) {
     this.fenLocataires = fenLocataires;
@@ -74,12 +74,12 @@ public class ControleurModificationLocataire implements ActionListener {
 
       this.fenLocataires.updateLocataire(nouveauLocataire);
 
-      PanelConsultationLocataire panelConsultation = new PanelConsultationLocataire(fenLocataires, proprietaire,
+      VueConsultationLocataire panelConsultation = new VueConsultationLocataire(fenLocataires, proprietaire,
           nouveauLocataire);
 
       this.fenLocataires.setPanelCentral(panelConsultation);
     } else if (boutonTexte == "Annuler") {
-      PanelConsultationLocataire panelConsultation = new PanelConsultationLocataire(fenLocataires, proprietaire,
+      VueConsultationLocataire panelConsultation = new VueConsultationLocataire(fenLocataires, proprietaire,
           locataire);
 
       this.fenLocataires.setPanelCentral(panelConsultation);

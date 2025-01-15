@@ -4,22 +4,22 @@ import dao.BienDAO;
 import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
-import view.FenBiens;
-import view.PanelConsultationBien;
-import view.PanelModificationBien;
+import view.VueBiens;
+import view.VueConsultationBien;
+import view.VueModificationBien;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ControleurModificationBien implements ActionListener {
-  private FenBiens fenetre;
-  private PanelModificationBien panel;
+  private VueBiens fenetre;
+  private VueModificationBien panel;
   private BienImmobilier bien;
   private Proprietaire proprietaire;
   private BienDAO bienDAO;
 
-  public ControleurModificationBien(FenBiens fenetre, PanelModificationBien panel, Proprietaire proprietaire,
+  public ControleurModificationBien(VueBiens fenetre, VueModificationBien panel, Proprietaire proprietaire,
       BienImmobilier bien) {
     this.fenetre = fenetre;
     this.panel = panel;
@@ -88,13 +88,15 @@ public class ControleurModificationBien implements ActionListener {
 
         this.fenetre.updateBien(nouveauBien);
 
-        PanelConsultationBien panelConsultation = new PanelConsultationBien(fenetre, proprietaire, nouveauBien);
+        VueConsultationBien panelConsultation = new VueConsultationBien(fenetre, proprietaire, nouveauBien,
+            VueConsultationBien.Onglets.DÉTAILS);
 
         fenetre.setPanelCentral(panelConsultation);
         break;
       }
       case "Annuler": {
-        PanelConsultationBien panelConsultation = new PanelConsultationBien(fenetre, proprietaire, bien);
+        VueConsultationBien panelConsultation = new VueConsultationBien(fenetre, proprietaire, bien,
+            VueConsultationBien.Onglets.DÉTAILS);
 
         fenetre.setPanelCentral(panelConsultation);
         break;

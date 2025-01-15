@@ -11,11 +11,11 @@ import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
 import model.TypeBien;
-import view.FenAjoutBien;
-import view.FenBiens;
+import view.VueAjoutBien;
+import view.VueBiens;
 
 public class ControleurAjoutBien implements ActionListener {
-  private FenAjoutBien fenetre;
+  private VueAjoutBien fenetre;
   private Proprietaire proprio;
   private String adresse, ville, complementAdresse, id;
   private float surface;
@@ -25,7 +25,7 @@ public class ControleurAjoutBien implements ActionListener {
   private TypeBien type;
   private BienDAO bienDAO;
 
-  public ControleurAjoutBien(Proprietaire P, FenAjoutBien fenetre) {
+  public ControleurAjoutBien(Proprietaire P, VueAjoutBien fenetre) {
     this.proprio = P;
     this.fenetre = fenetre;
     this.bienDAO = new BienDAO();
@@ -112,7 +112,7 @@ public class ControleurAjoutBien implements ActionListener {
       // Afficher un message de confirmation
       JOptionPane.showMessageDialog(this.fenetre, "Bien ajouté avec succès!");
 
-      FenBiens fenetreBiens = new FenBiens(this.proprio);
+      VueBiens fenetreBiens = new VueBiens(this.proprio);
       fenetreBiens.setVisible(true);
       this.fenetre.dispose();
     }

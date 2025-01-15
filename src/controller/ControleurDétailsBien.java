@@ -12,19 +12,19 @@ import dao.BienDAO;
 import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
-import view.FenBiens;
-import view.PanelConsultationBien;
-import view.PanelModificationBien;
-import view.FenAjoutLocation;
+import view.VueBiens;
+import view.VueDétailsBien;
+import view.VueModificationBien;
+import view.VueAjoutLocation;
 
-public class ControleurConsultationBien implements ActionListener {
-  private FenBiens fenetre;
-  private PanelConsultationBien panel;
+public class ControleurDétailsBien implements ActionListener {
+  private VueBiens fenetre;
+  private VueDétailsBien panel;
   private BienImmobilier bien;
   private Proprietaire proprietaire;
   private BienDAO bienDAO;
 
-  public ControleurConsultationBien(FenBiens fenetre, PanelConsultationBien panel, Proprietaire proprietaire,
+  public ControleurDétailsBien(VueBiens fenetre, VueDétailsBien panel, Proprietaire proprietaire,
       BienImmobilier bien) {
     this.fenetre = fenetre;
     this.panel = panel;
@@ -39,13 +39,13 @@ public class ControleurConsultationBien implements ActionListener {
     String boutonTexte = boutonClique.getText();
 
     switch (boutonTexte) {
-      case "Modifier le bien": {
-        PanelModificationBien panelModification = new PanelModificationBien(fenetre, proprietaire, bien);
+      case "Modifier": {
+        VueModificationBien panelModification = new VueModificationBien(fenetre, proprietaire, bien);
 
         fenetre.setPanelCentral(panelModification);
         break;
       }
-      case "Supprimer le bien": {
+      case "Supprimer": {
         int entrée = JOptionPane.showConfirmDialog(boutonClique,
             "Voulez-vous vraiment supprimer ce bien ?"
                 + (this.bien instanceof BienLocatif && ((BienLocatif) bien).estLoué()
@@ -78,13 +78,10 @@ public class ControleurConsultationBien implements ActionListener {
 
         BienLocatif bienL = (BienLocatif) bien;
 
-        FenAjoutLocation fenAjoutLocation = new FenAjoutLocation(fenetre, bienL, proprietaire);
+        VueAjoutLocation fenAjoutLocation = new VueAjoutLocation(fenetre, bienL, proprietaire);
         fenAjoutLocation.setVisible(true);
         break;
       }
     }
   }
-
-  // TODO: double-clic sur un locataire pour afficher ses informations avec
-  // MouseListener
 }

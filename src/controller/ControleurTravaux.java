@@ -56,7 +56,7 @@ public class ControleurTravaux implements ActionListener{
 
         switch (boutonTexte) {
             case "Ajouter Nouveaux Travaux":
-                VueAjoutTravaux nouvelleFenetre = new VueAjoutTravaux(this.bien, this);
+                VueAjoutTravaux nouvelleFenetre = new VueAjoutTravaux(this.bien, this); //Controleur passé pour l'utilisation du methode de loadData() dans le controleur de la fenetre ajoutTravaux pour mis a jour le tableau des travaux
                 nouvelleFenetre.setVisible(true);
                 break;
             case "Supprimer":

@@ -1,18 +1,15 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
+import java.sql.*;
 import java.util.List;
+
+import db.DatabaseConnexion;
+import model.Locataire;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import db.DatabaseConnexion;
 import model.BienImmobilier;
-import model.Locataire;
 import model.Location;
 import model.Proprietaire;
 import model.TypeBien;
@@ -47,8 +44,14 @@ public class LocataireDAO {
 
     try {
       // comme un locataire peut avoir plusieurs locations,
-      // on risque d'avoir des doublons
-      String query = "SELECT * FROM locataires AS lt, locations AS lo, biens AS b WHERE lt.id_locataire = 'test' AND lt.id_locataire = lo.id_locataire AND lo.id_bien = b.id_bien";
+      // on risque d'avoir des doublons, on utilise donc un LEFT JOIN
+      String query = "SELECT *\n" +
+          "FROM locataires AS lt\n" +
+          "LEFT JOIN locations AS lo \n" +
+          "ON lt.id_locataire = lo.id_locataire\n" +
+          "LEFT JOIN biens AS b\n" +
+          "ON b.id_bien = lo.id_bien\n" +
+          "WHERE lt.id_locataire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
@@ -64,28 +67,34 @@ public class LocataireDAO {
               resultSet.getString("telephone"));
         }
 
-        String typeBienStr = resultSet.getString("type_bien");
-        TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+        String idBien = resultSet.getString("id_bien");
 
-        // Fetch the Bien and Location data
-        BienImmobilier bien = new BienImmobilier(
-            resultSet.getString("bien_id"),
-            typeBien,
-            resultSet.getString("adresse"),
-            resultSet.getString("complement_adresse"),
-            resultSet.getString("code_postal"),
-            resultSet.getString("ville"));
+        // s'il y a un bien, on le récupère et sa location
+        if (idBien != null) {
+          String typeBienStr = resultSet.getString("type_bien");
+          TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
 
-        Date dateSortie = resultSet.getDate("date_sortie");
+          // Fetch the Bien and Location data
+          BienImmobilier bien = new BienImmobilier(
+              resultSet.getString("id_bien"),
+              typeBien,
+              resultSet.getString("adresse"),
+              resultSet.getString("complement_adresse"),
+              resultSet.getString("code_postal"),
+              resultSet.getString("ville"));
 
-        Location location = new Location(
-            resultSet.getDouble("loyer"),
-            resultSet.getDate("date_entree").toLocalDate(),
-            dateSortie == null ? null : dateSortie.toLocalDate(),
-            bien,
-            locataire);
+          Date dateSortie = resultSet.getDate("date_sortie");
 
-        locataire.addLocation(location);
+          Location location = new Location(
+              resultSet.getDouble("loyer"),
+              resultSet.getDate("date_entree").toLocalDate(),
+              dateSortie == null ? null : dateSortie.toLocalDate(),
+              bien,
+              locataire);
+
+          locataire.addLocation(location);
+        }
+
       }
 
     } catch (SQLException e) {
@@ -95,7 +104,7 @@ public class LocataireDAO {
     return locataire;
   }
 
-  public void modifierLocataire(Locataire locataire) {
+  public void update(Locataire locataire) {
     try {
       String query = "UPDATE locataires SET nom = ?, prenom = ?, email = ?, telephone = ? WHERE id_locataire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -104,6 +113,7 @@ public class LocataireDAO {
       preparedStatement.setString(3, locataire.getEmail());
       preparedStatement.setString(4, locataire.getTelephone());
       preparedStatement.setString(5, locataire.getId());
+
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException("Erreur lors de la modification du locataire", e);
@@ -115,7 +125,13 @@ public class LocataireDAO {
     Map<String, Locataire> locataires = new HashMap<>();
 
     try {
-      String query = "SELECT * FROM locataires AS lt, locations AS lo, biens AS b WHERE lt.id_proprietaire = ? AND lt.id_locataire = lo.id_locataire AND lo.id_bien = b.id_bien";
+      String query = "SELECT *\n" +
+          "FROM locataires AS lt\n" +
+          "LEFT JOIN locations AS lo \n" +
+          "ON lt.id_locataire = lo.id_locataire\n" +
+          "LEFT JOIN biens AS b\n" +
+          "ON b.id_bien = lo.id_bien\n" +
+          "WHERE lt.id_proprietaire = ?";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setInt(1, proprietaire.getId());
       ResultSet resultSet = preparedStatement.executeQuery();
@@ -134,29 +150,31 @@ public class LocataireDAO {
           locataires.put(idLocataire, locataire);
         }
 
-        Locataire locataire = locataires.get(idLocataire);
+        String idBien = resultSet.getString("id_bien");
 
-        String typeBienStr = resultSet.getString("type_bien");
-        TypeBien typeBien = TypeBien.getTypeBien(typeBienStr);
+        // s'il y a un bien, on le récupère et sa location
+        if (idBien != null) {
+          Locataire locataire = locataires.get(idLocataire);
 
-        BienImmobilier bien = new BienImmobilier(
-            resultSet.getString("id_bien"),
-            typeBien,
-            resultSet.getString("adresse"),
-            resultSet.getString("complement_adresse"),
-            resultSet.getString("code_postal"),
-            resultSet.getString("ville"));
+          BienImmobilier bien = new BienImmobilier(
+              idBien,
+              TypeBien.getTypeBien(resultSet.getString("type_bien")),
+              resultSet.getString("adresse"),
+              resultSet.getString("complement_adresse"),
+              resultSet.getString("code_postal"),
+              resultSet.getString("ville"));
 
-        Date dateSortie = resultSet.getDate("date_sortie");
+          Date dateSortie = resultSet.getDate("date_sortie");
 
-        Location location = new Location(
-            resultSet.getDouble("loyer"),
-            resultSet.getDate("date_entree").toLocalDate(),
-            dateSortie == null ? null : dateSortie.toLocalDate(),
-            bien,
-            locataire);
+          Location location = new Location(
+              resultSet.getDouble("loyer"),
+              resultSet.getDate("date_entree").toLocalDate(),
+              dateSortie == null ? null : dateSortie.toLocalDate(),
+              bien,
+              locataire);
 
-        locataire.addLocation(location);
+          locataire.addLocation(location);
+        }
       }
     } catch (SQLException e) {
       throw new RuntimeException("Erreur lors de la récupération des locataires", e);

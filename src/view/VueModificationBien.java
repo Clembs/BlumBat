@@ -8,7 +8,7 @@ import model.Proprietaire;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelModificationBien extends JPanel {
+public class VueModificationBien extends JPanel {
   private JTextField adresseField;
   private JTextField comlementAdresseField;
   private JTextField villeField;
@@ -19,7 +19,7 @@ public class PanelModificationBien extends JPanel {
   private DefaultListModel<String> erreursListModel;
   private JList<String> erreursList;
 
-  public PanelModificationBien(FenBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
+  public VueModificationBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
     setLayout(new BorderLayout(10, 10));
     setBackground(new Color(40, 40, 40));
 
@@ -128,6 +128,7 @@ public class PanelModificationBien extends JPanel {
     field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
     panel.add(field);
   }
+
   private void addSpinnerField(JPanel panel, String label, JSpinner spinner) {
     JLabel lbl = new JLabel(label);
     lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -149,9 +150,6 @@ public class PanelModificationBien extends JPanel {
     spinner.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
     panel.add(spinner);
   }
-
-
-
 
   public String getAdresse() {
     return adresseField.getText();

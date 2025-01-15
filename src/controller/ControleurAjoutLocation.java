@@ -15,20 +15,20 @@ import model.BienLocatif;
 import model.Locataire;
 import model.Location;
 import model.Proprietaire;
-import view.FenLocataires;
-import view.FenAjoutLocation;
-import view.FenBiens;
+import view.VueLocataires;
+import view.VueAjoutLocation;
+import view.VueBiens;
 
 public class ControleurAjoutLocation implements ActionListener {
   private BienLocatif bien;
-  private FenAjoutLocation fenetre;
+  private VueAjoutLocation fenetre;
   private Proprietaire proprietaire;
-  private FenBiens fenBiens;
+  private VueBiens fenBiens;
   private LocationDAO locationDAO;
 
   public ControleurAjoutLocation(
-      FenAjoutLocation fenetre, BienLocatif bien, Proprietaire proprietaire,
-      FenBiens fenBiens) {
+      VueAjoutLocation fenetre, BienLocatif bien, Proprietaire proprietaire,
+      VueBiens fenBiens) {
     this.bien = bien;
     this.fenetre = fenetre;
     this.proprietaire = proprietaire;
@@ -108,7 +108,7 @@ public class ControleurAjoutLocation implements ActionListener {
       this.fenetre.dispose();
 
     } else if (boutonClique.getText().equals("Sélectionner")) {
-      FenLocataires nouvelleFenetre = new FenLocataires(proprietaire, fenetre);
+      VueLocataires nouvelleFenetre = new VueLocataires(proprietaire, fenetre);
       nouvelleFenetre.setVisible(true);
     }
   }

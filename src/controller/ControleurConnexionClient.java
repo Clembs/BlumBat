@@ -6,14 +6,14 @@ import javax.swing.*;
 
 import dao.ProprietaireDAO;
 import model.Proprietaire;
-import view.FenBiens;
-import view.FenConnexionClient;
+import view.VueBiens;
+import view.VueConnexionClient;
 
 public class ControleurConnexionClient implements ActionListener {
-  private FenConnexionClient fenetre;
+  private VueConnexionClient fenetre;
   private ProprietaireDAO proprietaireDAO;
 
-  public ControleurConnexionClient(FenConnexionClient fenetre) {
+  public ControleurConnexionClient(VueConnexionClient fenetre) {
     this.fenetre = fenetre;
     this.proprietaireDAO = new ProprietaireDAO();
   }
@@ -34,7 +34,7 @@ public class ControleurConnexionClient implements ActionListener {
 
       // TODO: Montrer le tableau de bord au lieu des biens lorsque ce premier sera
       // implémenté
-      FenBiens fenetreBiens = new FenBiens(proprietaire);
+      VueBiens fenetreBiens = new VueBiens(proprietaire);
       fenetreBiens.setVisible(true);
       this.fenetre.dispose();
 

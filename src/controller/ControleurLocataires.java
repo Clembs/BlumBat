@@ -13,20 +13,20 @@ import javax.swing.event.ListSelectionListener;
 import dao.LocataireDAO;
 import model.Locataire;
 import model.Proprietaire;
-import view.FenAjoutBien;
-import view.FenAjoutLocation;
-import view.FenLocataires;
-import view.PanelConsultationLocataire;
+import view.VueAjoutLocataire;
+import view.VueAjoutLocation;
+import view.VueLocataires;
+import view.VueConsultationLocataire;
 
 public class ControleurLocataires implements ActionListener, ListSelectionListener {
-  private FenLocataires fenetre;
+  private VueLocataires fenetre;
   private Proprietaire proprietaire;
   private LocataireDAO locataireDAO;
   private List<Locataire> locataires;
   private List<Locataire> locatairesSelectionnes;
-  private FenAjoutLocation fenAjoutLocation;
+  private VueAjoutLocation fenAjoutLocation;
 
-  public ControleurLocataires(Proprietaire proprietaire, FenLocataires fenetre, FenAjoutLocation fenAjoutLocation) {
+  public ControleurLocataires(Proprietaire proprietaire, VueLocataires fenetre, VueAjoutLocation fenAjoutLocation) {
     this.proprietaire = proprietaire;
     this.fenetre = fenetre;
     this.locataireDAO = new LocataireDAO();
@@ -34,7 +34,7 @@ public class ControleurLocataires implements ActionListener, ListSelectionListen
     this.fenAjoutLocation = fenAjoutLocation;
     this.locatairesSelectionnes = new LinkedList<>();
 
-    fenetre.setLocataires(this.locataires);
+    this.fenetre.setLocataires(this.locataires);
   }
 
   // Lorsque l'on clique sur le bouton "Ajouter"
@@ -45,9 +45,8 @@ public class ControleurLocataires implements ActionListener, ListSelectionListen
 
     switch (boutonTexte) {
       case "Ajouter": {
-        FenAjoutBien fenetreAjoutBien = new FenAjoutBien(this.proprietaire);
+        VueAjoutLocataire fenetreAjoutBien = new VueAjoutLocataire(this.fenetre, this.proprietaire);
         fenetreAjoutBien.setVisible(true);
-        this.fenetre.dispose();
         break;
       }
       case "Sélectionner": {
@@ -73,7 +72,7 @@ public class ControleurLocataires implements ActionListener, ListSelectionListen
       // Récupérer le locataire sélectionné
       Locataire locataire = this.locataires.get(selectedIndex);
 
-      PanelConsultationLocataire panel = new PanelConsultationLocataire(this.fenetre, this.proprietaire,
+      VueConsultationLocataire panel = new VueConsultationLocataire(this.fenetre, this.proprietaire,
           locataire);
 
       this.fenetre.setPanelCentral(panel);

@@ -6,11 +6,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class List<T> extends JList<T> {
+public class Liste<T> extends JList<T> {
 
     private DefaultListModel<T> liste;
 
-    public List() {
+    public Liste() {
         liste = new DefaultListModel<>();
         setModel(liste);
 
@@ -47,7 +47,8 @@ public class List<T> extends JList<T> {
     // Méthode pour personnaliser les Cellules
     private static class Apparence<T> extends DefaultListCellRenderer {
         @Override
-        public Component getListCellRendererComponent(JList<?> list, Object valeurListe, int n, boolean selection, boolean focus) {
+        public Component getListCellRendererComponent(JList<?> list, Object valeurListe, int n, boolean selection,
+                boolean focus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, valeurListe, n, selection, focus);
 
             label.setFont(Layout.POLICE_PARAGRAPHES);
@@ -63,8 +64,7 @@ public class List<T> extends JList<T> {
 
             label.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(Layout.COULEUR_SECONDAIRE, 1),
-                    BorderFactory.createEmptyBorder(5, 5, 5, 5)
-            ));
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5)));
             label.setOpaque(true);
 
             return label;

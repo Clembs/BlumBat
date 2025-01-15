@@ -14,8 +14,8 @@ import components.ChampSaisie;
 import components.Bouton.VarianteButton;
 import components.ChampSaisie.TypeChamp;
 
-public class FenComponents extends JFrame {
-  public FenComponents() {
+public class VueComponents extends JFrame {
+  public VueComponents() {
     this.setTitle("Composants");
     this.setLayout(new FlowLayout(0, 10, 10));
     this.setBounds(0, 0, 1000, 700);
@@ -72,6 +72,6 @@ public class FenComponents extends JFrame {
   }
 
   public static void main(String[] args) {
-    new FenComponents().setVisible(true);
+    new VueComponents().setVisible(true);
   }
 }

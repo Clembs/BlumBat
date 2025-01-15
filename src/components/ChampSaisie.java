@@ -118,7 +118,7 @@ public class ChampSaisie extends JPanel {
       }
     });
 
-    this.add(composant, BorderLayout.SOUTH);
+    this.add(composant, BorderLayout.CENTER);
   }
 
   public JComponent getChampSaisie() {
@@ -127,5 +127,19 @@ public class ChampSaisie extends JPanel {
 
   public JLabel getLabel() {
     return this.label;
+  }
+
+  // récupère la valeur du champ (un String pour JTextField/JPasswordField, un
+  // int/float/double/peut importe pour JSpinner)
+  @SuppressWarnings("unchecked")
+  public <T> T getValue() {
+    if (this.champSaisie instanceof JTextField) {
+      return (T) ((JTextField) this.champSaisie).getText();
+    } else if (this.champSaisie instanceof JPasswordField) {
+      return (T) new String(((JPasswordField) this.champSaisie).getPassword());
+    } else if (this.champSaisie instanceof JSpinner) {
+      return (T) ((JSpinner) this.champSaisie).getValue();
+    }
+    return null;
   }
 }

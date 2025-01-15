@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import dao.TravauxDAO;
 import model.BienImmobilier;
 import model.FactureTravaux;
+import view.VueAjoutTravaux;
 import view.VueTravaux;
 
 
@@ -24,10 +25,10 @@ public class ControleurTravaux implements ActionListener{
         this.bien = bien;
         this.travauxDAO = new TravauxDAO();
     
-        loadData();
+        this.loadData();
     }
 
-    private void loadData() {
+    public void loadData() {
         List<FactureTravaux> factures = travauxDAO.getAllFacture(bien);
         DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
         tableModel.setRowCount(0); // Réinitialiser le tableau
@@ -55,11 +56,11 @@ public class ControleurTravaux implements ActionListener{
 
         switch (boutonTexte) {
             case "Ajouter Nouveaux Travaux":
+                VueAjoutTravaux nouvelleFenetre = new VueAjoutTravaux(this.bien, this);
+                nouvelleFenetre.setVisible(true);
                 break;
             case "Supprimer":
                 supprimerTravaux();
-                break;
-            case "Modifier":
                 break;
         }
 

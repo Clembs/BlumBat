@@ -12,7 +12,7 @@ public class Libellé extends JLabel {
     this(text, type, true);
   }
 
-  public Libellé(String text, TypeLibellé type, boolean privé) {
+  private Libellé(String text, TypeLibellé type, boolean privé) {
     super(text);
     this.setFont(type.getFont());
     this.setForeground(type.getColor());

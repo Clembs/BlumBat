@@ -13,13 +13,13 @@ public class Tableau extends JTable {
     model = new DefaultTableModel(columnNames, 0);
     this.setModel(model);
 
-    this.setFont(Layout.POLICE_SMALL);
+    this.setFont(Layout.POLICE_REGULAR);
     this.setBackground(Layout.COULEUR_FOND);
 
     this.setGridColor(Layout.COULEUR_SECONDAIRE);
     this.setSelectionBackground(Layout.COULEUR_PRIMAIRE_VARIANTE);
     this.setSelectionForeground(Layout.COULEUR_FOND);
-    this.setRowHeight(40);
+    this.setRowHeight(32);
 
     // Non-éditable
     this.setDefaultEditor(Object.class, null);
@@ -28,13 +28,12 @@ public class Tableau extends JTable {
 
     // Alignement centré des cellules
     DefaultTableCellRenderer customCellRenderer = new DefaultTableCellRenderer();
-    customCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
     for (int i = 0; i < getColumnCount(); i++) {
       this.getColumnModel().getColumn(i).setCellRenderer(customCellRenderer);
     }
 
-    this.getTableHeader().setFont(Layout.POLICE_MEDIUM);
+    this.getTableHeader().setFont(Layout.POLICE_REGULAR);
     this.getTableHeader().setForeground(Layout.COULEUR_FOND);
     this.getTableHeader().setBackground(Layout.COULEUR_PRIMAIRE);
     this.getTableHeader().setBorder(new LineBorder(Layout.COULEUR_PRIMAIRE_VARIANTE));

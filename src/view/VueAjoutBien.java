@@ -2,246 +2,186 @@ package view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.*;
 
+import components.Bouton;
+import components.ChampSaisie;
+import components.Layout;
+import components.Libellé;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
 import controller.ControleurAjoutBien;
 import model.Proprietaire;
 import model.TypeBien;
 
 public class VueAjoutBien extends JFrame {
   private static final long serialVersionUID = 1L;
-  private JPanel contentPane;
-  private JTextField villeField;
-  private JTextField adresseField;
-  private JSpinner codePostalField;
-  private JSpinner surfaceField;
-  private JTextField NFiscalField;
-  private JTextField complementAdresse;
-  private JSpinner NPiecesField;
-  private JTextField IdField;
-  private JComboBox<String> cmbType;
+  private ChampSaisie idField;
+  private JComboBox<String> typeComboBox;
+  private ChampSaisie adresseField;
+  private ChampSaisie villeField;
+  private ChampSaisie codePostalField;
+  private ChampSaisie surfaceField;
+  private ChampSaisie nFiscalField;
+  private ChampSaisie complementAdresseField;
+  private ChampSaisie nbPiecesField;
   private JList<String> erreursList;
   private DefaultListModel<String> erreursListModel;
 
-  public VueAjoutBien(Proprietaire P) {
-    this.setTitle("Ajout d'un bien immobilier");
+  public VueAjoutBien(VueBiens fenBiens, Proprietaire P) {
+    this.setTitle("Ajouter un bien");
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    this.setBounds(100, 100, 800, 500);
+    this.setBounds(100, 100, 600, 700);
+    this.setResizable(false);
 
-    this.contentPane = new JPanel();
-    this.contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-    this.contentPane.setBackground(new Color(240, 240, 250));
-    this.setContentPane(this.contentPane);
-    this.contentPane.setLayout(new BorderLayout(20, 20));
+    JPanel contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(16, 16, 16, 16));
+    contentPane.setBackground(Layout.COULEUR_FOND);
+    contentPane.setLayout(new BorderLayout(16, 16));
+    this.setContentPane(contentPane);
 
-    JLabel lblTitle = new JLabel("Ajout d'un bien immobilier");
+    Libellé lblTitle = new Libellé("Ajouter un bien", TypeLibellé.TITRE);
     lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-    lblTitle.setFont(new Font("Rockwell", Font.BOLD, 28));
-    lblTitle.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(150, 150, 200)));
-    this.contentPane.add(lblTitle, BorderLayout.NORTH);
+    contentPane.add(lblTitle, BorderLayout.NORTH);
 
-    JPanel centerPanel = new JPanel();
-    centerPanel.setLayout(new GridLayout(9, 2, 10, 10));
-    centerPanel.setBackground(new Color(240, 240, 250));
-    this.contentPane.add(centerPanel, BorderLayout.CENTER);
+    JPanel champsPanel = new JPanel();
+    champsPanel.setLayout(new GridLayout(5, 2, 8, 12));
+    contentPane.add(champsPanel, BorderLayout.CENTER);
 
-    JLabel lblType = new JLabel("Type de bien :");
-    lblType.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblType.setForeground(new Color(80, 80, 100));
-    centerPanel.add(lblType);
+    JPanel typePanel = new JPanel(new BorderLayout(0, 8));
+    champsPanel.add(typePanel);
 
-    cmbType = new JComboBox<>(new String[] { "BATIMENT", "LOGEMENT", "GARAGE" });
-    cmbType.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    cmbType.setBorder(new LineBorder(new Color(150, 150, 150)));
-    centerPanel.add(cmbType);
+    Libellé lblType = new Libellé("Type de bien", TypeLibellé.CLEF);
+    typePanel.add(lblType, BorderLayout.NORTH);
 
-    JLabel lblId = new JLabel("Identifiant (unique) :");
-    lblId.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblId.setForeground(new Color(80, 80, 100));
-    centerPanel.add(lblId);
+    typeComboBox = new JComboBox<>(
+        Arrays.stream(TypeBien.values()).map(TypeBien::toString).toArray(String[]::new));
 
-    IdField = new JTextField();
-    IdField.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    IdField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-    centerPanel.add(IdField);
+    typeComboBox.setFont(Layout.POLICE_REGULAR);
+    typePanel.add(typeComboBox, BorderLayout.CENTER);
 
-    JLabel lblAddress = new JLabel("Adresse :");
-    lblAddress.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblAddress.setForeground(new Color(80, 80, 100));
-    centerPanel.add(lblAddress);
+    idField = new ChampSaisie("Identifiant (unique)");
+    champsPanel.add(idField);
 
-    adresseField = new JTextField();
-    adresseField.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    adresseField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-    centerPanel.add(adresseField);
+    adresseField = new ChampSaisie("Adresse");
+    champsPanel.add(adresseField);
 
-    JLabel lblcomplementAdresse = new JLabel("Complément d'adresse (facultatif) :");
-    lblcomplementAdresse.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblcomplementAdresse.setForeground(new Color(80, 80, 100));
-    centerPanel.add(lblcomplementAdresse);
+    complementAdresseField = new ChampSaisie("Complément d'adresse (facultatif)");
+    champsPanel.add(complementAdresseField);
 
-    complementAdresse = new JTextField();
-    complementAdresse.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    complementAdresse.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-    centerPanel.add(complementAdresse);
+    villeField = new ChampSaisie("Ville");
+    champsPanel.add(villeField);
 
-    JLabel lblVille = new JLabel("Ville :");
-    lblVille.setForeground(new Color(80, 80, 100));
-    lblVille.setFont(new Font("Rockwell", Font.BOLD, 14));
-    centerPanel.add(lblVille);
+    codePostalField = new ChampSaisie("Code postal");
+    champsPanel.add(codePostalField);
 
-    villeField = new JTextField();
-    villeField.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    villeField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-    centerPanel.add(villeField);
+    surfaceField = new ChampSaisie("Surface (en m²)", new SpinnerNumberModel(0f, null, null, 1f));
 
-    JLabel lblDpartement = new JLabel("Code postal :");
-    lblDpartement.setForeground(new Color(80, 80, 100));
-    lblDpartement.setFont(new Font("Rockwell", Font.BOLD, 14));
-    centerPanel.add(lblDpartement);
+    nFiscalField = new ChampSaisie("Numéro fiscal");
 
-    codePostalField = new JSpinner();
-    codePostalField.setModel(new SpinnerNumberModel(0, null, 999990, 1));
-    codePostalField.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    codePostalField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-    centerPanel.add(codePostalField);
-
-    JLabel lblSurface = new JLabel("Surface (en m²) :");
-    lblSurface.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblSurface.setForeground(new Color(80, 80, 100));
-    // centerPanel.add(lblSurface);
-
-    surfaceField = new JSpinner();
-    surfaceField.setModel(new SpinnerNumberModel(Float.valueOf(0), null, null, Float.valueOf(1)));
-    surfaceField.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    surfaceField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-
-    JLabel lblNFiscal = new JLabel("Numéro fiscal :");
-    lblNFiscal.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblNFiscal.setForeground(new Color(80, 80, 100));
-
-    NFiscalField = new JTextField();
-    NFiscalField.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    NFiscalField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
-
-    JLabel lblNPieces = new JLabel("Nombre de pièces :");
-    lblNPieces.setFont(new Font("Rockwell", Font.BOLD, 14));
-    lblNPieces.setForeground(new Color(80, 80, 100));
-
-    NPiecesField = new JSpinner();
-    NPiecesField.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
-    NPiecesField.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    NPiecesField.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
+    nbPiecesField = new ChampSaisie("Nombre de pièces", new SpinnerNumberModel(1, null, null, 1));
 
     // affichage conditionnel des champs liés aux locations selon le type
     // sélectionné
-    cmbType.addActionListener((ActionEvent e) -> {
-      TypeBien selectedType = TypeBien.getTypeBien((String) cmbType.getSelectedItem());
+    typeComboBox.addActionListener((ActionEvent e) -> {
+      TypeBien selectedType = TypeBien.getTypeBien(this.getTypeBien());
 
       switch (selectedType) {
-        case BATIMENT: {
+        case BATIMENT:
           // suppression des champs & leurs libellés
-          centerPanel.remove(lblSurface);
-          centerPanel.remove(surfaceField);
-          centerPanel.remove(lblNFiscal);
-          centerPanel.remove(NFiscalField);
-          centerPanel.remove(lblNPieces);
-          centerPanel.remove(NPiecesField);
+          champsPanel.remove(surfaceField);
+          champsPanel.remove(nFiscalField);
+          champsPanel.remove(nbPiecesField);
           // obligatoire pour rafraichir l'interface
-          centerPanel.revalidate();
-          centerPanel.repaint();
-        }
+          champsPanel.revalidate();
+          champsPanel.repaint();
           break;
         case LOGEMENT:
-        case GARAGE: {
+        case GARAGE:
           // pareil mais on ajoute les champs
-          centerPanel.add(lblSurface);
-          centerPanel.add(surfaceField);
-          centerPanel.add(lblNFiscal);
-          centerPanel.add(NFiscalField);
-          centerPanel.add(lblNPieces);
-          centerPanel.add(NPiecesField);
-          centerPanel.revalidate();
-          centerPanel.repaint();
-        }
+          champsPanel.add(surfaceField);
+          champsPanel.add(nFiscalField);
+          champsPanel.add(nbPiecesField);
+
+          champsPanel.revalidate();
+          champsPanel.repaint();
           break;
       }
     });
 
-    JPanel bottomPanel = new JPanel();
-    bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-    bottomPanel.setBackground(new Color(220, 220, 240));
-    this.contentPane.add(bottomPanel, BorderLayout.SOUTH);
+    JPanel bottomPanel = new JPanel(new BorderLayout());
 
-    erreursListModel = new DefaultListModel<String>();
+    erreursListModel = new DefaultListModel<>();
     erreursList = new JList<>(erreursListModel);
-    erreursList.setEnabled(false);
-    erreursList.setFont(new Font("Rockwell", Font.PLAIN, 14));
-    erreursList.setForeground(Color.RED);
-    erreursList.setBorder(BorderFactory.createLineBorder(Color.RED));
-    erreursList.setModel(erreursListModel);
-    bottomPanel.add(erreursList);
+    erreursList.setFont(Layout.POLICE_SMALL);
+    erreursList.setForeground(Layout.COULEUR_DANGER);
+    erreursList.setBackground(Layout.COULEUR_FOND);
+    erreursList.setVisible(false);
 
-    JButton btnSave = new JButton("Ajouter");
-    btnSave.setBackground(new Color(100, 200, 100));
-    btnSave.setForeground(Color.WHITE);
-    btnSave.setFont(new Font("Rockwell", Font.BOLD, 14));
-    bottomPanel.add(btnSave);
+    JScrollPane erreurScrollPane = new JScrollPane(erreursList);
+    erreurScrollPane.setPreferredSize(new Dimension(200, 100));
+    erreurScrollPane.setBorder(null);
+    bottomPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
-    JButton btnCancel = new JButton("Annuler");
-    btnCancel.setBackground(new Color(200, 100, 100));
-    btnCancel.setForeground(Color.WHITE);
-    btnCancel.setFont(new Font("Rockwell", Font.BOLD, 14));
-    btnCancel.addActionListener(e -> this.dispose());
-    bottomPanel.add(btnCancel);
+    ControleurAjoutBien controleur = new ControleurAjoutBien(fenBiens, P, this);
 
-    ControleurAjoutBien controleur = new ControleurAjoutBien(P, this);
+    JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 8, 8));
 
+    Bouton btnSave = new Bouton("Ajouter");
     btnSave.addActionListener(controleur);
+    panelBoutons.add(btnSave);
+
+    Bouton btnCancel = new Bouton("Annuler", VarianteButton.SECONDAIRE);
+    btnCancel.addActionListener(e -> this.dispose());
+    panelBoutons.add(btnCancel);
+
+    bottomPanel.add(panelBoutons, BorderLayout.SOUTH);
+    contentPane.add(bottomPanel, BorderLayout.SOUTH);
   }
 
   public String getId() {
-    return IdField.getText();
+    return idField.getValue();
   }
 
   // Getters pour chaque champ
   public String getAdresse() {
-    return adresseField.getText();
+    return adresseField.getValue();
   }
 
   public String getComplementAdresse() {
-    return complementAdresse.getText();
+    return complementAdresseField.getValue();
   }
 
-  public int getCodePostal() {
-    return (int) codePostalField.getValue();
+  public String getCodePostal() {
+    return codePostalField.getValue();
   }
 
   public String getVille() {
-    return villeField.getText();
+    return villeField.getValue();
   }
 
   public float getSurface() {
-    return (float) surfaceField.getValue();
+    return surfaceField.getValue();
   }
 
   public String getNFiscal() {
-    return NFiscalField.getText();
+    return nFiscalField.getValue();
   }
 
   public String getTypeBien() {
-    return (String) cmbType.getSelectedItem();
+    return (String) typeComboBox.getSelectedItem();
   }
 
-  public int getNPieces() {
-    return (int) NPiecesField.getValue();
+  public int getNbPieces() {
+    return nbPiecesField.getValue();
   }
 
   public void addErreur(String erreur) {
+    erreursList.setVisible(true);
     erreursListModel.addElement(erreur);
-    erreursList.setModel(erreursListModel);
   }
 
   public void clearErreurs() {

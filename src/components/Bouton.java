@@ -29,7 +29,7 @@ public class Bouton extends JButton {
     this.setOpaque(false);
     this.setContentAreaFilled(false);
     this.setBorderPainted(false);
-    this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    this.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
     this.setForeground(Color.WHITE);
 
     // Couleurs par défaut

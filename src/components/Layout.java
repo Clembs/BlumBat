@@ -11,6 +11,7 @@ public class Layout {
   public final static Font POLICE_LARGE = new Font("Segoe UI", Font.BOLD, 22);
   public final static Font POLICE_MEDIUM = new Font("Arial", Font.PLAIN, 18);
   public final static Font POLICE_REGULAR = new Font("Arial", Font.PLAIN, 15);
+  public final static Font POLICE_REGULAR_BOLD = new Font("Arial", Font.BOLD, 15);
   public final static Font POLICE_SMALL = new Font("Arial", Font.PLAIN, 14);
 
   // Couleurs
@@ -30,7 +31,7 @@ public class Layout {
   public final static Color COULEUR_OMBRES = new Color(0, 0, 0, 50);
   public final static Color COULEUR_PARAGRAPHE = new Color(0x333333);
   public final static Color COULEUR_EN_TETE = new Color(0x1D3557);
-  public final static Color COULEUR_SOUS_TEXTE = new Color(0x8997a4);
+  public final static Color COULEUR_SOUS_TEXTE = new Color(0x8ba7c7);
 
   // Dimensions
   public final static Dimension DIMENSION_FENETRE = new Dimension(800, 600);

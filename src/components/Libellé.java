@@ -24,13 +24,15 @@ public class Libellé extends JLabel {
      * TITRE: Titres lambdas (équivalent à h2/h3)
      * SOUS_TITRE: Texte sous les titres
      * PARAGRAPHE: Texte standard
+     * CLEF: Utilisé dans le cas de combos clefs/valeurs (gras). Valeurs à utiliser
+     * en PARAGRAPHE.
      * DANGER: Utilisé pour une erreur, un avertissement ou de confirmation (coloré
      * en rouge)
      * SUCCES: Utilisé pour un message de validation (coloré en vert)
      * SOUS_TEXTE: Texte sous les paragraphes, ou pour un texte d'importance mineure
      */
 
-    EN_TETE, TITRE, SOUS_TITRE, PARAGRAPHE, DANGER, SUCCES, SOUS_TEXTE;
+    EN_TETE, TITRE, SOUS_TITRE, PARAGRAPHE, CLEF, DANGER, SUCCES, SOUS_TEXTE;
 
     public Font getFont() {
       switch (this) {
@@ -40,6 +42,8 @@ public class Libellé extends JLabel {
           return Layout.POLICE_LARGE;
         case SOUS_TITRE:
           return Layout.POLICE_MEDIUM;
+        case CLEF:
+          return Layout.POLICE_REGULAR_BOLD;
         case PARAGRAPHE:
         case DANGER:
         case SUCCES:
@@ -59,6 +63,7 @@ public class Libellé extends JLabel {
         case SOUS_TITRE:
           return Layout.COULEUR_SOUS_TEXTE;
         case PARAGRAPHE:
+        case CLEF:
         default:
           return Layout.COULEUR_PARAGRAPHE;
         case DANGER:

@@ -13,6 +13,7 @@ import javax.swing.JSpinner.DateEditor;
 import components.Bouton;
 import components.ChampSaisie;
 import components.Liste;
+import components.Tableau;
 import components.Bouton.VarianteButton;
 import components.ChampSaisie.TypeChamp;
 
@@ -20,7 +21,7 @@ public class VueComponents extends JFrame {
   public VueComponents() {
     this.setTitle("Composants");
     this.setLayout(new FlowLayout(0, 10, 10));
-    this.setBounds(0, 0, 1000, 700);
+    this.setBounds(0, 0, 1000, 1000);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Boutons
@@ -73,14 +74,23 @@ public class VueComponents extends JFrame {
     this.add(champSaisieMotDePasseValeur);
 
     Liste<String> liste = new Liste<>();
-    liste.addElement("Element 1");
-    liste.addElement("Element 2");
-    liste.addElement("Element 3");
+    liste.addElement("Elément 1");
+    liste.addElement("Elément 2");
+    liste.addElement("Elément 3");
 
-    JScrollPane scrollPane = new JScrollPane(liste);
+    JScrollPane listeScrollPane = new JScrollPane(liste);
 
-    this.add(scrollPane);
+    this.add(listeScrollPane);
 
+    Tableau tableau = new Tableau("Colonne 1", "Colonne 2", "Colonne 3");
+
+    tableau.addRow("Élément 1", "Élément 2", "Élément 3");
+    tableau.addRow("Élément 1", "Élément 2", "Élément 3");
+    tableau.addRow("Élément 1", "Élément 2", "Élément 3");
+
+    JScrollPane tableauScrollPane = new JScrollPane(tableau);
+
+    this.add(tableauScrollPane);
   }
 
   public static void main(String[] args) {

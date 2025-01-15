@@ -10,16 +10,16 @@ import javax.swing.table.DefaultTableModel;
 import dao.TravauxDAO;
 import model.BienImmobilier;
 import model.FactureTravaux;
-import view.PanelTravaux;
+import view.VueTravaux;
 
 
 public class ControleurTravaux implements ActionListener{
 
-    private PanelTravaux view;
+    private VueTravaux view;
     private TravauxDAO travauxDAO;
     private BienImmobilier bien;
 
-    public ControleurTravaux(PanelTravaux view, BienImmobilier bien) {
+    public ControleurTravaux(VueTravaux view, BienImmobilier bien) {
         this.view = view;
         this.bien = bien;
         this.travauxDAO = new TravauxDAO();

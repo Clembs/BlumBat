@@ -17,7 +17,7 @@ import controller.ControleurTravaux;
 import model.BienImmobilier;
 import model.TypeBien;
 
-public class PanelTravaux extends JPanel {
+public class VueTravaux extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
@@ -26,7 +26,7 @@ public class PanelTravaux extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelTravaux(BienImmobilier bien) {
+	public VueTravaux(BienImmobilier bien) {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -110,7 +110,7 @@ public class PanelTravaux extends JPanel {
 	        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 	        
 	        // Ajout du JPanel PanelAPropos au JFrame
-	        PanelTravaux Travaux = new PanelTravaux(new BienImmobilier("12345",TypeBien.BATIMENT,"rue compte","ap4","36000","Toulouse"));
+	        VueTravaux Travaux = new VueTravaux(new BienImmobilier("12345",TypeBien.BATIMENT,"rue compte","ap4","36000","Toulouse"));
 	        frame.getContentPane().add(Travaux);
 
 	        // Ajustement de la taille et affichage

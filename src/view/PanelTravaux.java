@@ -78,7 +78,7 @@ public class PanelTravaux extends JPanel {
 
 		ControleurTravaux controleur = new ControleurTravaux(this, bien);
 		
-		JButton ButtonAjouter = new JButton("Ajouter Nouvele Travaux");
+		JButton ButtonAjouter = new JButton("Ajouter Nouveaux Travaux");
 		ButtonAjouter.setBackground(new Color(192, 192, 192));
 		panel_6.add(ButtonAjouter);
 		ButtonAjouter.addActionListener(controleur);

@@ -54,7 +54,7 @@ public class ControleurTravaux implements ActionListener{
         String boutonTexte = boutonClique.getText();
 
         switch (boutonTexte) {
-            case "Ajouter Nouvele Travaux":
+            case "Ajouter Nouveaux Travaux":
                 break;
             case "Supprimer":
                 supprimerTravaux();

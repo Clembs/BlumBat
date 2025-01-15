@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.util.Date;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
@@ -11,6 +12,7 @@ import javax.swing.JSpinner.DateEditor;
 
 import components.Bouton;
 import components.ChampSaisie;
+import components.Liste;
 import components.Bouton.VarianteButton;
 import components.ChampSaisie.TypeChamp;
 
@@ -69,6 +71,16 @@ public class VueComponents extends JFrame {
     this.add(champSaisieNombreDate);
     this.add(champSaisieMotDePasse);
     this.add(champSaisieMotDePasseValeur);
+
+    Liste<String> liste = new Liste<>();
+    liste.addElement("Element 1");
+    liste.addElement("Element 2");
+    liste.addElement("Element 3");
+
+    JScrollPane scrollPane = new JScrollPane(liste);
+
+    this.add(scrollPane);
+
   }
 
   public static void main(String[] args) {

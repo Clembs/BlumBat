@@ -3,7 +3,9 @@ package view;
 import java.awt.FlowLayout;
 import java.util.Date;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -12,10 +14,12 @@ import javax.swing.JSpinner.DateEditor;
 
 import components.Bouton;
 import components.ChampSaisie;
+import components.Libellé;
 import components.Liste;
 import components.Tableau;
 import components.Bouton.VarianteButton;
 import components.ChampSaisie.TypeChamp;
+import components.Libellé.TypeLibellé;
 
 public class VueComponents extends JFrame {
   public VueComponents() {
@@ -73,6 +77,7 @@ public class VueComponents extends JFrame {
     this.add(champSaisieMotDePasse);
     this.add(champSaisieMotDePasseValeur);
 
+    // Liste
     Liste<String> liste = new Liste<>();
     liste.addElement("Elément 1");
     liste.addElement("Elément 2");
@@ -80,8 +85,10 @@ public class VueComponents extends JFrame {
 
     JScrollPane listeScrollPane = new JScrollPane(liste);
 
+    // Ajout de la liste
     this.add(listeScrollPane);
 
+    // Tableau
     Tableau tableau = new Tableau("Colonne 1", "Colonne 2", "Colonne 3");
 
     tableau.addRow("Élément 1", "Élément 2", "Élément 3");
@@ -90,7 +97,33 @@ public class VueComponents extends JFrame {
 
     JScrollPane tableauScrollPane = new JScrollPane(tableau);
 
+    // Ajout du tableau
     this.add(tableauScrollPane);
+
+    // Libellés
+    Libellé libelléEnTête = new Libellé("En tête", TypeLibellé.EN_TETE);
+    Libellé libelléTitre = new Libellé("Titre", TypeLibellé.TITRE);
+    Libellé libelléSousTitre = new Libellé("Sous-titre", TypeLibellé.SOUS_TITRE);
+    Libellé libelléParagraphe = new Libellé("Paragraphe", TypeLibellé.PARAGRAPHE);
+    Libellé libelléParagrapheDéfaut = new Libellé("Paragraphe (constructeur par défaut)");
+    Libellé libelléDanger = new Libellé("Danger", TypeLibellé.DANGER);
+    Libellé libelléSuccès = new Libellé("Succès", TypeLibellé.SUCCES);
+    Libellé libelléSousTexte = new Libellé("Sous-texte", TypeLibellé.SOUS_TEXTE);
+
+    JPanel panelLibellés = new JPanel();
+    panelLibellés.setLayout(new BoxLayout(panelLibellés, BoxLayout.Y_AXIS));
+
+    // Ajout des libellés
+    panelLibellés.add(libelléEnTête);
+    panelLibellés.add(libelléTitre);
+    panelLibellés.add(libelléSousTitre);
+    panelLibellés.add(libelléParagraphe);
+    panelLibellés.add(libelléParagrapheDéfaut);
+    panelLibellés.add(libelléDanger);
+    panelLibellés.add(libelléSuccès);
+    panelLibellés.add(libelléSousTexte);
+    this.add(panelLibellés);
+
   }
 
   public static void main(String[] args) {

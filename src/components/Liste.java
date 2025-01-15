@@ -16,9 +16,9 @@ public class Liste<T> extends JList<T> {
     model = new DefaultListModel<>();
     this.setModel(model);
 
-    this.setFont(Layout.POLICE_PARAGRAPHES);
+    this.setFont(Layout.POLICE_SMALL);
     this.setBackground(Layout.COULEUR_FOND);
-    this.setForeground(Layout.COULEUR_TEXTE);
+    this.setForeground(Layout.COULEUR_PARAGRAPHE);
 
     this.setSelectionBackground(Layout.COULEUR_PRIMAIRE_VARIANTE);
     this.setSelectionForeground(Layout.COULEUR_FOND);

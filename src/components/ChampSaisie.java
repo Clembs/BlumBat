@@ -87,7 +87,7 @@ public class ChampSaisie extends JPanel {
 
     // Configuration du label
     label = new JLabel(libellé);
-    label.setFont(Layout.POLICE_SOUSTITRE_GRAS);
+    label.setFont(Layout.POLICE_REGULAR);
     label.setForeground(Layout.COULEUR_SECONDAIRE);
 
     this.add(label, BorderLayout.NORTH);
@@ -99,7 +99,7 @@ public class ChampSaisie extends JPanel {
         new LineBorder(Layout.COULEUR_PRIMAIRE),
         new EmptyBorder(10, 10, 10, 10)));
     composant.setPreferredSize(new Dimension(180, 40));
-    composant.setFont(Layout.POLICE_PARAGRAPHES);
+    composant.setFont(Layout.POLICE_SMALL);
     composant.setBackground(Color.WHITE);
 
     composant.addFocusListener(new FocusAdapter() {

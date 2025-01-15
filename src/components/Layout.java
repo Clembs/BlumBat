@@ -7,12 +7,11 @@ import java.awt.Dimension;
 public class Layout {
 
   // Polices
-  public final static Font POLICE_TITRE = new Font("Segoe UI", Font.BOLD, 28);
-  public final static Font POLICE_EN_TETE = new Font("Segoe UI", Font.BOLD, 20);
-  public final static Font POLICE_SOUSTITRE = new Font("Arial", Font.ITALIC, 18);
-  public final static Font POLICE_PARAGRAPHES = new Font("Arial", Font.PLAIN, 14);
-  public final static Font POLICE_PETIT_TITRE = new Font("Arial", Font.PLAIN, 16);
-  public final static Font POLICE_SOUSTITRE_GRAS = new Font("Arial", Font.BOLD, 14);
+  public final static Font POLICE_EXTRA_LARGE = new Font("Segoe UI", Font.BOLD, 28);
+  public final static Font POLICE_LARGE = new Font("Segoe UI", Font.BOLD, 22);
+  public final static Font POLICE_MEDIUM = new Font("Arial", Font.PLAIN, 18);
+  public final static Font POLICE_REGULAR = new Font("Arial", Font.PLAIN, 15);
+  public final static Font POLICE_SMALL = new Font("Arial", Font.PLAIN, 14);
 
   // Couleurs
   public final static Color COULEUR_PRIMAIRE = new Color(0x4682b4);
@@ -27,11 +26,11 @@ public class Layout {
   public final static Color COULEUR_DANGER = new Color(0xD32F2F);
   public final static Color COULEUR_DANGER_VARIANTE = new Color(0x9F2828);
   public final static Color COULEUR_DANGER_SOMBRE = new Color(0x6E1E1E);
-  public final static Color COULEUR_INFO = new Color(0x0288D1);
   public final static Color COULEUR_FOND = new Color(0xF4F4F4);
-  public final static Color COULEUR_TEXTE = new Color(0x333333);
-
   public final static Color COULEUR_OMBRES = new Color(0, 0, 0, 50);
+  public final static Color COULEUR_PARAGRAPHE = new Color(0x333333);
+  public final static Color COULEUR_EN_TETE = new Color(0x1D3557);
+  public final static Color COULEUR_SOUS_TEXTE = new Color(0x8997a4);
 
   // Dimensions
   public final static Dimension DIMENSION_FENETRE = new Dimension(800, 600);

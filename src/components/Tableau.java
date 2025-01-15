@@ -13,7 +13,7 @@ public class Tableau extends JTable {
     model = new DefaultTableModel(columnNames, 0);
     this.setModel(model);
 
-    this.setFont(Layout.POLICE_PARAGRAPHES);
+    this.setFont(Layout.POLICE_SMALL);
     this.setBackground(Layout.COULEUR_FOND);
 
     this.setGridColor(Layout.COULEUR_SECONDAIRE);
@@ -34,7 +34,7 @@ public class Tableau extends JTable {
       this.getColumnModel().getColumn(i).setCellRenderer(customCellRenderer);
     }
 
-    this.getTableHeader().setFont(Layout.POLICE_PETIT_TITRE);
+    this.getTableHeader().setFont(Layout.POLICE_MEDIUM);
     this.getTableHeader().setForeground(Layout.COULEUR_FOND);
     this.getTableHeader().setBackground(Layout.COULEUR_PRIMAIRE);
     this.getTableHeader().setBorder(new LineBorder(Layout.COULEUR_PRIMAIRE_VARIANTE));

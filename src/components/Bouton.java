@@ -23,7 +23,7 @@ public class Bouton extends JButton {
     this.variante = variante;
 
     // Paramètres de style du bouton
-    this.setFont(Layout.POLICE_SOUSTITRE_GRAS);
+    this.setFont(Layout.POLICE_REGULAR);
     this.setFocusPainted(false);
     this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     this.setOpaque(false);

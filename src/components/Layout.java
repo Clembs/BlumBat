@@ -11,7 +11,7 @@ public class Layout {
   public final static Font POLICE_EN_TETE = new Font("Segoe UI", Font.BOLD, 20);
   public final static Font POLICE_SOUSTITRE = new Font("Arial", Font.ITALIC, 18);
   public final static Font POLICE_PARAGRAPHES = new Font("Arial", Font.PLAIN, 14);
-  public final static Font POLICE_ERREUR_SUCCES = new Font("Arial", Font.PLAIN, 16);
+  public final static Font POLICE_PETIT_TITRE = new Font("Arial", Font.PLAIN, 16);
   public final static Font POLICE_SOUSTITRE_GRAS = new Font("Arial", Font.BOLD, 14);
 
   // Couleurs

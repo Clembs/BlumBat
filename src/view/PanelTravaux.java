@@ -27,7 +27,6 @@ public class PanelTravaux extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelTravaux(BienImmobilier bien) {
-		ControleurTravaux controleur = new ControleurTravaux(this, bien);
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -56,10 +55,10 @@ public class PanelTravaux extends JPanel {
 		table.setFillsViewportHeight(true);
 		table.setModel(new DefaultTableModel(
 		    new Object[][] {
-		        {"Cuisine", "Changer robinet", "Abdel&Co", "400\u20AC", "3000\u20AC"},
+		        {"Changer robinet", "Abdel&Co", "400\u20AC", "3000\u20AC"},
 		    },
 		    new String[] {
-		        "Travaux", "Description", "Entreprise", "Montant Devise", "Montant Facture"
+		        "Description", "Entreprise", "Montant Devise", "Montant Facture"
 		    }
 		));
 
@@ -76,6 +75,8 @@ public class PanelTravaux extends JPanel {
 		
 		JPanel panel_6 = new JPanel();
 		panel_1.add(panel_6, BorderLayout.EAST);
+
+		ControleurTravaux controleur = new ControleurTravaux(this, bien);
 		
 		JButton ButtonAjouter = new JButton("Ajouter Nouvele Travaux");
 		ButtonAjouter.setBackground(new Color(192, 192, 192));
@@ -91,7 +92,6 @@ public class PanelTravaux extends JPanel {
 		ButtonModifier.setBackground(new Color(128, 255, 255));
 		panel_6.add(ButtonModifier);
 		ButtonModifier.addActionListener(controleur);
-
 	}
 	
 	public JTable getTable() {
@@ -110,7 +110,7 @@ public class PanelTravaux extends JPanel {
 	        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 	        
 	        // Ajout du JPanel PanelAPropos au JFrame
-	        PanelTravaux Travaux = new PanelTravaux(new BienImmobilier("123456",TypeBien.BATIMENT,"rue compte","ap4","36000","Toulouse"));
+	        PanelTravaux Travaux = new PanelTravaux(new BienImmobilier("12345",TypeBien.BATIMENT,"rue compte","ap4","36000","Toulouse"));
 	        frame.getContentPane().add(Travaux);
 
 	        // Ajustement de la taille et affichage

@@ -83,7 +83,7 @@ public class VueModificationBien extends JPanel {
     // Liste des erreurs
     erreursList.setFont(Layout.POLICE_SMALL);
     erreursList.setForeground(Layout.COULEUR_DANGER);
-    erreursList.setBackground(new Color(0, 0, 0, 0));
+    erreursList.setBackground(Layout.COULEUR_FOND);
     erreursList.setVisible(false);
 
     JScrollPane erreurScrollPane = new JScrollPane(erreursList);
@@ -92,7 +92,7 @@ public class VueModificationBien extends JPanel {
     southPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
     // Boutons
-    JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+    JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 8, 8));
 
     ControleurModificationBien controleur = new ControleurModificationBien(fenetre, this, proprietaire, bien);
 

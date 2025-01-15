@@ -27,7 +27,7 @@ public class Layout {
   public final static Color COULEUR_DANGER = new Color(0xD32F2F);
   public final static Color COULEUR_DANGER_VARIANTE = new Color(0x9F2828);
   public final static Color COULEUR_DANGER_SOMBRE = new Color(0x6E1E1E);
-  public final static Color COULEUR_FOND = new Color(0xF4F4F4);
+  public final static Color COULEUR_FOND = new Color(0xEEEEEE);
   public final static Color COULEUR_OMBRES = new Color(0, 0, 0, 50);
   public final static Color COULEUR_PARAGRAPHE = new Color(0x333333);
   public final static Color COULEUR_EN_TETE = new Color(0x1D3557);

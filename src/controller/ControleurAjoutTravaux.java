@@ -32,14 +32,37 @@ public class ControleurAjoutTravaux implements ActionListener{
 
         if (boutonClique.getText().equals("Enregistrer")) {
             // nettoyage préalable des erreurs
-            //this.fenetre.clearErreurs();
+            this.fenetre.clearErreurs();
       
             String iD = this.fenetre.getID();
             String description = this.fenetre.getDescription();
             String entreprise = this.fenetre.getEntreprise();
-            double devise = Double.valueOf(this.fenetre.getMontantDevise());
-            double montantFacture = Double.valueOf(this.fenetre.getMontantFacture());
-      
+            double devise = this.fenetre.getMontantDevise();
+            double montantFacture = this.fenetre.getMontantFacture();
+            
+            if (iD.isEmpty()) {
+              this.fenetre.addErreur("Il faut mettre un ID");
+            }
+
+            if (description.isEmpty()) {
+              this.fenetre.addErreur("Il faut mettre une description");
+            }
+
+            if (entreprise.isEmpty()) {
+              this.fenetre.addErreur("Il faut mettre une entreprise");
+            }
+
+            if (devise <= 0) {
+              this.fenetre.addErreur("Le devise doit être supérieur à 0");
+            }
+
+            if (montantFacture <= 0) {
+              this.fenetre.addErreur("Le montant facture doit être supérieur à 0");
+            }
+
+            if (this.fenetre.hasErreurs()) {
+              return;
+            }
            
             FactureTravaux facture = new FactureTravaux(iD,this.bien,montantFacture,description,devise,entreprise);
       

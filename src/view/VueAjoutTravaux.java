@@ -7,11 +7,16 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import controller.ControleurAjoutTravaux;
 import controller.ControleurTravaux;
@@ -22,9 +27,11 @@ public class VueAjoutTravaux extends JFrame {
     private JTextField textID;
     private JTextField textDescription;
     private JTextField textEntreprise;
-    private JTextField textMontantDevise;
-    private JTextField textMontantFacture;
+    private JSpinner spinnerMontantDevise;
+    private JSpinner spinnerMontantFacture;
     private BienImmobilier bien;
+    private JList<String> erreursList;
+    private DefaultListModel<String> erreursListModel;
 
     public VueAjoutTravaux(BienImmobilier bien, ControleurTravaux control) {
         this.bien = bien;
@@ -35,7 +42,7 @@ public class VueAjoutTravaux extends JFrame {
         getContentPane().setLayout(new BorderLayout(10, 10));
         getContentPane().setBackground(new Color(245, 245, 250));
 
-        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         formPanel.setBackground(new Color(245, 245, 250));
 
@@ -48,16 +55,30 @@ public class VueAjoutTravaux extends JFrame {
         textEntreprise = new JTextField();
         addField(formPanel, "Entreprise :", textEntreprise);
 
-        textMontantDevise = new JTextField();
-        addField(formPanel, "Montant Devise :", textMontantDevise);
+        spinnerMontantDevise = new JSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
+        addField(formPanel, "Montant Devise :", spinnerMontantDevise);
 
-        textMontantFacture = new JTextField();
-        addField(formPanel, "Montant Facture :", textMontantFacture);
+        spinnerMontantFacture = new JSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
+        addField(formPanel, "Montant Facture :", spinnerMontantFacture);
 
         getContentPane().add(formPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.setBackground(new Color(245, 245, 250));
+
+        erreursListModel = new DefaultListModel<>();
+        erreursList = new JList<>(erreursListModel);
+        erreursList.setEnabled(false);
+        erreursList.setFont(new Font("Rockwell", Font.PLAIN, 14));
+        erreursList.setForeground(Color.RED);
+        erreursList.setBorder(BorderFactory.createLineBorder(Color.RED));
+        
+        JScrollPane scrollPane = new JScrollPane(erreursList);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Erreurs"));
+        scrollPane.setBackground(new Color(245, 245, 250));
+        scrollPane.setPreferredSize(new java.awt.Dimension(350, 100));
+
+        formPanel.add(scrollPane, BorderLayout.CENTER);
 
         ControleurAjoutTravaux controleur = new ControleurAjoutTravaux(this.bien, this, control);
 
@@ -81,7 +102,6 @@ public class VueAjoutTravaux extends JFrame {
         btnAnnuler.addActionListener(controleur);
 
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
     }
 
     private void addField(JPanel panel, String label, JTextField textField) {
@@ -91,6 +111,15 @@ public class VueAjoutTravaux extends JFrame {
 
         textField.setFont(new Font("Arial", Font.PLAIN, 14));
         panel.add(textField);
+    }
+
+    private void addField(JPanel panel, String label, JSpinner spinner) {
+        JLabel lbl = new JLabel(label);
+        lbl.setFont(new Font("Arial", Font.PLAIN, 14));
+        panel.add(lbl);
+
+        spinner.setFont(new Font("Arial", Font.PLAIN, 14));
+        panel.add(spinner);
     }
 
     public String getID() {
@@ -105,11 +134,28 @@ public class VueAjoutTravaux extends JFrame {
         return textEntreprise.getText();
     }
 
-    public String getMontantDevise() {
-        return textMontantDevise.getText();
+    public double getMontantDevise() {
+        return (double) spinnerMontantDevise.getValue();
     }
 
-    public String getMontantFacture() {
-        return textMontantFacture.getText();
+    public double getMontantFacture() {
+        return (double) spinnerMontantFacture.getValue();
+    }
+
+    public void addErreur(String erreur) {
+        erreursListModel.addElement(erreur);
+        erreursList.setModel(erreursListModel);
+    }
+
+    public void clearErreurs() {
+        if (erreursListModel != null) {
+            erreursListModel = new DefaultListModel<>();
+        }
+        erreursListModel.clear();
+        erreursList.setModel(erreursListModel);
+    }
+
+    public boolean hasErreurs() {
+        return erreursListModel.size() > 0;
     }
 }

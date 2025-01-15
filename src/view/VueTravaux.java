@@ -52,6 +52,7 @@ public class VueTravaux extends JPanel {
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
 		table = new JTable();
+		table.setDefaultEditor(Object.class, null);
 		table.setFillsViewportHeight(true);
 		table.setModel(new DefaultTableModel(
 		    new Object[][] {
@@ -88,10 +89,6 @@ public class VueTravaux extends JPanel {
 		panel_6.add(ButtonSuprimer);
 		ButtonSuprimer.addActionListener(controleur);
 		
-		JButton ButtonModifier = new JButton("Modifier");
-		ButtonModifier.setBackground(new Color(128, 255, 255));
-		panel_6.add(ButtonModifier);
-		ButtonModifier.addActionListener(controleur);
 	}
 	
 	public JTable getTable() {

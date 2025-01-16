@@ -7,6 +7,8 @@ import model.Proprietaire;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import components.Bouton;
 import components.ChampSaisie;
@@ -40,37 +42,37 @@ public class VueModificationBien extends JPanel {
 
     JPanel formPanel = new JPanel(new GridLayout(5, 2, 8, 8));
 
-    ChampSaisie idField = new ChampSaisie("Identifiant :", bien.getId());
+    ChampSaisie idField = new ChampSaisie("Identifiant", bien.getId());
     idField.getChampSaisie().setEnabled(false);
     formPanel.add(idField);
 
-    ChampSaisie typeField = new ChampSaisie("Type :", bien.getTypeBien().toString());
+    ChampSaisie typeField = new ChampSaisie("Type de bien", bien.getTypeBien().toString());
     typeField.getChampSaisie().setEnabled(false);
     formPanel.add(typeField);
 
-    adresseField = new ChampSaisie("Adresse :", bien.getAdresse());
+    adresseField = new ChampSaisie("Adresse", bien.getAdresse());
     formPanel.add(adresseField);
 
-    complémentAdresseField = new ChampSaisie("Complément d'adresse (facultatif) :", bien.getComplementAdresse());
+    complémentAdresseField = new ChampSaisie("Complément d'adresse (facultatif)", bien.getComplementAdresse());
     formPanel.add(complémentAdresseField);
 
-    villeField = new ChampSaisie("Ville :", bien.getVille());
+    villeField = new ChampSaisie("Ville", bien.getVille());
     formPanel.add(villeField);
 
-    codePostalField = new ChampSaisie("Code postal :", bien.getCodePostal());
+    codePostalField = new ChampSaisie("Code postal", bien.getCodePostal());
     formPanel.add(codePostalField);
 
     if (bien instanceof BienLocatif) {
       BienLocatif bienL = (BienLocatif) bien;
 
-      surfaceField = new ChampSaisie("Surface (en m²) :",
+      surfaceField = new ChampSaisie("Surface (en m²)",
           new SpinnerNumberModel(bienL.getSurface(), 1f, null, 1f));
       formPanel.add(surfaceField);
 
-      nbFiscalField = new ChampSaisie("Numéro fiscal :", bienL.getNumeroFiscal());
+      nbFiscalField = new ChampSaisie("Numéro fiscal", bienL.getNumeroFiscal());
       formPanel.add(nbFiscalField);
 
-      nbPiecesField = new ChampSaisie("Nombre de pièces :",
+      nbPiecesField = new ChampSaisie("Nombre de pièces",
           new SpinnerNumberModel(bienL.getNombrePieces(), 1, null, 1));
       formPanel.add(nbPiecesField);
     }
@@ -84,11 +86,11 @@ public class VueModificationBien extends JPanel {
     erreursList.setFont(Layout.POLICE_SMALL);
     erreursList.setForeground(Layout.COULEUR_DANGER);
     erreursList.setBackground(Layout.COULEUR_FOND);
-    erreursList.setVisible(false);
 
     JScrollPane erreurScrollPane = new JScrollPane(erreursList);
+    erreurScrollPane.setBorder(
+        new TitledBorder(new EtchedBorder(), "Erreurs", TitledBorder.CENTER, TitledBorder.TOP));
     erreurScrollPane.setPreferredSize(new Dimension(200, 100));
-    erreurScrollPane.setBorder(null);
     southPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
     // Boutons
@@ -137,7 +139,6 @@ public class VueModificationBien extends JPanel {
   }
 
   public void addErreur(String erreur) {
-    erreursList.setVisible(true);
     erreursListModel.addElement(erreur);
   }
 

@@ -119,11 +119,11 @@ public class VueAjoutBien extends JFrame {
     erreursList.setFont(Layout.POLICE_SMALL);
     erreursList.setForeground(Layout.COULEUR_DANGER);
     erreursList.setBackground(Layout.COULEUR_FOND);
-    erreursList.setVisible(false);
 
     JScrollPane erreurScrollPane = new JScrollPane(erreursList);
     erreurScrollPane.setPreferredSize(new Dimension(200, 100));
-    erreurScrollPane.setBorder(null);
+    erreurScrollPane.setBorder(
+        new TitledBorder(new EtchedBorder(), "Erreurs", TitledBorder.CENTER, TitledBorder.TOP));
     bottomPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
     ControleurAjoutBien controleur = new ControleurAjoutBien(fenBiens, P, this);
@@ -180,7 +180,6 @@ public class VueAjoutBien extends JFrame {
   }
 
   public void addErreur(String erreur) {
-    erreursList.setVisible(true);
     erreursListModel.addElement(erreur);
   }
 

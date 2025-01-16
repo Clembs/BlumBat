@@ -5,129 +5,107 @@ import model.Locataire;
 import model.Proprietaire;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+import components.Bouton;
+import components.ChampSaisie;
+import components.Layout;
+import components.Libellé;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
+
 import java.awt.*;
 
 public class VueModificationLocataire extends JPanel {
-  private JTextField nomField;
-  private JTextField prenomField;
-  private JTextField emailField;
-  private JTextField telephoneField;
+  private ChampSaisie nomField;
+  private ChampSaisie prenomField;
+  private ChampSaisie emailField;
+  private ChampSaisie telephoneField;
   private DefaultListModel<String> erreursListModel;
   private JList<String> erreursList;
 
   public VueModificationLocataire(VueLocataires fenLocataires, Proprietaire proprietaire, Locataire locataire) {
-    this.setLayout(new BorderLayout(10, 10));
-    this.setBackground(new Color(40, 40, 40));
-
-    // Initialisation du modèle de liste des erreurs
-    erreursListModel = new DefaultListModel<>();
-    erreursList = new JList<>(erreursListModel);
+    this.setLayout(new BorderLayout(8, 8));
+    this.setBorder(new EmptyBorder(0, 16, 16, 16));
 
     // Titre
-    JLabel lblTitle = new JLabel("Modifier un Locataire", SwingConstants.CENTER);
-    lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
-    lblTitle.setForeground(new Color(240, 240, 240));
-    lblTitle.setOpaque(true);
-    lblTitle.setBackground(new Color(60, 60, 60));
-    lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    Libellé lblTitle = new Libellé("Modifier " + locataire.getPrenom() + " " + locataire.getNom(), TypeLibellé.EN_TETE);
     this.add(lblTitle, BorderLayout.NORTH);
 
     // Panneau de formulaire
-    JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
-    formPanel.setBackground(new Color(50, 50, 50));
-    formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
 
     // Champs de formulaire
-    JTextField textIdentifiant = new JTextField(locataire.getId());
-    textIdentifiant.setEditable(false);
-    addField(formPanel, "Identifiant :", textIdentifiant);
+    ChampSaisie idField = new ChampSaisie("Identifiant", locataire.getId());
+    idField.getChampSaisie().setEnabled(false);
+    formPanel.add(idField);
 
-    nomField = new JTextField(locataire.getNom());
-    addField(formPanel, "Nom :", nomField);
+    prenomField = new ChampSaisie("Prénom", locataire.getPrenom());
+    formPanel.add(prenomField);
 
-    prenomField = new JTextField(locataire.getPrenom());
-    addField(formPanel, "Prénom :", prenomField);
+    nomField = new ChampSaisie("Nom", locataire.getNom());
+    formPanel.add(nomField);
 
-    emailField = new JTextField(locataire.getEmail());
-    addField(formPanel, "Email :", emailField);
+    emailField = new ChampSaisie("Adresse email", locataire.getEmail());
+    formPanel.add(emailField);
 
-    telephoneField = new JTextField(locataire.getTelephone());
-    addField(formPanel, "Téléphone :", telephoneField);
+    telephoneField = new ChampSaisie("Téléphone", locataire.getTelephone());
+    formPanel.add(telephoneField);
 
     this.add(formPanel, BorderLayout.CENTER);
 
     // Panneau des erreurs et des boutons
-    JPanel southPanel = new JPanel(new BorderLayout());
-    southPanel.setBackground(new Color(40, 40, 40));
+    JPanel bottomPanel = new JPanel(new BorderLayout());
+
+    // Initialisation du modèle de liste des erreurs
+    erreursListModel = new DefaultListModel<>();
+    erreursList = new JList<>(erreursListModel);
+    erreursList.setFont(Layout.POLICE_SMALL);
+    erreursList.setForeground(Layout.COULEUR_DANGER);
+    erreursList.setBackground(Layout.COULEUR_FOND);
 
     // Panneau des erreurs
-    erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
-    erreursList.setBackground(new Color(60, 60, 60));
-    erreursList.setForeground(Color.RED);
-
     JScrollPane erreurScrollPane = new JScrollPane(erreursList);
+    erreurScrollPane.setBorder(
+        new TitledBorder(new EtchedBorder(), "Erreurs", TitledBorder.CENTER, TitledBorder.TOP));
     erreurScrollPane.setPreferredSize(new Dimension(200, 100));
-    southPanel.add(erreurScrollPane, BorderLayout.NORTH);
+    bottomPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
     // Panneau des boutons
-    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-    buttonPanel.setBackground(new Color(40, 40, 40));
-
-    JButton btnModifier = new JButton("Enregistrer");
-    btnModifier.setFont(new Font("SansSerif", Font.BOLD, 14));
-    btnModifier.setBackground(new Color(0, 170, 85));
-    btnModifier.setForeground(Color.WHITE);
-    btnModifier.setFocusPainted(false);
-    btnModifier.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-    buttonPanel.add(btnModifier);
-
     ControleurModificationLocataire controleur = new ControleurModificationLocataire(fenLocataires, this, proprietaire,
         locataire);
+
+    JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 8, 8));
+
+    Bouton btnModifier = new Bouton("Enregistrer");
     btnModifier.addActionListener(controleur);
+    panelBoutons.add(btnModifier);
 
-    JButton btnAnnuler = new JButton("Annuler");
-    btnAnnuler.setFont(new Font("SansSerif", Font.BOLD, 14));
-    btnAnnuler.setBackground(new Color(200, 50, 50));
-    btnAnnuler.setForeground(Color.WHITE);
-    btnAnnuler.setFocusPainted(false);
-    btnAnnuler.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-    buttonPanel.add(btnAnnuler);
-
+    Bouton btnAnnuler = new Bouton("Annuler", VarianteButton.SECONDAIRE);
     btnAnnuler.addActionListener(controleur);
+    panelBoutons.add(btnAnnuler);
 
-    southPanel.add(buttonPanel, BorderLayout.SOUTH);
-    this.add(southPanel, BorderLayout.SOUTH);
-  }
-
-  // Méthodes utilitaires pour les champs
-  private void addField(JPanel panel, String label, JTextField textField) {
-    JLabel lbl = new JLabel(label);
-    lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    lbl.setForeground(new Color(230, 230, 230));
-    panel.add(lbl);
-
-    textField.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    textField.setBackground(new Color(60, 60, 60));
-    textField.setForeground(Color.WHITE);
-    textField.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-    panel.add(textField);
+    bottomPanel.add(panelBoutons, BorderLayout.SOUTH);
+    this.add(bottomPanel, BorderLayout.SOUTH);
   }
 
   // Méthodes pour récupérer les valeurs
   public String getNom() {
-    return nomField.getText();
+    return nomField.getValue();
   }
 
   public String getPrenom() {
-    return prenomField.getText();
+    return prenomField.getValue();
   }
 
   public String getEmail() {
-    return emailField.getText();
+    return emailField.getValue();
   }
 
   public String getTelephone() {
-    return telephoneField.getText();
+    return telephoneField.getValue();
   }
 
   // Méthodes pour gérer les erreurs
@@ -136,12 +114,7 @@ public class VueModificationLocataire extends JPanel {
   }
 
   public void clearErreurs() {
-    if (erreursListModel != null) {
-      erreursListModel = new DefaultListModel<String>();
-    }
-
     erreursListModel.clear();
-    erreursList.setModel(erreursListModel);
   }
 
   public boolean hasErreurs() {

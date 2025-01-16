@@ -20,6 +20,7 @@ public class ControleurLocationsEnCoursBien implements ActionListener {
     private LocationDAO locationDAO;
     private LocataireDAO locataireDAO;
     private VueLocataires vueLocataires;
+    private Locataire locataire;
 
     public ControleurLocationsEnCoursBien(VueBiens fenetre, Proprietaire proprietaire, BienLocatif bien, VueLocationsEnCoursBien vue) {
         this.fenetre = fenetre;
@@ -58,10 +59,7 @@ public class ControleurLocationsEnCoursBien implements ActionListener {
                 break;
             case "Retirer de la colocation":
                 int confirmation = JOptionPane.showConfirmDialog(fenetre,
-                        "Voulez-vous vraiment retirer ce locataire ?"
-                                + (this.bien instanceof BienLocatif && ((BienLocatif) bien).estLoué()
-                                ? " Cela entraînera la suppression du locataire de cette location."
-                                : ""),
+                        "Voulez-vous vraiment retirer ce locataire ? Cela entraînera la suppression du locataire de cette location.",
                         "Confirmation",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);

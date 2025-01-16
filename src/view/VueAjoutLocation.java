@@ -142,7 +142,7 @@ public class VueAjoutLocation extends JFrame {
     for (Locataire locataire : locataires) {
       tableLocatairesSelectionnes.addRow(
           locataire.getId(),
-          locataire.getPrenom() + locataire.getNom());
+          locataire.getPrenom() + " " + locataire.getNom());
     }
 
     // Rafraîchir la table

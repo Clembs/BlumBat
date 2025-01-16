@@ -37,7 +37,7 @@ public class ControleurConsultationLocataire implements ActionListener {
     String boutonTexte = boutonClique.getText();
 
     switch (boutonTexte) {
-      case "Modifier le locataire": {
+      case "Modifier": {
         VueModificationLocataire panelModificationLocataire = new VueModificationLocataire(
             this.fenetre,
             this.proprietaire,
@@ -46,7 +46,7 @@ public class ControleurConsultationLocataire implements ActionListener {
         this.fenetre.setPanelCentral(panelModificationLocataire);
         break;
       }
-      case "Supprimer le locataire": {
+      case "Supprimer": {
         // TODO: suppression d'un locataire
       }
     }

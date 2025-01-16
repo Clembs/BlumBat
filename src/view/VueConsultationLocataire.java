@@ -3,13 +3,20 @@ package view;
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
+import components.Bouton;
+import components.Libellé;
+import components.Tableau;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
 import controller.ControleurConsultationLocataire;
 import model.BienImmobilier;
 import model.Locataire;
@@ -21,85 +28,85 @@ public class VueConsultationLocataire extends JPanel {
   private ControleurConsultationLocataire controleur;
 
   public VueConsultationLocataire(VueLocataires fenetre, Proprietaire proprietaire, Locataire locataire) {
-    setLayout(new BorderLayout(10, 10));
-    setBorder(new TitledBorder(new EtchedBorder(), "Informations Personnelles", TitledBorder.CENTER,
-        TitledBorder.TOP));
-    setBackground(Color.LIGHT_GRAY);
-    fenetre.setTitle("Consultation d'un locataire - " + locataire.getId());
+    this.setLayout(new BorderLayout(0, 8));
+    this.setBorder(new EmptyBorder(0, 16, 16, 16));
+    fenetre.setTitle("Gestion des locataires - " + locataire.getId());
 
-    // Panel central contenant les informations du locataire
+    // Panel du haut contenant le titre
+    Libellé titleLabel = new Libellé(locataire.getPrenom() + " " + locataire.getNom(), TypeLibellé.EN_TETE);
+    this.add(titleLabel, BorderLayout.NORTH);
+
+    // panel central contenant les informations du locataire
     JPanel centerPanel = new JPanel();
     centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
     // Panel contenant les champs
     JPanel champsPanel = new JPanel();
-    champsPanel.setLayout(new GridLayout(0, 2, 5, 5));
-    champsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    champsPanel.setAutoscrolls(true);
-
-    JLabel lblPrenomKey = new JLabel("Prénom :", SwingConstants.LEFT);
-    lblPrenomKey.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblPrenomKey);
-
-    JLabel lblPrenomValue = new JLabel(locataire.getPrenom(), SwingConstants.LEFT);
-    lblPrenomValue.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblPrenomValue);
-
-    JLabel lblNomKey = new JLabel("Nom :", SwingConstants.LEFT);
-    lblNomKey.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblNomKey);
-
-    JLabel lblNomValue = new JLabel(locataire.getNom(), SwingConstants.LEFT);
-    lblNomValue.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblNomValue);
-
-    JLabel lblTelephoneKey = new JLabel("Téléphone :", SwingConstants.LEFT);
-    lblTelephoneKey.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblTelephoneKey);
-
-    JLabel lblTelephoneValue = new JLabel(locataire.getTelephone(), SwingConstants.LEFT);
-    lblTelephoneValue.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblTelephoneValue);
-
-    JLabel lblEmailKey = new JLabel("Adresse email :", SwingConstants.LEFT);
-    lblEmailKey.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblEmailKey);
-
-    JLabel lblEmailValue = new JLabel(locataire.getEmail(), SwingConstants.LEFT);
-    lblEmailValue.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-    champsPanel.add(lblEmailValue);
-
+    champsPanel.setLayout(new GridLayout(0, 2, 12, 12));
+    champsPanel.setBorder(new EmptyBorder(12, 12, 12, 12));
+    // champsPanel.setAutoscrolls(true);
     centerPanel.add(champsPanel);
 
-    // Panel (Locations)
-    JPanel tablePanel = new JPanel(new BorderLayout());
-    // tablePanel.setBackground(Color.LIGHT_GRAY);
-    tablePanel.setBorder(
-        new TitledBorder(new EtchedBorder(), "Locations", TitledBorder.CENTER, TitledBorder.TOP));
+    JPanel panelIdentifiant = new JPanel(new GridLayout(2, 0, 0, 0));
+    Libellé lblIdentifiantKey = new Libellé("Identifiant", TypeLibellé.CLEF);
+    Libellé lblIdentifiantValue = new Libellé(locataire.getId());
+    panelIdentifiant.add(lblIdentifiantKey);
+    panelIdentifiant.add(lblIdentifiantValue);
+    champsPanel.add(panelIdentifiant);
 
-    DefaultTableModel model = new DefaultTableModel(new Object[] {
-        "ID", "Type", "Adresse", "Ville", "Loyer", "Date d'entrée", "Date de sortie"
-    }, 0);
-    JTable tableLocataires = new JTable(model);
+    JPanel panelPrenom = new JPanel(new GridLayout(2, 0, 0, 0));
+    Libellé lblPrenomKey = new Libellé("Prénom", TypeLibellé.CLEF);
+    Libellé lblPrenomValue = new Libellé(locataire.getPrenom());
+    panelPrenom.add(lblPrenomKey);
+    panelPrenom.add(lblPrenomValue);
+    champsPanel.add(panelPrenom);
+
+    JPanel panelNom = new JPanel(new GridLayout(2, 0, 0, 0));
+    Libellé lblNomKey = new Libellé("Nom", TypeLibellé.CLEF);
+    Libellé lblNomValue = new Libellé(locataire.getNom());
+    panelNom.add(lblNomKey);
+    panelNom.add(lblNomValue);
+    champsPanel.add(panelNom);
+
+    JPanel panelTelephone = new JPanel(new GridLayout(2, 0, 0, 0));
+    Libellé lblTelephoneKey = new Libellé("Téléphone", TypeLibellé.CLEF);
+    Libellé lblTelephoneValue = new Libellé(locataire.getTelephone());
+    panelTelephone.add(lblTelephoneKey);
+    panelTelephone.add(lblTelephoneValue);
+    champsPanel.add(panelTelephone);
+
+    JPanel panelEmail = new JPanel(new GridLayout(2, 0, 0, 0));
+    Libellé lblEmailKey = new Libellé("Adresse email", TypeLibellé.CLEF);
+    Libellé lblEmailValue = new Libellé(locataire.getEmail());
+    panelEmail.add(lblEmailKey);
+    panelEmail.add(lblEmailValue);
+    champsPanel.add(panelEmail);
+
+    // Panel (Locations)
+    // JPanel tablePanel = new JPanel(new BorderLayout());
+    // tablePanel.setBorder();
+
+    Tableau tableLocataires = new Tableau(
+        "ID", "Ville", "Loyer", "Date d'entrée", "Date de sortie");
 
     for (Location location : locataire.getLocations()) {
       BienImmobilier bien = location.getBien();
 
-      model.addRow(new Object[] {
+      tableLocataires.addRow(
           bien.getId(),
-          bien.getTypeBien(),
-          bien.getAdresse(),
-          bien.getCodePostal() + " " + bien.getVille(),
-          location.getLoyer(),
-          location.getDateEntree(),
-          location.getDateSortie() == null ? "En cours" : location.getDateSortie()
-      });
+          bien.getVille(),
+          String.format("%.2f €", location.getLoyer()),
+          location.getDateEntree()
+              .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)),
+          location.getDateSortie() == null ? "En cours"
+              : location.getDateSortie()
+                  .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)));
     }
 
-    tableLocataires.setFont(new Font("Rockwell", Font.PLAIN, 12));
-
     JScrollPane tableScrollPane = new JScrollPane(tableLocataires);
-    tableScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    tableScrollPane.setBorder(
+        new TitledBorder(new EtchedBorder(), "Locations", TitledBorder.CENTER, TitledBorder.TOP));
+    // tableScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     tableScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
     // cf. PanelConsultationBien.java:212
@@ -107,38 +114,34 @@ public class VueConsultationLocataire extends JPanel {
       @Override
       public void mouseWheelMoved(MouseWheelEvent e) {
         Component parent = tableScrollPane.getParent();
-        parent.dispatchEvent(SwingUtilities.convertMouseEvent(tableScrollPane, e, parent));
+        parent.dispatchEvent(SwingUtilities.convertMouseEvent(tableScrollPane, e,
+            parent));
       }
     });
 
-    tablePanel.add(tableScrollPane, BorderLayout.CENTER);
-    centerPanel.add(tablePanel);
+    // tablePanel.add(tableScrollPane, BorderLayout.CENTER);
+    centerPanel.add(tableScrollPane);
 
     JScrollPane scrollPane = new JScrollPane(centerPanel);
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    add(scrollPane, BorderLayout.CENTER);
+
+    this.add(scrollPane, BorderLayout.CENTER);
 
     // Panel du bas contenant les boutons de modification et de suppression
-    JPanel buttonsPanel = new JPanel();
-    buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+    JPanel panelBoutons = new JPanel();
+    panelBoutons.setLayout(new FlowLayout(FlowLayout.TRAILING, 8, 8));
 
     controleur = new ControleurConsultationLocataire(fenetre, this, proprietaire, locataire);
 
-    JButton btnSupprimer = new JButton("Supprimer le locataire");
-    btnSupprimer.setFont(new Font("Rockwell", Font.BOLD, 14));
-    btnSupprimer.setBackground(Color.RED);
-    btnSupprimer.setForeground(Color.WHITE);
+    Bouton btnSupprimer = new Bouton("Supprimer", VarianteButton.DANGER);
     btnSupprimer.addActionListener(controleur);
-    buttonsPanel.add(btnSupprimer);
+    panelBoutons.add(btnSupprimer);
 
-    JButton btnModifier = new JButton("Modifier le locataire");
-    btnModifier.setFont(new Font("Rockwell", Font.BOLD, 14));
-    btnModifier.setBackground(Color.BLUE);
-    btnModifier.setForeground(Color.WHITE);
+    Bouton btnModifier = new Bouton("Modifier");
     btnModifier.addActionListener(controleur);
-    buttonsPanel.add(btnModifier);
+    panelBoutons.add(btnModifier);
 
-    add(buttonsPanel, BorderLayout.SOUTH);
+    this.add(panelBoutons, BorderLayout.SOUTH);
   }
 }

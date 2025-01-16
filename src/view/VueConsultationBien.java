@@ -20,10 +20,6 @@ public class VueConsultationBien extends JPanel {
     this.setLayout(new BorderLayout(0, 16));
     this.setBorder(new EmptyBorder(16, 16, 16, 16));
 
-    // Panel du haut contenant le titre
-    JPanel titlePanel = new JPanel();
-    titlePanel.setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
-
     Libellé titleLabel = new Libellé(bien.getId(), TypeLibellé.EN_TETE);
     this.add(titleLabel, BorderLayout.NORTH);
 

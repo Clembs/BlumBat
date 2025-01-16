@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import components.Layout;
 import components.Libellé;
 import components.Libellé.TypeLibellé;
 import model.BienImmobilier;
@@ -23,20 +24,8 @@ public class VueConsultationBien extends JPanel {
     Libellé titleLabel = new Libellé(bien.getId(), TypeLibellé.EN_TETE);
     this.add(titleLabel, BorderLayout.NORTH);
 
-    // Panel central contenant les informations du bien
-    JPanel centerPanel = new JPanel();
-    centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-    centerPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
-
-    // Panel contenant les champs
-    JPanel champsPanel = new JPanel();
-    champsPanel.setLayout(new GridLayout(0, 2, 10, 10));
-    champsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    champsPanel.setAutoscrolls(true);
-
-    centerPanel.add(champsPanel);
-
     JTabbedPane tabs = new JTabbedPane();
+    tabs.setFont(Layout.POLICE_REGULAR);
 
     VueDétailsBien panelBienDetails = new VueDétailsBien(fenetre, proprietaire, bien);
     tabs.addTab("Détails", null, panelBienDetails);
@@ -50,7 +39,7 @@ public class VueConsultationBien extends JPanel {
 
     tabs.setSelectedIndex(ongletSélectionné.ordinal());
 
-    add(tabs);
+    add(tabs, BorderLayout.CENTER);
   }
 
   public static enum Onglets {

@@ -12,14 +12,12 @@ import model.Proprietaire;
 import dao.LocataireDAO;
 import view.VueAjoutLocataire;
 import view.VueLocataires;
-import view.VueBiens;
 import view.VueConsultationLocataire;
 
 public class ControleurAjoutLocataire implements ActionListener {
   private VueAjoutLocataire fenetre;
   private Proprietaire proprietaire;
   private VueLocataires fenLocataires;
-  private VueBiens fenBiens;
   private LocataireDAO locataireDAO;
 
   public ControleurAjoutLocataire(VueAjoutLocataire fenetre, Proprietaire proprietaire, VueLocataires fenLocataires) {

@@ -2,12 +2,16 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import components.Tableau;
 import dao.TravailDAO;
 import model.BienImmobilier;
 import model.FactureTravaux;
@@ -16,74 +20,83 @@ import view.VueTravaux;
 
 public class ControleurTravaux implements ActionListener {
 
-    private VueTravaux view;
-    private TravailDAO travauxDAO;
-    private BienImmobilier bien;
+  private VueTravaux view;
+  private TravailDAO travauxDAO;
+  private BienImmobilier bien;
+  List<FactureTravaux> travaux;
 
-    public ControleurTravaux(VueTravaux view, BienImmobilier bien) {
-        this.view = view;
-        this.bien = bien;
-        this.travauxDAO = new TravailDAO();
+  public ControleurTravaux(VueTravaux view, BienImmobilier bien) {
+    this.view = view;
+    this.bien = bien;
+    this.travauxDAO = new TravailDAO();
 
-        this.loadData();
+    this.loadData();
+  }
+
+  public void loadData() {
+    travaux = travauxDAO.getAllTravaux(bien);
+    Tableau table = view.getTable();
+    table.clear(); // Réinitialiser le tableau
+
+    double totalPrix = 0;
+
+    for (FactureTravaux travail : travaux) {
+      table.addRow(
+          travail.getId(),
+          travail.getDescription(),
+          travail.getEntreprise(),
+          travail.getDate()
+              .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)),
+          String.format("%.2f€", travail.getMontantDevis()),
+          String.format("%.2f€", travail.getMontantFacture()));
+
+      totalPrix += travail.getMontantFacture();
     }
 
-    public void loadData() {
-        List<FactureTravaux> factures = travauxDAO.getAllTravaux(bien);
-        DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
-        tableModel.setRowCount(0); // Réinitialiser le tableau
+    // Mettre à jour le prix total dans la vue
+    view.setPrixTotal(String.format("%.2f€", totalPrix));
+  }
 
-        double totalPrix = 0;
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    JButton boutonClique = (JButton) e.getSource();
+    String boutonTexte = boutonClique.getText();
 
-        for (FactureTravaux facture : factures) {
-            tableModel.addRow(new Object[] {
-                    facture.getDescription(),
-                    facture.getEntreprise(),
-                    facture.getMontantDevis() + "€",
-                    facture.getMontantFacture() + "€"
-            });
-            totalPrix += facture.getMontantFacture();
-        }
+    switch (boutonTexte) {
+      case "Ajouter":
+        // Controleur passé pour l'utilisation du methode de loadData() dans le
+        // controleur de la fenetre ajoutTravaux pour mis a jour le tableau des travaux
+        VueAjoutTravail nouvelleFenetre = new VueAjoutTravail(this.bien, this);
+        nouvelleFenetre.setVisible(true);
+        break;
+      case "Supprimer":
+        int entrée = JOptionPane.showConfirmDialog(boutonClique,
+            "Voulez-vous vraiment supprimer ce travail ?",
+            "Confirmation",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
 
-        // Mettre à jour le prix total dans la vue
-        view.setPrixTotal(totalPrix + "€");
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JButton boutonClique = (JButton) e.getSource();
-        String boutonTexte = boutonClique.getText();
-
-        switch (boutonTexte) {
-            case "Ajouter":
-                // Controleur passé pour l'utilisation du methode de loadData() dans le
-                // controleur de la fenetre ajoutTravaux pour mis a jour le tableau des travaux
-                VueAjoutTravail nouvelleFenetre = new VueAjoutTravail(this.bien, this);
-                nouvelleFenetre.setVisible(true);
-                break;
-            case "Supprimer":
-                supprimerTravaux();
-                break;
-        }
-
-    }
-
-    private void supprimerTravaux() {
-        int selectedRow = view.getTable().getSelectedRow();
-        if (selectedRow >= 0) {
+        if (entrée == JOptionPane.YES_OPTION) {
+          int selectedRow = view.getTable().getSelectedRow();
+          if (selectedRow >= 0) {
             DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
-            String description = (String) tableModel.getValueAt(selectedRow, 0);
+            String id = (String) tableModel.getValueAt(selectedRow, 0);
 
-            FactureTravaux factureToDelete = travauxDAO.getTravailByDescription(description, bien);
+            FactureTravaux travailÀSupprimer = travaux.stream()
+                .filter(travail -> travail.getId().equals(id))
+                .findFirst()
+                .orElse(null);
 
-            if (factureToDelete != null) {
-                travauxDAO.delete(factureToDelete);
-                loadData(); // Reload la Data apres supression
-                JOptionPane.showMessageDialog(view, "Travail supprimé avec succès !");
+            if (travailÀSupprimer != null) {
+              travauxDAO.delete(travailÀSupprimer);
+              loadData(); // rafraîchir les données après supression
+              JOptionPane.showMessageDialog(view, "Travail supprimé avec succès !");
             }
-        } else {
+          } else {
             JOptionPane.showMessageDialog(view, "Veuillez sélectionner un travail à supprimer.");
+          }
         }
+        break;
     }
-
+  }
 }

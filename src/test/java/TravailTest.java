@@ -1,5 +1,6 @@
 package test.java;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,8 +35,8 @@ public class TravailTest {
     proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "");
     bien = new BienImmobilier("BienTravauxTest", TypeBien.BATIMENT, "11 rue des tulipes", "145 étage 3", "31400",
         "Toulouse");
-    factureTravaux = new FactureTravaux("FactureTravauxTest", 100, "Reparation robinet", 1234, "ClembsIndustries",
-        bien);
+    factureTravaux = new FactureTravaux(
+        "FactureTravauxTest", "Reparation robinet", 100, 1234, "ClembsIndustries", LocalDate.now(), bien);
     id = factureTravaux.getId();
 
   }

@@ -2,11 +2,14 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
-import model.BienLocatif;
-import model.Locataire;
-import model.Location;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 import dao.LocationDAO;
+import model.BienLocatif;
+import model.Location;
 import view.VueModifierPartBiens;
 
 public class ControleurModifierPartBien implements ActionListener {
@@ -37,11 +40,27 @@ public class ControleurModifierPartBien implements ActionListener {
                 );
                 bien.getLocationsCourantes().set(selectedRow, nouvelleLocation);
                 locationDAO.update(nouvelleLocation);
-                vue.rafraichirTable(bien);
+                rafraichirTable(bien);
                 JOptionPane.showMessageDialog(vue, "Loyer mis à jour avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    public String rafraichirTable(BienLocatif bien) {
+        DefaultTableModel model = (DefaultTableModel) vue.getOtherTenantsTable().getModel();
+        model.setRowCount(0);
+        double totalLoyer = 0;
+        for (Location location : bien.getLocationsCourantes()) {
+            model.addRow(new Object[]{
+                    location.getLocataire().getNom(),
+                    location.getLoyer() + " €",
+                    location.getDateEntree(),
+                    location.getDateSortie()
+            });
+            totalLoyer += location.getLoyer();
+        }
+        return (totalLoyer + " €");
     }
 }

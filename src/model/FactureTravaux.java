@@ -8,8 +8,8 @@ public class FactureTravaux {
   private String entreprise;
   private String description;
 
-  public FactureTravaux(String id, BienImmobilier bien, double montantFacture, String description, double montantDevis,
-      String entreprise) {
+  public FactureTravaux(String id, double montantFacture, String description, double montantDevis, String entreprise,
+      BienImmobilier bien) {
     this.id = id;
     this.bien = bien;
     this.montantFacture = montantFacture;

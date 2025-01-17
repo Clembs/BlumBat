@@ -35,6 +35,10 @@ public class VueConsultationBien extends JPanel {
 
       VueLocationsPassésBien panelLocationsPassées = new VueLocationsPassésBien(fenetre, proprietaire, bienLocatif);
       tabs.addTab("Locations passées", null, panelLocationsPassées);
+
+      VueTravaux vueTravaux = new VueTravaux(bienLocatif);
+
+      tabs.addTab("Travaux", null, vueTravaux);
     }
 
     tabs.setSelectedIndex(ongletSélectionné.ordinal());
@@ -43,6 +47,6 @@ public class VueConsultationBien extends JPanel {
   }
 
   public static enum Onglets {
-    DÉTAILS, LOCATIONS_EN_COURS, LOCATIONS_PASSÉES, FACTURES
+    DÉTAILS, LOCATIONS_EN_COURS, LOCATIONS_PASSÉES, TRAVAUX
   }
 }

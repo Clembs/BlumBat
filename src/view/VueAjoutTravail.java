@@ -22,7 +22,7 @@ import controller.ControleurAjoutTravaux;
 import controller.ControleurTravaux;
 import model.BienImmobilier;
 
-public class VueAjoutTravaux extends JFrame {
+public class VueAjoutTravail extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField textID;
     private JTextField textDescription;
@@ -33,7 +33,7 @@ public class VueAjoutTravaux extends JFrame {
     private JList<String> erreursList;
     private DefaultListModel<String> erreursListModel;
 
-    public VueAjoutTravaux(BienImmobilier bien, ControleurTravaux control) {
+    public VueAjoutTravail(BienImmobilier bien, ControleurTravaux control) {
         this.bien = bien;
 
         setTitle("Ajouter Travaux");
@@ -72,7 +72,7 @@ public class VueAjoutTravaux extends JFrame {
         erreursList.setFont(new Font("Rockwell", Font.PLAIN, 14));
         erreursList.setForeground(Color.RED);
         erreursList.setBorder(BorderFactory.createLineBorder(Color.RED));
-        
+
         JScrollPane scrollPane = new JScrollPane(erreursList);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Erreurs"));
         scrollPane.setBackground(new Color(245, 245, 250));
@@ -134,7 +134,7 @@ public class VueAjoutTravaux extends JFrame {
         return textEntreprise.getText();
     }
 
-    public double getMontantDevise() {
+    public double getMontantDevis() {
         return (double) spinnerMontantDevise.getValue();
     }
 

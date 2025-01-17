@@ -1,4 +1,5 @@
 package controller;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -7,40 +8,39 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import dao.TravauxDAO;
+import dao.TravailDAO;
 import model.BienImmobilier;
 import model.FactureTravaux;
-import view.VueAjoutTravaux;
+import view.VueAjoutTravail;
 import view.VueTravaux;
 
-
-public class ControleurTravaux implements ActionListener{
+public class ControleurTravaux implements ActionListener {
 
     private VueTravaux view;
-    private TravauxDAO travauxDAO;
+    private TravailDAO travauxDAO;
     private BienImmobilier bien;
 
     public ControleurTravaux(VueTravaux view, BienImmobilier bien) {
         this.view = view;
         this.bien = bien;
-        this.travauxDAO = new TravauxDAO();
-    
+        this.travauxDAO = new TravailDAO();
+
         this.loadData();
     }
 
     public void loadData() {
-        List<FactureTravaux> factures = travauxDAO.getAllFacture(bien);
+        List<FactureTravaux> factures = travauxDAO.getAllTravaux(bien);
         DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
         tableModel.setRowCount(0); // Réinitialiser le tableau
 
         double totalPrix = 0;
 
         for (FactureTravaux facture : factures) {
-            tableModel.addRow(new Object[]{
-                facture.getDescription(),
-                facture.getEntreprise(),
-                facture.getMontantDevis() + "€",
-                facture.getMontantFacture() + "€"
+            tableModel.addRow(new Object[] {
+                    facture.getDescription(),
+                    facture.getEntreprise(),
+                    facture.getMontantDevis() + "€",
+                    facture.getMontantFacture() + "€"
             });
             totalPrix += facture.getMontantFacture();
         }
@@ -48,15 +48,17 @@ public class ControleurTravaux implements ActionListener{
         // Mettre à jour le prix total dans la vue
         view.setPrixTotal(totalPrix + "€");
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton boutonClique = (JButton) e.getSource();
         String boutonTexte = boutonClique.getText();
 
         switch (boutonTexte) {
-            case "Ajouter Nouveaux Travaux":
-                VueAjoutTravaux nouvelleFenetre = new VueAjoutTravaux(this.bien, this); //Controleur passé pour l'utilisation du methode de loadData() dans le controleur de la fenetre ajoutTravaux pour mis a jour le tableau des travaux
+            case "Ajouter":
+                // Controleur passé pour l'utilisation du methode de loadData() dans le
+                // controleur de la fenetre ajoutTravaux pour mis a jour le tableau des travaux
+                VueAjoutTravail nouvelleFenetre = new VueAjoutTravail(this.bien, this);
                 nouvelleFenetre.setVisible(true);
                 break;
             case "Supprimer":
@@ -64,7 +66,6 @@ public class ControleurTravaux implements ActionListener{
                 break;
         }
 
-        
     }
 
     private void supprimerTravaux() {
@@ -72,9 +73,9 @@ public class ControleurTravaux implements ActionListener{
         if (selectedRow >= 0) {
             DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
             String description = (String) tableModel.getValueAt(selectedRow, 0);
-    
-            FactureTravaux factureToDelete = travauxDAO.getFactureByDescription(description, bien);
-    
+
+            FactureTravaux factureToDelete = travauxDAO.getTravailByDescription(description, bien);
+
             if (factureToDelete != null) {
                 travauxDAO.delete(factureToDelete);
                 loadData(); // Reload la Data apres supression
@@ -83,6 +84,6 @@ public class ControleurTravaux implements ActionListener{
         } else {
             JOptionPane.showMessageDialog(view, "Veuillez sélectionner un travail à supprimer.");
         }
-    }    
-    
+    }
+
 }

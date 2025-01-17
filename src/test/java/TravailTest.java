@@ -11,30 +11,30 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import dao.BienDAO;
-import dao.TravauxDAO;
+import dao.TravailDAO;
 import model.BienImmobilier;
 import model.FactureTravaux;
 import model.Proprietaire;
 import model.TypeBien;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class TravauxTest {
+public class TravailTest {
   private BienImmobilier bien;
   private Proprietaire proprietaire;
   private FactureTravaux factureTravaux;
   private BienDAO bienDAO;
-  private TravauxDAO travauxDAO;
+  private TravailDAO travailDAO;
   private String id;
 
   @BeforeAll
   public void setUp() {
     bienDAO = new BienDAO();
-    travauxDAO = new TravauxDAO();
+    travailDAO = new TravailDAO();
 
     proprietaire = new Proprietaire(1, "Voisin", "Clément", "clembs@clembs.com", "");
-    bien = new BienImmobilier("BienTestTravaux", TypeBien.BATIMENT, "11 rue des tulipes", "145 étage 3", "31400",
+    bien = new BienImmobilier("BienTravauxTest", TypeBien.BATIMENT, "11 rue des tulipes", "145 étage 3", "31400",
         "Toulouse");
-    factureTravaux = new FactureTravaux("1", bien, 100, "Reparation robinet", 1234, "ClembsIndustries");
+    factureTravaux = new FactureTravaux("1", 100, "Reparation robinet", 1234, "ClembsIndustries", bien);
     id = factureTravaux.getId();
 
   }
@@ -53,9 +53,9 @@ public class TravauxTest {
   @Test
   public void TestInsertionEtRecuperationFactureTravaux() {
     bienDAO.create(bien, proprietaire);
-    travauxDAO.create(factureTravaux, bien);
+    travailDAO.create(factureTravaux, bien);
 
-    List<FactureTravaux> listFactureTravaux = travauxDAO.getAllFacture(bien);
+    List<FactureTravaux> listFactureTravaux = travailDAO.getAllTravaux(bien);
 
     FactureTravaux factureTravauxTrouvé = listFactureTravaux
         .stream()
@@ -66,18 +66,18 @@ public class TravauxTest {
     assertNotNull(factureTravauxTrouvé);
     assertEquals(id, factureTravauxTrouvé.getId());
 
-    travauxDAO.delete(factureTravaux);
+    travailDAO.delete(factureTravaux);
     bienDAO.delete(bien, proprietaire);
   }
 
   @Test
   public void TestSupressionFacture() {
     bienDAO.create(bien, proprietaire);
-    travauxDAO.create(factureTravaux, bien);
+    travailDAO.create(factureTravaux, bien);
 
-    travauxDAO.delete(factureTravaux);
+    travailDAO.delete(factureTravaux);
 
-    List<FactureTravaux> listFactureTravaux = travauxDAO.getAllFacture(bien);
+    List<FactureTravaux> listFactureTravaux = travailDAO.getAllTravaux(bien);
 
     FactureTravaux factureTravauxTrouvé = listFactureTravaux
         .stream()

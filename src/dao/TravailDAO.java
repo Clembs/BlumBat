@@ -11,10 +11,10 @@ import db.DatabaseConnexion;
 import model.BienImmobilier;
 import model.FactureTravaux;
 
-public class TravauxDAO {
+public class TravailDAO {
   private final Connection connection;
 
-  public TravauxDAO() {
+  public TravailDAO() {
     this.connection = DatabaseConnexion.getConnexion();
   }
 
@@ -34,35 +34,35 @@ public class TravauxDAO {
     }
   }
 
-  // recuperation d'un travaux associé a un bien a partir de l'id du bien et de sont description
-  public FactureTravaux getFactureByDescription(String description, BienImmobilier bien) {
+  // recuperation d'un travail associé a un bien a partir de l'id du bien et de
+  // sont description
+  public FactureTravaux getTravailByDescription(String description, BienImmobilier bien) {
     FactureTravaux factureTravaux = null;
 
     try {
-        String query = "SELECT * FROM factures_travaux WHERE description_travaux = ? AND id_bien = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, description);
-        preparedStatement.setString(2, bien.getId());
-        ResultSet resultSet = preparedStatement.executeQuery();
+      String query = "SELECT * FROM factures_travaux WHERE description_travaux = ? AND id_bien = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, description);
+      preparedStatement.setString(2, bien.getId());
+      ResultSet resultSet = preparedStatement.executeQuery();
 
-        if (resultSet.next()) {
-            factureTravaux = new FactureTravaux(
-                resultSet.getString("id_facture"),
-                bien,
-                resultSet.getDouble("montant_facture"),
-                resultSet.getString("description_travaux"),
-                resultSet.getDouble("montant_devis"),
-                resultSet.getString("entreprise")
-            );
-        }
+      if (resultSet.next()) {
+        factureTravaux = new FactureTravaux(
+            resultSet.getString("id_facture"),
+            resultSet.getDouble("montant_facture"),
+            resultSet.getString("description_travaux"),
+            resultSet.getDouble("montant_devis"),
+            resultSet.getString("entreprise"),
+            bien);
+      }
     } catch (SQLException e) {
-        throw new RuntimeException("Erreur lors de la récupération de la facture par description", e);
+      throw new RuntimeException("Erreur lors de la récupération du travail par description", e);
     }
     return factureTravaux;
   }
 
   // recuperation de tout les travaux associé a un bien a partir de l'id du bien
-  public List<FactureTravaux> getAllFacture(BienImmobilier bien) {
+  public List<FactureTravaux> getAllTravaux(BienImmobilier bien) {
     List<FactureTravaux> factures = new LinkedList<>();
 
     try {
@@ -74,11 +74,11 @@ public class TravauxDAO {
       while (resultSet.next()) {
         FactureTravaux factureTravaux = new FactureTravaux(
             resultSet.getString("id_facture"),
-            bien,
             resultSet.getDouble("montant_facture"),
             resultSet.getString("description_travaux"),
             resultSet.getDouble("montant_devis"),
-            resultSet.getString("entreprise"));
+            resultSet.getString("entreprise"),
+            bien);
 
         factures.add(factureTravaux);
         // on crée la facture si elle n'existe pas

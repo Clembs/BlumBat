@@ -4,6 +4,10 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
+
+import components.Layout;
+import components.Libellé;
+import components.Libellé.TypeLibellé;
 import model.BienImmobilier;
 import model.BienLocatif;
 import model.Proprietaire;
@@ -13,34 +17,15 @@ public class VueConsultationBien extends JPanel {
 
   public VueConsultationBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien,
       Onglets ongletSélectionné) {
-    setLayout(new BorderLayout(10, 10));
-    fenetre.setTitle("Consultation d'un bien - " + bien.getId());
+    fenetre.setTitle("Gestion des biens - " + bien.getId());
+    this.setLayout(new BorderLayout(0, 16));
+    this.setBorder(new EmptyBorder(16, 16, 16, 16));
 
-    // Panel du haut contenant le titre
-    JPanel titlePanel = new JPanel();
-    titlePanel.setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
-
-    JLabel titleLabel = new JLabel(bien.getId());
-    titleLabel.setFont(new Font("Rockwell", Font.BOLD, 23));
-    titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-
-    titlePanel.add(titleLabel);
-    add(titlePanel, BorderLayout.NORTH);
-
-    // Panel central contenant les informations du bien
-    JPanel centerPanel = new JPanel();
-    centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-    centerPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
-
-    // Panel contenant les champs
-    JPanel champsPanel = new JPanel();
-    champsPanel.setLayout(new GridLayout(0, 2, 10, 10));
-    champsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    champsPanel.setAutoscrolls(true);
-
-    centerPanel.add(champsPanel);
+    Libellé titleLabel = new Libellé(bien.getId(), TypeLibellé.EN_TETE);
+    this.add(titleLabel, BorderLayout.NORTH);
 
     JTabbedPane tabs = new JTabbedPane();
+    tabs.setFont(Layout.POLICE_REGULAR);
 
     VueDétailsBien panelBienDetails = new VueDétailsBien(fenetre, proprietaire, bien);
     tabs.addTab("Détails", null, panelBienDetails);
@@ -54,7 +39,7 @@ public class VueConsultationBien extends JPanel {
 
     tabs.setSelectedIndex(ongletSélectionné.ordinal());
 
-    add(tabs);
+    add(tabs, BorderLayout.CENTER);
   }
 
   public static enum Onglets {

@@ -42,9 +42,9 @@ public class ControleurModificationBien implements ActionListener {
         String complementAdresse = panel.getComplementAdresse();
         String ville = panel.getVille();
         String codePostal = panel.getCodePostal();
-        float surface = panel.getSurface();
-        String nbFiscal = panel.getNbFiscal();
-        int nbPieces = panel.getNbPieces();
+
+        // déclaration anticipée pour pouvoir accéder au nouveau bien après
+        BienImmobilier nouveauBien;
 
         // Vérification des champs vides
         if (adresse.isEmpty()) {
@@ -60,6 +60,10 @@ public class ControleurModificationBien implements ActionListener {
         }
 
         if (this.bien instanceof BienLocatif) {
+          float surface = panel.getSurface();
+          String nbFiscal = panel.getNbFiscal();
+          int nbPieces = panel.getNbPieces();
+
           if (surface <= 0) {
             panel.addErreur("La surface doit être supérieure à 0m².");
           }
@@ -71,16 +75,23 @@ public class ControleurModificationBien implements ActionListener {
           if (!nbFiscal.matches("\\d{12}") /* même chose pour 12 chiffres */) {
             panel.addErreur("Le numéro fiscal doit être composé de 12 chiffres.");
           }
-        }
 
-        if (panel.hasErreurs()) {
-          return;
-        }
+          if (panel.hasErreurs()) {
+            return;
+          }
 
-        BienLocatif nouveauBien = new BienLocatif(this.bien.getId(), this.bien.getTypeBien(), adresse,
-            complementAdresse,
-            codePostal, ville,
-            nbFiscal, surface, nbPieces);
+          nouveauBien = new BienLocatif(this.bien.getId(), this.bien.getTypeBien(), adresse,
+              complementAdresse,
+              codePostal, ville,
+              nbFiscal, surface, nbPieces);
+        } else {
+          if (panel.hasErreurs()) {
+            return;
+          }
+
+          nouveauBien = new BienImmobilier(this.bien.getId(), this.bien.getTypeBien(), adresse, complementAdresse,
+              codePostal, ville);
+        }
 
         bienDAO.update(nouveauBien);
 

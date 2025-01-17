@@ -3,8 +3,9 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -46,26 +47,24 @@ public class ControleurAjoutLocation implements ActionListener {
       this.fenetre.clearErreurs();
 
       double loyer = this.fenetre.getLoyer();
-      String rawDateEntree = this.fenetre.getDateEntree();
-      String rawDateSortie = this.fenetre.getDateSortie();
+      Date rawDateEntree = this.fenetre.getDateEntree();
+      Date rawDateSortie = this.fenetre.getDateSortie();
       LocalDate dateEntree = null;
       LocalDate dateSortie = null;
-
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       if (loyer <= 0) {
         this.fenetre.addErreur("Le loyer doit être supérieur à 0");
       }
 
       try {
-        dateEntree = LocalDate.parse(rawDateEntree, formatter);
+        dateEntree = rawDateEntree.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
       } catch (DateTimeParseException error) {
-        this.fenetre.addErreur("Date d'entrée invalide. Utilisez le format dd/MM/yyyy.");
+        this.fenetre.addErreur("Date d'entrée invalide.");
       }
 
-      if (!rawDateSortie.isEmpty()) {
+      if (rawDateSortie != null) {
         try {
-          dateSortie = LocalDate.parse(rawDateSortie, formatter);
+          dateSortie = rawDateSortie.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         } catch (DateTimeParseException error) {
           this.fenetre.addErreur("Date de sortie invalide. Utilisez le format dd/MM/yyyy.");
         }

@@ -20,13 +20,13 @@ import view.VueTravaux;
 
 public class ControleurTravaux implements ActionListener {
 
-  private VueTravaux view;
-  private TravailDAO travauxDAO;
+  private VueTravaux vueTravaux;
   private BienImmobilier bien;
+  private TravailDAO travauxDAO;
   List<FactureTravaux> travaux;
 
-  public ControleurTravaux(VueTravaux view, BienImmobilier bien) {
-    this.view = view;
+  public ControleurTravaux(VueTravaux vueTravaux, BienImmobilier bien) {
+    this.vueTravaux = vueTravaux;
     this.bien = bien;
     this.travauxDAO = new TravailDAO();
 
@@ -35,7 +35,7 @@ public class ControleurTravaux implements ActionListener {
 
   public void loadData() {
     travaux = travauxDAO.getAllTravaux(bien);
-    Tableau table = view.getTable();
+    Tableau table = vueTravaux.getTable();
     table.clear(); // Réinitialiser le tableau
 
     double totalPrix = 0;
@@ -54,7 +54,7 @@ public class ControleurTravaux implements ActionListener {
     }
 
     // Mettre à jour le prix total dans la vue
-    view.setPrixTotal(String.format("%.2f€", totalPrix));
+    vueTravaux.setPrixTotal(String.format("%.2f€", totalPrix));
   }
 
   @Override
@@ -70,16 +70,16 @@ public class ControleurTravaux implements ActionListener {
         nouvelleFenetre.setVisible(true);
         break;
       case "Supprimer":
-        int entrée = JOptionPane.showConfirmDialog(boutonClique,
+        int entrée = JOptionPane.showConfirmDialog(vueTravaux,
             "Voulez-vous vraiment supprimer ce travail ?",
             "Confirmation",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE);
 
         if (entrée == JOptionPane.YES_OPTION) {
-          int selectedRow = view.getTable().getSelectedRow();
+          int selectedRow = vueTravaux.getTable().getSelectedRow();
           if (selectedRow >= 0) {
-            DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
+            DefaultTableModel tableModel = (DefaultTableModel) vueTravaux.getTable().getModel();
             String id = (String) tableModel.getValueAt(selectedRow, 0);
 
             FactureTravaux travailÀSupprimer = travaux.stream()
@@ -90,10 +90,10 @@ public class ControleurTravaux implements ActionListener {
             if (travailÀSupprimer != null) {
               travauxDAO.delete(travailÀSupprimer);
               loadData(); // rafraîchir les données après supression
-              JOptionPane.showMessageDialog(view, "Travail supprimé avec succès !");
+              JOptionPane.showMessageDialog(vueTravaux, "Travail supprimé avec succès !");
             }
           } else {
-            JOptionPane.showMessageDialog(view, "Veuillez sélectionner un travail à supprimer.");
+            JOptionPane.showMessageDialog(vueTravaux, "Veuillez sélectionner un travail à supprimer.");
           }
         }
         break;

@@ -23,7 +23,7 @@ public class VueLocationsEnCoursBien extends JPanel {
 
     double loyerTotal = bien.getLocationsCourantes().stream().mapToDouble(Location::getLoyer).sum();
 
-    totalLoyerLabel = new Libellé("Loyer total : " + loyerTotal + " €", TypeLibellé.TITRE);
+    totalLoyerLabel = new Libellé("Loyer total : " + String.format("%.2f€", loyerTotal), TypeLibellé.TITRE);
     totalLoyerLabel.setBorder(new EmptyBorder(16, 16, 16, 16));
     this.add(totalLoyerLabel, BorderLayout.NORTH);
 
@@ -48,7 +48,7 @@ public class VueLocationsEnCoursBien extends JPanel {
     detailsButton.addActionListener(controleur);
     panelBoutons.add(detailsButton);
 
-    Bouton suppButton = new Bouton("Retirer de la colocation", VarianteButton.DANGER);
+    Bouton suppButton = new Bouton("Archiver le locataire", VarianteButton.DANGER);
     suppButton.addActionListener(controleur);
     panelBoutons.add(suppButton);
 
@@ -64,6 +64,6 @@ public class VueLocationsEnCoursBien extends JPanel {
   }
 
   public void setLblLoyerLabel(double totalLoyer) {
-    this.totalLoyerLabel.setText("Loyer total : " + totalLoyer + " €");
+    this.totalLoyerLabel.setText("Loyer total : " + String.format("%.2f€", totalLoyer));
   }
 }

@@ -119,17 +119,18 @@ public class LocationDAO {
     }
   }
 
-    public void update(Location location) {
-        try {
-        String query = "UPDATE locations SET loyer = ? WHERE id_locataire = ? AND id_bien = ? AND date_entree = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setDouble(1, location.getLoyer());
-        preparedStatement.setString(2, location.getLocataire().getId());
-        preparedStatement.setString(3, location.getBien().getId());
-        preparedStatement.setDate(4, Date.valueOf(location.getDateEntree()));
-        preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-        throw new RuntimeException("Erreur lors de la mise à jour de la location", e);
-        }
+  public void update(Location location) {
+    try {
+      String query = "UPDATE locations SET date_sortie = ?, loyer = ? WHERE id_locataire = ? AND id_bien = ? AND date_entree = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setDate(1, Date.valueOf(location.getDateSortie()));
+      preparedStatement.setDouble(2, location.getLoyer());
+      preparedStatement.setString(3, location.getLocataire().getId());
+      preparedStatement.setString(4, location.getBien().getId());
+      preparedStatement.setDate(5, Date.valueOf(location.getDateEntree()));
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException("Erreur lors de la mise à jour de la location", e);
     }
+  }
 }

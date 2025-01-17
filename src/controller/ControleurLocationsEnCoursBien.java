@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
@@ -103,17 +104,29 @@ public class ControleurLocationsEnCoursBien implements ActionListener, MouseList
               JOptionPane.ERROR_MESSAGE);
         }
         break;
-      case "Retirer de la colocation":
+      case "Archiver le locataire":
+        // TODO: générer le solde de tout compte
+
         int confirmation = JOptionPane.showConfirmDialog(vueBiens,
-            "Voulez-vous vraiment retirer ce locataire de la location ? Cela ne supprimera pas le locataire de vos locataires (voir l'onglet \"Locataires\").",
+            "Voulez-vous vraiment archiver le locataire de la location ? Il sera placé dans les locations passées. Cela ne supprimera pas le locataire de vos locataires (voir l'onglet \"Locataires\").",
             "Confirmation",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE);
 
         if (confirmation == JOptionPane.YES_OPTION) {
           if (locationSélectionnée != null) {
-            locationDAO.delete(locationSélectionnée);
-            bien.removeLocation(locationSélectionnée);
+
+            Location nouvelleLocation = new Location(locationSélectionnée.getLoyer(),
+                locationSélectionnée.getDateEntree(),
+                LocalDate.now(), locationSélectionnée.getBien(), locationSélectionnée.getLocataire());
+
+            locationDAO.update(nouvelleLocation);
+
+            List<Location> locations = bien.getLocationsCourantes();
+
+            locations.set(locations.indexOf(locationSélectionnée), nouvelleLocation);
+
+            bien.setLocations(locations);
 
             vueBiens.updateBien(bien);
 
@@ -122,10 +135,10 @@ public class ControleurLocationsEnCoursBien implements ActionListener, MouseList
 
             vueBiens.setPanelCentral(vueConsultationBien);
 
-            JOptionPane.showMessageDialog(vue, "Locataire retiré avec succès.", "Succès",
+            JOptionPane.showMessageDialog(vue, "Locataire archivé avec succès.", "Succès",
                 JOptionPane.INFORMATION_MESSAGE);
           } else {
-            JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire à retirer.", "Erreur",
+            JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire à archiver.", "Erreur",
                 JOptionPane.ERROR_MESSAGE);
           }
         }

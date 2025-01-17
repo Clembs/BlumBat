@@ -11,17 +11,24 @@ import javax.swing.table.DefaultTableModel;
 import dao.LocationDAO;
 import model.BienLocatif;
 import model.Location;
+import model.Proprietaire;
+import view.VueBiens;
+import view.VueConsultationBien;
 import view.VueModifierPartBiens;
 
 public class ControleurModifierPartBien implements ActionListener {
     private VueModifierPartBiens vue;
     private BienLocatif bien;
     private LocationDAO locationDAO;
+    private VueBiens vueBiens;
+    private Proprietaire proprietaire;
 
-    public ControleurModifierPartBien(VueModifierPartBiens vue, BienLocatif bien) {
+    public ControleurModifierPartBien(VueModifierPartBiens vue, Proprietaire proprietaire, BienLocatif bien, VueBiens vueBiens) {
         this.vue = vue;
         this.bien = bien;
         this.locationDAO = new LocationDAO();
+        this.vueBiens = vueBiens;
+        this.proprietaire = proprietaire;
     }
 
     @Override
@@ -43,6 +50,7 @@ public class ControleurModifierPartBien implements ActionListener {
                 locationDAO.update(nouvelleLocation);
                 rafraichirTable();
                 JOptionPane.showMessageDialog(this.vue, "Loyer mis à jour avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                this.vue.dispose();
             } else {
                 JOptionPane.showMessageDialog(this.vue, "Veuillez sélectionner un locataire.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
@@ -65,6 +73,10 @@ public class ControleurModifierPartBien implements ActionListener {
             totalLoyer += location.getLoyer();
         }
         this.vue.setLblTotalAmount(totalLoyer + " €");
+        vueBiens.updateBien(bien);
+
+        VueConsultationBien vueConsultationBien = new VueConsultationBien(vueBiens, proprietaire, bien, VueConsultationBien.Onglets.LOCATIONS_EN_COURS);
+        vueBiens.setPanelCentral(vueConsultationBien);
     }
 
     public void mettreAJourSpinnerAvecLoyer() {

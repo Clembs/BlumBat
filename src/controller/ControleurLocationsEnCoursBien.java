@@ -24,7 +24,7 @@ import view.VueConsultationBien;
 import view.VueConsultationLocataire;
 import view.VueLocataires;
 import view.VueLocationsEnCoursBien;
-import view.VueModifierPartBiens;
+import view.VueModifierPartLoyer;
 
 public class ControleurLocationsEnCoursBien implements ActionListener, MouseListener {
   private VueBiens vueBiens;
@@ -133,7 +133,8 @@ public class ControleurLocationsEnCoursBien implements ActionListener, MouseList
         break;
       case "Modifier part du loyer":
         if (locationSélectionnée != null) {
-          VueModifierPartBiens vueModifierPartBiens = new VueModifierPartBiens(bien, vueBiens, proprietaire);
+          VueModifierPartLoyer vueModifierPartBiens = new VueModifierPartLoyer(vueBiens, proprietaire, bien,
+              locationSélectionnée);
           vueModifierPartBiens.setVisible(true);
         } else {
           JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire à modifier.", "Erreur",

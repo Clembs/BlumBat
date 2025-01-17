@@ -21,23 +21,27 @@ public class Locataire {
   }
 
   public String getId() {
-    return id;
+    return this.id;
   }
 
   public String getNom() {
-    return nom;
+    return this.nom;
   }
 
   public String getPrenom() {
-    return prenom;
+    return this.prenom;
+  }
+
+  public String getNomComplet() {
+    return this.prenom + " " + this.nom;
   }
 
   public String getEmail() {
-    return email;
+    return this.email;
   }
 
   public String getTelephone() {
-    return telephone;
+    return this.telephone;
   }
 
   public List<Location> getLocations() {

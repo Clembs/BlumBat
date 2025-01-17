@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -11,14 +13,14 @@ import model.BienImmobilier;
 import model.FactureTravaux;
 import view.VueAjoutTravail;
 
-public class ControleurAjoutTravaux implements ActionListener {
+public class ControleurAjoutTravail implements ActionListener {
 
   private BienImmobilier bien;
   private TravailDAO travauxDAO;
   private VueAjoutTravail fenetre;
   private ControleurTravaux control;
 
-  public ControleurAjoutTravaux(BienImmobilier bien, VueAjoutTravail fenetre, ControleurTravaux control) {
+  public ControleurAjoutTravail(BienImmobilier bien, VueAjoutTravail fenetre, ControleurTravaux control) {
     this.bien = bien;
     this.fenetre = fenetre;
     this.travauxDAO = new TravailDAO();
@@ -36,8 +38,9 @@ public class ControleurAjoutTravaux implements ActionListener {
       String iD = this.fenetre.getID();
       String description = this.fenetre.getDescription();
       String entreprise = this.fenetre.getEntreprise();
-      double devis = this.fenetre.getMontantDevis();
+      double montantDevis = this.fenetre.getMontantDevis();
       double montantFacture = this.fenetre.getMontantFacture();
+      Date date = this.fenetre.getDate();
 
       if (iD.isEmpty()) {
         this.fenetre.addErreur("Veuillez saisir un identifiant");
@@ -51,7 +54,7 @@ public class ControleurAjoutTravaux implements ActionListener {
         this.fenetre.addErreur("Veuillez saisir le nom de l'entreprise");
       }
 
-      if (devis <= 0) {
+      if (montantDevis <= 0) {
         this.fenetre.addErreur("Le montant du devis doit être supérieur à 0");
       }
 
@@ -59,11 +62,18 @@ public class ControleurAjoutTravaux implements ActionListener {
         this.fenetre.addErreur("Le montant de la facture doit être supérieur à 0");
       }
 
+      LocalDate localDate = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+
+      if (localDate.isAfter(LocalDate.now())) {
+        this.fenetre.addErreur("La date ne peut pas être dans le futur");
+      }
+
       if (this.fenetre.hasErreurs()) {
         return;
       }
 
-      FactureTravaux facture = new FactureTravaux(iD, montantFacture, description, devis, entreprise, this.bien);
+      FactureTravaux facture = new FactureTravaux(iD, description, montantDevis, montantFacture, entreprise, localDate,
+          this.bien);
 
       travauxDAO.create(facture, this.bien);
 
@@ -75,7 +85,6 @@ public class ControleurAjoutTravaux implements ActionListener {
       this.fenetre.dispose();
 
     } else if (boutonClique.getText().equals("Annuler")) {
-
       this.fenetre.dispose();
     }
   }

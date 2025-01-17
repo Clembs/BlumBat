@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +10,9 @@ import java.util.List;
 
 import db.DatabaseConnexion;
 import model.BienImmobilier;
+import model.BienLocatif;
 import model.FactureTravaux;
+import model.TypeBien;
 
 public class TravailDAO {
   private final Connection connection;
@@ -20,14 +23,16 @@ public class TravailDAO {
 
   public void create(FactureTravaux factureTravaux, BienImmobilier bien) {
     try {
-      String query = "INSERT INTO factures_travaux(id_facture, id_bien, montant_facture, description_travaux, montant_devis, entreprise) VALUES(?, ?, ?, ?, ?, ?)";
+      String query = "INSERT INTO factures_travaux(id_facture, id_bien, description_travail, montant_devis, montant_facture, entreprise, date_facture) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
       PreparedStatement preparedStatement = connection.prepareStatement(query);
       preparedStatement.setString(1, factureTravaux.getId());
       preparedStatement.setString(2, factureTravaux.getBien().getId());
-      preparedStatement.setDouble(3, factureTravaux.getMontantFacture());
-      preparedStatement.setString(4, factureTravaux.getDescription());
-      preparedStatement.setDouble(5, factureTravaux.getMontantDevis());
+      preparedStatement.setString(3, factureTravaux.getDescription());
+      preparedStatement.setDouble(4, factureTravaux.getMontantDevis());
+      preparedStatement.setDouble(5, factureTravaux.getMontantFacture());
       preparedStatement.setString(6, factureTravaux.getEntreprise());
+      preparedStatement.setDate(7, Date.valueOf(factureTravaux.getDate()));
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException("Erreur lors de la creation d'une facture de travaux", e);
@@ -36,23 +41,42 @@ public class TravailDAO {
 
   // recuperation d'un travail associé a un bien a partir de l'id du bien et de
   // sont description
-  public FactureTravaux getTravailByDescription(String description, BienImmobilier bien) {
+  public FactureTravaux read(String id) {
     FactureTravaux factureTravaux = null;
 
     try {
-      String query = "SELECT * FROM factures_travaux WHERE description_travaux = ? AND id_bien = ?";
+      String query = "SELECT * FROM factures_travaux WHERE id_facture = ? LEFT JOIN biens ON factures_travaux.id_bien = biens.id_bien";
       PreparedStatement preparedStatement = connection.prepareStatement(query);
-      preparedStatement.setString(1, description);
-      preparedStatement.setString(2, bien.getId());
+      preparedStatement.setString(1, id);
       ResultSet resultSet = preparedStatement.executeQuery();
 
       if (resultSet.next()) {
+        BienImmobilier bien;
+        TypeBien typeBien = TypeBien.valueOf(resultSet.getString("type_bien"));
+
+        if (typeBien == TypeBien.BATIMENT) {
+          bien = new BienImmobilier(
+              resultSet.getString("id_bien"),
+              typeBien,
+              resultSet.getString("adresse"),
+              resultSet.getString("complement_adresse"),
+              resultSet.getString("code_postal"),
+              resultSet.getString("ville"));
+        } else {
+          bien = new BienLocatif(
+              resultSet.getString("id_bien"), typeBien, resultSet.getString("adresse"),
+              resultSet.getString("complement_adresse"), resultSet.getString("code_postal"),
+              resultSet.getString("ville"), resultSet.getString("numero_fiscal"), resultSet.getFloat("surface"),
+              resultSet.getInt("nombre_pieces"));
+        }
+
         factureTravaux = new FactureTravaux(
             resultSet.getString("id_facture"),
-            resultSet.getDouble("montant_facture"),
-            resultSet.getString("description_travaux"),
+            resultSet.getString("description_travail"),
             resultSet.getDouble("montant_devis"),
+            resultSet.getDouble("montant_facture"),
             resultSet.getString("entreprise"),
+            resultSet.getDate("date_facture").toLocalDate(),
             bien);
       }
     } catch (SQLException e) {
@@ -74,10 +98,11 @@ public class TravailDAO {
       while (resultSet.next()) {
         FactureTravaux factureTravaux = new FactureTravaux(
             resultSet.getString("id_facture"),
-            resultSet.getDouble("montant_facture"),
-            resultSet.getString("description_travaux"),
+            resultSet.getString("description_travail"),
             resultSet.getDouble("montant_devis"),
+            resultSet.getDouble("montant_facture"),
             resultSet.getString("entreprise"),
+            resultSet.getDate("date_facture").toLocalDate(),
             bien);
 
         factures.add(factureTravaux);

@@ -1,21 +1,25 @@
 package model;
 
+import java.time.LocalDate;
+
 public class FactureTravaux {
   private String id;
-  private BienImmobilier bien;
-  private double montantFacture;
-  private double montantDevis;
-  private String entreprise;
   private String description;
+  private double montantDevis;
+  private double montantFacture;
+  private String entreprise;
+  private LocalDate date;
+  private BienImmobilier bien;
 
-  public FactureTravaux(String id, double montantFacture, String description, double montantDevis, String entreprise,
-      BienImmobilier bien) {
+  public FactureTravaux(String id, String description, double montantDevis, double montantFacture, String entreprise,
+      LocalDate date, BienImmobilier bien) {
     this.id = id;
-    this.bien = bien;
-    this.montantFacture = montantFacture;
     this.description = description;
     this.montantDevis = montantDevis;
+    this.montantFacture = montantFacture;
     this.entreprise = entreprise;
+    this.date = date;
+    this.bien = bien;
   }
 
   public String getId() {
@@ -40,5 +44,9 @@ public class FactureTravaux {
 
   public String getEntreprise() {
     return entreprise;
+  }
+
+  public LocalDate getDate() {
+    return this.date;
   }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -49,10 +50,12 @@ public class ControleurModifierPartBien implements ActionListener {
     }
 
     public void rafraichirTable() {
+        List<Location> locations = locationDAO.getAllLocations(bien);
+        bien.setLocations(locations);
         DefaultTableModel model = (DefaultTableModel) this.vue.getOtherTenantsTable().getModel();
         model.setRowCount(0);
         double totalLoyer = 0;
-        for (Location location : this.bien.getLocationsCourantes()) {
+        for (Location location : bien.getLocationsCourantes()) {
             model.addRow(new Object[]{
                     location.getLocataire().getNom() + location.getLocataire().getPrenom(),
                     location.getLoyer() + " €",

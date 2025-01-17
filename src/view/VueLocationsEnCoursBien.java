@@ -35,8 +35,6 @@ public class VueLocationsEnCoursBien extends JPanel {
     // on rend la table non-éditable
     table.setDefaultEditor(Object.class, null);
 
-    rafraîchirTableLocationsEnCours(bien);
-
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     JScrollPane tableScrollPane = new JScrollPane(table);
     this.add(tableScrollPane, BorderLayout.CENTER);
@@ -62,25 +60,19 @@ public class VueLocationsEnCoursBien extends JPanel {
     buttonPanel.add(modifierButton);
 
     this.add(buttonPanel, BorderLayout.SOUTH);
+
+    controleur.rafraîchirTableLocationsEnCours();
   }
 
-  public void rafraîchirTableLocationsEnCours(BienLocatif bien) {
-    tableModel.setRowCount(0);
-
-    for (Location location : bien.getLocationsCourantes()) {
-      tableModel.addRow(new Object[]{
-              location.getLocataire().getId(),
-              location.getLocataire().getPrenom() + " " + location.getLocataire().getNom(),
-              location.getDateEntree(),
-              location.getLoyer() + " €"
-      });
-    }
-    totalLoyerLabel.setText("Loyer total : " + bien.getLocationsCourantes().stream().mapToDouble(Location::getLoyer).sum() + " €");
-    table.revalidate();
-    table.repaint();
+  public DefaultTableModel getModelTable(){
+    return tableModel;
   }
 
   public JTable getTable() {
     return table;
+  }
+
+  public void setLblLoyerLabel(double totalLoyer){
+    totalLoyerLabel.setText("Loyer total : " + totalLoyer + " €");
   }
 }

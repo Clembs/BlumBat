@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ControleurModifierPartBien;
 import model.BienLocatif;
+import model.Proprietaire;
 
 public class VueModifierPartBiens extends JFrame {
 
@@ -33,11 +34,12 @@ public class VueModifierPartBiens extends JFrame {
     private JSpinner spinner;
     private JLabel lblTotalAmount;
     private JCheckBox chckbxModifyOthers;
-
-    public VueModifierPartBiens(BienLocatif bien) {
+    
+    public VueModifierPartBiens(BienLocatif bien, VueBiens vueBiens, Proprietaire proprietaire) {
         setTitle("Modifier la répartition des loyers");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 600);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(248, 249, 250)); // Fond gris très clair
@@ -145,7 +147,7 @@ public class VueModifierPartBiens extends JFrame {
         contentPane.add(buttonPanel, BorderLayout.SOUTH);
 
         // Contrôleur
-        ControleurModifierPartBien controleur = new ControleurModifierPartBien(this, bien);
+        ControleurModifierPartBien controleur = new ControleurModifierPartBien(this, proprietaire, bien, vueBiens);
         btnEnregistrer.addActionListener(controleur);
         btnAnnuler.addActionListener(e -> dispose());
         otherTenantsTable.getSelectionModel().addListSelectionListener(e -> {

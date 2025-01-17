@@ -27,10 +27,10 @@ public class ControleurModifierPartBien implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton source = (JButton) e.getSource();
         if (source.getText().equals("Enregistrer")) {
-            double nouveauLoyer = (double) vue.getSpinner().getValue();
+            double nouveauLoyer = (double)this.vue.getSpinner().getValue();
             int selectedRow = vue.getOtherTenantsTable().getSelectedRow();
             if (selectedRow != -1) {
-                Location ancienneLocation = bien.getLocationsCourantes().get(selectedRow);
+                Location ancienneLocation = this.bien.getLocationsCourantes().get(selectedRow);
                 Location nouvelleLocation = new Location(
                         nouveauLoyer,
                         ancienneLocation.getDateEntree(),
@@ -40,27 +40,39 @@ public class ControleurModifierPartBien implements ActionListener {
                 );
                 bien.getLocationsCourantes().set(selectedRow, nouvelleLocation);
                 locationDAO.update(nouvelleLocation);
-                rafraichirTable(bien);
-                JOptionPane.showMessageDialog(vue, "Loyer mis à jour avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                rafraichirTable();
+                JOptionPane.showMessageDialog(this.vue, "Loyer mis à jour avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this.vue, "Veuillez sélectionner un locataire.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    public String rafraichirTable(BienLocatif bien) {
-        DefaultTableModel model = (DefaultTableModel) vue.getOtherTenantsTable().getModel();
+    public void rafraichirTable() {
+        DefaultTableModel model = (DefaultTableModel) this.vue.getOtherTenantsTable().getModel();
         model.setRowCount(0);
         double totalLoyer = 0;
-        for (Location location : bien.getLocationsCourantes()) {
+        for (Location location : this.bien.getLocationsCourantes()) {
             model.addRow(new Object[]{
-                    location.getLocataire().getNom(),
+                    location.getLocataire().getNom() + location.getLocataire().getPrenom(),
                     location.getLoyer() + " €",
                     location.getDateEntree(),
                     location.getDateSortie()
             });
             totalLoyer += location.getLoyer();
         }
-        return (totalLoyer + " €");
+        this.vue.setLblTotalAmount(totalLoyer + " €");
     }
+
+    public void mettreAJourSpinnerAvecLoyer() {
+        int selectedRow = vue.getOtherTenantsTable().getSelectedRow();
+        if (selectedRow != -1) {
+            // Récupérer le loyer de la ligne sélectionnée
+            double loyer = bien.getLocationsCourantes().get(selectedRow).getLoyer();
+            // Mettre à jour la valeur du JSpinner
+            vue.getSpinner().setValue(loyer);
+        }
+    }
+    
+
 }

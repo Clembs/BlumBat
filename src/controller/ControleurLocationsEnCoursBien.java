@@ -1,16 +1,23 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import dao.LocataireDAO;
+import dao.LocationDAO;
 import model.BienLocatif;
 import model.Locataire;
 import model.Location;
 import model.Proprietaire;
-import dao.LocationDAO;
-import view.*;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import view.VueAjoutLocation;
+import view.VueBiens;
+import view.VueConsultationLocataire;
+import view.VueLocataires;
+import view.VueLocationsEnCoursBien;
+import view.VueModifierPartBiens;
 
 public class ControleurLocationsEnCoursBien implements ActionListener {
     private VueBiens fenetre;

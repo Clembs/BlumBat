@@ -77,7 +77,7 @@ public class VueModifierPartBiens extends JFrame {
         gbc.gridy = 0;
         formPanel.add(lblLoyer, gbc);
 
-        spinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
+        spinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
         spinner.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         spinner.setPreferredSize(new Dimension(140, 35));
         gbc.gridx = 1;
@@ -148,9 +148,14 @@ public class VueModifierPartBiens extends JFrame {
         ControleurModifierPartBien controleur = new ControleurModifierPartBien(this, bien);
         btnEnregistrer.addActionListener(controleur);
         btnAnnuler.addActionListener(e -> dispose());
+        otherTenantsTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                controleur.mettreAJourSpinnerAvecLoyer();
+            }
+        });
 
         // Charger les données initiales
-        controleur.rafraichirTable(bien);
+        controleur.rafraichirTable();
     }
 
     public JSpinner getSpinner() {

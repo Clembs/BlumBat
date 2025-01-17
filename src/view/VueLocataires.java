@@ -126,6 +126,7 @@ public class VueLocataires extends JFrame {
   // Mettre à jour la liste des locataires
   public void setLocataires(List<Locataire> locataires) {
     this.locataires = locataires;
+    this.listeLocataires.clear();
 
     for (Locataire locataire : locataires) {
       this.listeLocataires.addElement(locataire.getPrenom() + " " + locataire.getNom());

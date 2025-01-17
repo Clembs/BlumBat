@@ -20,10 +20,7 @@ public class ControleurAjoutLocataire implements ActionListener {
   private VueLocataires fenLocataires;
   private LocataireDAO locataireDAO;
 
-  public ControleurAjoutLocataire(
-      VueAjoutLocataire fenetre,
-      Proprietaire proprietaire,
-      VueLocataires fenLocataires) {
+  public ControleurAjoutLocataire(VueAjoutLocataire fenetre, Proprietaire proprietaire, VueLocataires fenLocataires) {
     this.fenetre = fenetre;
     this.proprietaire = proprietaire;
     this.fenLocataires = fenLocataires;
@@ -72,15 +69,17 @@ public class ControleurAjoutLocataire implements ActionListener {
 
       JOptionPane.showMessageDialog(this.fenetre, "Locataire ajouté avec succès");
 
-      // on récupère l'ancienne liste des locataires
-      List<Locataire> locataires = this.fenLocataires.getLocataires();
-      locataires.add(locataire);
+      if (this.fenLocataires != null) {
+        // on récupère l'ancienne liste des locataires
+        List<Locataire> locataires = this.fenLocataires.getLocataires();
+        locataires.add(locataire);
 
-      // on met à jour la liste des locataires
-      this.fenLocataires.setLocataires(locataires);
+        // on met à jour la liste des locataires
+        this.fenLocataires.setLocataires(locataires);
 
-      VueConsultationLocataire panel = new VueConsultationLocataire(fenLocataires, proprietaire, locataire);
-      this.fenLocataires.setPanelCentral(panel);
+        VueConsultationLocataire panel = new VueConsultationLocataire(fenLocataires, proprietaire, locataire);
+        this.fenLocataires.setPanelCentral(panel);
+      }
 
       // on ferme la fenêtre d'ajout
       this.fenetre.dispose();

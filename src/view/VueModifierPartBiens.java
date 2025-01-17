@@ -1,13 +1,29 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ControleurModifierPartBien;
 import model.BienLocatif;
-import model.Location;
 
 public class VueModifierPartBiens extends JFrame {
 
@@ -134,7 +150,7 @@ public class VueModifierPartBiens extends JFrame {
         btnAnnuler.addActionListener(e -> dispose());
 
         // Charger les données initiales
-        rafraichirTable(bien);
+        controleur.rafraichirTable(bien);
     }
 
     public JSpinner getSpinner() {
@@ -149,19 +165,7 @@ public class VueModifierPartBiens extends JFrame {
         return chckbxModifyOthers;
     }
 
-    public void rafraichirTable(BienLocatif bien) {
-        DefaultTableModel model = (DefaultTableModel) otherTenantsTable.getModel();
-        model.setRowCount(0);
-        double totalLoyer = 0;
-        for (Location location : bien.getLocationsCourantes()) {
-            model.addRow(new Object[]{
-                    location.getLocataire().getNom(),
-                    location.getLoyer() + " €",
-                    location.getDateEntree(),
-                    location.getDateSortie()
-            });
-            totalLoyer += location.getLoyer();
-        }
+    public void setLblTotalAmount(String totalLoyer){
         lblTotalAmount.setText(totalLoyer + " €");
     }
 }

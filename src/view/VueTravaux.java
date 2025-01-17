@@ -1,118 +1,69 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
+import components.*;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
 import controller.ControleurTravaux;
 import model.BienImmobilier;
-import model.TypeBien;
 
 public class VueTravaux extends JPanel {
-
 	private static final long serialVersionUID = 1L;
-	private JTable table;
-	private JLabel PrixTotalText;
+	private Tableau table;
+	private Libellé lblPrixTotalValue;
 
-	/**
-	 * Create the panel.
-	 */
 	public VueTravaux(BienImmobilier bien) {
-		setLayout(new BorderLayout(0, 0));
+		this.setLayout(new BorderLayout(0, 0));
 
-		JPanel panel = new JPanel();
-		add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel prixTotalPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+		prixTotalPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
+		this.add(prixTotalPanel, BorderLayout.NORTH);
 
-		JPanel panel_8 = new JPanel();
-		panel.add(panel_8, BorderLayout.NORTH);
-		panel_8.setLayout(new FlowLayout(FlowLayout.LEFT, 40, 20));
+		Libellé lblPrixTotalKey = new Libellé("Prix total des travaux :", TypeLibellé.CLEF);
+		prixTotalPanel.add(lblPrixTotalKey);
 
-		JPanel panel_2 = new JPanel();
-		panel_8.add(panel_2);
-		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		this.lblPrixTotalValue = new Libellé("20.000€");
+		prixTotalPanel.add(this.lblPrixTotalValue);
 
-		JLabel PrixTotal = new JLabel("Prix total des travaux :");
-		panel_2.add(PrixTotal);
-
-		this.PrixTotalText = new JLabel("20.000€");
-		panel_2.add(PrixTotalText);
-
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3);
-		panel_3.setLayout(new BorderLayout(0, 0));
-
-		table = new JTable();
-		table.setDefaultEditor(Object.class, null);
-		table.setFillsViewportHeight(true);
-		table.setModel(new DefaultTableModel(
-				new Object[][] {
-						{ "Changer robinet", "Abdel&Co", "400\u20AC", "3000\u20AC" },
-				},
-				new String[] {
-						"Description", "Entreprise", "Montant Devise", "Montant Facture"
-				}));
+		table = new Tableau("ID", "Description", "Entreprise", "Date", "Montant Devis", "Montant Facture");
 
 		// Encapsulation de la table dans un JScrollPane
 		JScrollPane scrollPane = new JScrollPane(table);
-		panel_3.add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setBorder(new EmptyBorder(8, 8, 8, 8));
+		this.add(scrollPane, BorderLayout.CENTER);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		add(panel_1, BorderLayout.SOUTH);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		JPanel bottomPanel = new JPanel(new BorderLayout(0, 0));
 
-		JPanel panel_6 = new JPanel();
-		panel_1.add(panel_6, BorderLayout.EAST);
+		JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 8, 8));
+		panelBoutons.setBorder(
+				new CompoundBorder(new MatteBorder(1, 0, 0, 0, Layout.COULEUR_SOUS_TEXTE), new EmptyBorder(0, 8, 0, 8)));
 
 		ControleurTravaux controleur = new ControleurTravaux(this, bien);
 
-		JButton ButtonAjouter = new JButton("Ajouter");
-		ButtonAjouter.setBackground(new Color(192, 192, 192));
-		panel_6.add(ButtonAjouter);
-		ButtonAjouter.addActionListener(controleur);
+		Bouton btnSupprimer = new Bouton("Supprimer", VarianteButton.DANGER);
+		btnSupprimer.addActionListener(controleur);
+		panelBoutons.add(btnSupprimer);
 
-		JButton ButtonSuprimer = new JButton("Supprimer");
-		ButtonSuprimer.setBackground(new Color(255, 128, 128));
-		panel_6.add(ButtonSuprimer);
-		ButtonSuprimer.addActionListener(controleur);
+		Bouton btnAjouter = new Bouton("Ajouter");
+		btnAjouter.addActionListener(controleur);
+		panelBoutons.add(btnAjouter);
 
+		bottomPanel.add(panelBoutons, BorderLayout.SOUTH);
+		this.add(bottomPanel, BorderLayout.SOUTH);
 	}
 
-	public JTable getTable() {
-		return table;
+	public Tableau getTable() {
+		return this.table;
 	}
 
 	public void setPrixTotal(String prixTotal) {
-		PrixTotalText.setText(prixTotal);
+		lblPrixTotalValue.setText(prixTotal);
 	}
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			// Création du JFrame
-			javax.swing.JFrame frame = new javax.swing.JFrame("Travaux");
-			frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-
-			// Ajout du JPanel PanelAPropos au JFrame
-			VueTravaux Travaux = new VueTravaux(
-					new BienImmobilier("12345", TypeBien.BATIMENT, "rue compte", "ap4", "36000", "Toulouse"));
-			frame.getContentPane().add(Travaux);
-
-			// Ajustement de la taille et affichage
-			frame.pack(); // Ajuste la taille en fonction du contenu
-			frame.setLocationRelativeTo(null); // Centre la fenêtre à l'écran
-			frame.setSize(700, 500);
-			frame.setVisible(true);
-		});
-	}
-
 }

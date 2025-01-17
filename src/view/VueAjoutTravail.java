@@ -1,161 +1,141 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
+import java.util.Date;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
-import controller.ControleurAjoutTravaux;
+import components.*;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
+
+import controller.ControleurAjoutTravail;
 import controller.ControleurTravaux;
 import model.BienImmobilier;
 
 public class VueAjoutTravail extends JFrame {
-    private static final long serialVersionUID = 1L;
-    private JTextField textID;
-    private JTextField textDescription;
-    private JTextField textEntreprise;
-    private JSpinner spinnerMontantDevise;
-    private JSpinner spinnerMontantFacture;
-    private BienImmobilier bien;
-    private JList<String> erreursList;
-    private DefaultListModel<String> erreursListModel;
+  private static final long serialVersionUID = 1L;
+  private ChampSaisie idField;
+  private ChampSaisie descriptionField;
+  private ChampSaisie entrepriseField;
+  private ChampSaisie montantDevisField;
+  private ChampSaisie montantFactureField;
+  private ChampSaisie dateField;
+  private BienImmobilier bien;
+  private JList<String> erreursList;
+  private DefaultListModel<String> erreursListModel;
 
-    public VueAjoutTravail(BienImmobilier bien, ControleurTravaux control) {
-        this.bien = bien;
+  public VueAjoutTravail(BienImmobilier bien, ControleurTravaux control) {
+    this.bien = bien;
 
-        setTitle("Ajouter Travaux");
-        setBounds(100, 100, 400, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout(10, 10));
-        getContentPane().setBackground(new Color(245, 245, 250));
+    this.setTitle("Ajouter un travail");
+    this.setBounds(100, 100, 400, 750);
+    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    this.setResizable(false);
 
-        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        formPanel.setBackground(new Color(245, 245, 250));
+    JPanel contentPane = new JPanel(new BorderLayout(0, 0));
+    contentPane.setBorder(new EmptyBorder(16, 16, 16, 16));
 
-        textID = new JTextField();
-        addField(formPanel, "ID :", textID);
+    this.setContentPane(contentPane);
 
-        textDescription = new JTextField();
-        addField(formPanel, "Description :", textDescription);
+    Libellé titre = new Libellé("Ajouter un travail", TypeLibellé.TITRE);
+    titre.setHorizontalAlignment(SwingConstants.CENTER);
+    contentPane.add(titre, BorderLayout.NORTH);
 
-        textEntreprise = new JTextField();
-        addField(formPanel, "Entreprise :", textEntreprise);
+    JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
 
-        spinnerMontantDevise = new JSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
-        addField(formPanel, "Montant Devise :", spinnerMontantDevise);
+    idField = new ChampSaisie("Identifiant");
+    formPanel.add(idField);
 
-        spinnerMontantFacture = new JSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
-        addField(formPanel, "Montant Facture :", spinnerMontantFacture);
+    descriptionField = new ChampSaisie("Description du travail effectué");
+    formPanel.add(descriptionField);
 
-        getContentPane().add(formPanel, BorderLayout.CENTER);
+    entrepriseField = new ChampSaisie("Entreprise prestataire");
+    formPanel.add(entrepriseField);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        buttonPanel.setBackground(new Color(245, 245, 250));
+    montantDevisField = new ChampSaisie("Montant du devis (en €)",
+        new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
+    formPanel.add(montantDevisField);
 
-        erreursListModel = new DefaultListModel<>();
-        erreursList = new JList<>(erreursListModel);
-        erreursList.setEnabled(false);
-        erreursList.setFont(new Font("Rockwell", Font.PLAIN, 14));
-        erreursList.setForeground(Color.RED);
-        erreursList.setBorder(BorderFactory.createLineBorder(Color.RED));
+    montantFactureField = new ChampSaisie("Montant de la facture (en €)",
+        new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
+    formPanel.add(montantFactureField);
 
-        JScrollPane scrollPane = new JScrollPane(erreursList);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Erreurs"));
-        scrollPane.setBackground(new Color(245, 245, 250));
-        scrollPane.setPreferredSize(new java.awt.Dimension(350, 100));
+    dateField = new ChampSaisie("Date de la facture (jj/MM/aaaa)", new SpinnerDateModel());
+    JSpinner dateSpinner = (JSpinner) dateField.getChampSaisie();
+    dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy"));
+    formPanel.add(dateField);
 
-        formPanel.add(scrollPane, BorderLayout.CENTER);
+    contentPane.add(formPanel, BorderLayout.CENTER);
 
-        ControleurAjoutTravaux controleur = new ControleurAjoutTravaux(this.bien, this, control);
+    JPanel bottomPanel = new JPanel(new BorderLayout());
 
-        JButton btnEnregistrer = new JButton("Enregistrer");
-        btnEnregistrer.setFont(new Font("Arial", Font.BOLD, 14));
-        btnEnregistrer.setBackground(new Color(39, 174, 96));
-        btnEnregistrer.setForeground(Color.WHITE);
-        btnEnregistrer.setFocusPainted(false);
-        btnEnregistrer.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        buttonPanel.add(btnEnregistrer);
-        btnEnregistrer.addActionListener(controleur);
+    JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 8, 8));
 
-        JButton btnAnnuler = new JButton("Annuler");
-        btnAnnuler.setFont(new Font("Arial", Font.BOLD, 14));
-        btnAnnuler.setBackground(new Color(200, 50, 50));
-        btnAnnuler.setForeground(Color.WHITE);
-        btnAnnuler.setFocusPainted(false);
-        btnAnnuler.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        btnAnnuler.addActionListener(e -> dispose());
-        buttonPanel.add(btnAnnuler);
-        btnAnnuler.addActionListener(controleur);
+    erreursListModel = new DefaultListModel<>();
+    erreursList = new JList<>(erreursListModel);
 
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-    }
+    erreursList.setFont(Layout.POLICE_SMALL);
+    erreursList.setForeground(Layout.COULEUR_DANGER);
+    erreursList.setBackground(Layout.COULEUR_FOND);
 
-    private void addField(JPanel panel, String label, JTextField textField) {
-        JLabel lbl = new JLabel(label);
-        lbl.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(lbl);
+    JScrollPane erreurScrollPane = new JScrollPane(erreursList);
+    erreurScrollPane
+        .setBorder(new TitledBorder(new EtchedBorder(), "Erreurs", TitledBorder.CENTER, TitledBorder.TOP));
+    erreurScrollPane.setPreferredSize(new Dimension(200, 100));
 
-        textField.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(textField);
-    }
+    bottomPanel.add(erreurScrollPane, BorderLayout.CENTER);
 
-    private void addField(JPanel panel, String label, JSpinner spinner) {
-        JLabel lbl = new JLabel(label);
-        lbl.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(lbl);
+    ControleurAjoutTravail controleur = new ControleurAjoutTravail(this.bien, this, control);
 
-        spinner.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(spinner);
-    }
+    Bouton btnEnregistrer = new Bouton("Enregistrer");
+    btnEnregistrer.addActionListener(controleur);
+    panelBoutons.add(btnEnregistrer);
 
-    public String getID() {
-        return textID.getText();
-    }
+    Bouton btnAnnuler = new Bouton("Annuler", VarianteButton.SECONDAIRE);
+    btnAnnuler.addActionListener(controleur);
+    panelBoutons.add(btnAnnuler);
 
-    public String getDescription() {
-        return textDescription.getText();
-    }
+    bottomPanel.add(panelBoutons, BorderLayout.SOUTH);
+    contentPane.add(bottomPanel, BorderLayout.SOUTH);
+  }
 
-    public String getEntreprise() {
-        return textEntreprise.getText();
-    }
+  public String getID() {
+    return idField.getValue();
+  }
 
-    public double getMontantDevis() {
-        return (double) spinnerMontantDevise.getValue();
-    }
+  public String getDescription() {
+    return descriptionField.getValue();
+  }
 
-    public double getMontantFacture() {
-        return (double) spinnerMontantFacture.getValue();
-    }
+  public String getEntreprise() {
+    return entrepriseField.getValue();
+  }
 
-    public void addErreur(String erreur) {
-        erreursListModel.addElement(erreur);
-        erreursList.setModel(erreursListModel);
-    }
+  public double getMontantDevis() {
+    return montantDevisField.getValue();
+  }
 
-    public void clearErreurs() {
-        if (erreursListModel != null) {
-            erreursListModel = new DefaultListModel<>();
-        }
-        erreursListModel.clear();
-        erreursList.setModel(erreursListModel);
-    }
+  public double getMontantFacture() {
+    return montantFactureField.getValue();
+  }
 
-    public boolean hasErreurs() {
-        return erreursListModel.size() > 0;
-    }
+  public Date getDate() {
+    return dateField.getValue();
+  }
+
+  public void addErreur(String erreur) {
+    erreursListModel.addElement(erreur);
+  }
+
+  public void clearErreurs() {
+    erreursListModel.clear();
+  }
+
+  public boolean hasErreurs() {
+    return erreursListModel.size() > 0;
+  }
 }

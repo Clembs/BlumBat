@@ -57,11 +57,11 @@ public class VueAjoutTravail extends JFrame {
     formPanel.add(entrepriseField);
 
     montantDevisField = new ChampSaisie("Montant du devis (en €)",
-        new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
+        new SpinnerNumberModel(0d, 0d, Double.MAX_VALUE, 1d));
     formPanel.add(montantDevisField);
 
     montantFactureField = new ChampSaisie("Montant de la facture (en €)",
-        new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 0.1));
+        new SpinnerNumberModel(0d, 0d, Double.MAX_VALUE, 1d));
     formPanel.add(montantFactureField);
 
     dateField = new ChampSaisie("Date de la facture (jj/MM/aaaa)", new SpinnerDateModel());

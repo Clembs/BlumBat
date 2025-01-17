@@ -40,14 +40,14 @@ public class VueModifierPartBiens extends JFrame {
         setBounds(100, 100, 700, 600);
 
         contentPane = new JPanel();
-        contentPane.setBackground(new Color(248, 249, 250));
+        contentPane.setBackground(new Color(248, 249, 250)); // Fond gris très clair
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentPane.setLayout(new BorderLayout(20, 20));
         setContentPane(contentPane);
 
-
+        // Titre
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        titlePanel.setBackground(new Color(41, 128, 185));
+        titlePanel.setBackground(new Color(41, 128, 185)); // Bleu principal
         titlePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         contentPane.add(titlePanel, BorderLayout.NORTH);
 
@@ -56,7 +56,7 @@ public class VueModifierPartBiens extends JFrame {
         lblTitle.setForeground(Color.WHITE);
         titlePanel.add(lblTitle);
 
-
+        // Panneau central
         JPanel centerPanel = new JPanel(new BorderLayout(20, 20));
         centerPanel.setBackground(Color.WHITE);
         centerPanel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));

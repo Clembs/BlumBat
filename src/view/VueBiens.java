@@ -10,21 +10,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import javax.swing.border.*;
 
+import components.Bouton;
+import components.Layout;
+import components.Libellé;
+import components.Tableau;
 import controller.ControleurBiens;
 import model.BienImmobilier;
 import model.BienLocatif;
@@ -32,7 +24,7 @@ import model.Proprietaire;
 
 public class VueBiens extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JTable tableBiens;
+	private Tableau tableBiens;
 	private ControleurBiens controleur;
 	private List<BienImmobilier> biens;
 	private JPanel panelCentralCourant;
@@ -44,33 +36,20 @@ public class VueBiens extends JFrame {
 		this.setTitle("Gestion des biens");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 1200, 700);
-
-		JPanel mainPanel = new JPanel();
-		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		mainPanel.setLayout(new BorderLayout(10, 10));
-		mainPanel.setBackground(new Color(250, 250, 250));
-		setContentPane(mainPanel);
-
-		JPanel titlePanel = new JPanel();
-		titlePanel.setBackground(Color.DARK_GRAY);
-		JLabel lblTitle = new JLabel("Gestion des biens");
-		lblTitle.setFont(new Font("Rockwell", Font.BOLD, 24));
-		lblTitle.setForeground(Color.WHITE);
-		titlePanel.add(lblTitle);
-		mainPanel.add(titlePanel, BorderLayout.NORTH);
+		this.setBackground(Layout.COULEUR_FOND);
+		this.setLayout(new BorderLayout(0, 0));
 
 		// Panel latéral, contenant la liste des biens et un bouton "Ajouter"
 		JPanel sidePanel = new JPanel();
 		sidePanel.setBorder(new TitledBorder(new EtchedBorder(), "Vos biens", TitledBorder.CENTER, TitledBorder.TOP));
-		sidePanel.setLayout(new BorderLayout(5, 5));
-		sidePanel.setBackground(Color.LIGHT_GRAY);
+		sidePanel.setLayout(new BorderLayout(0, 8));
 
 		// On définit un panel et un ButtonGroup pour les filtres
-		JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+		JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 8));
 		ButtonGroup filtres = new ButtonGroup();
 
 		JRadioButton btnTous = new JRadioButton("Tous");
-		btnTous.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+		btnTous.setFont(Layout.POLICE_SMALL);
 		btnTous.setSelected(true);
 		filtres.add(btnTous);
 		filterPanel.add(btnTous);
@@ -81,7 +60,7 @@ public class VueBiens extends JFrame {
 		});
 
 		JRadioButton btnDispo = new JRadioButton("Disponibles");
-		btnDispo.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+		btnDispo.setFont(Layout.POLICE_SMALL);
 		filtres.add(btnDispo);
 		filterPanel.add(btnDispo);
 
@@ -99,7 +78,7 @@ public class VueBiens extends JFrame {
 		});
 
 		JRadioButton btnLoues = new JRadioButton("Loués");
-		btnLoues.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
+		btnLoues.setFont(Layout.POLICE_SMALL);
 		filtres.add(btnLoues);
 		filterPanel.add(btnLoues);
 
@@ -119,21 +98,14 @@ public class VueBiens extends JFrame {
 		sidePanel.add(filterPanel, BorderLayout.NORTH);
 
 		// Création de la table des biens
-		DefaultTableModel tableModel = new DefaultTableModel(
-				new Object[] { "ID", "Ville", "Type", "Disponibilité" },
-				0);
-		tableBiens = new JTable(tableModel);
+		tableBiens = new Tableau("Identifiant", "Ville", "Type", "Disponibilité");
 		tableBiens.setRowSelectionAllowed(true);
 		tableBiens.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		// On rend la table non-éditable
-		tableBiens.setDefaultEditor(Object.class, null);
 		// On définit la largeur des colonnes
 		tableBiens.getColumnModel().getColumn(0).setPreferredWidth(20);
 		tableBiens.getColumnModel().getColumn(1).setPreferredWidth(50);
 		tableBiens.getColumnModel().getColumn(2).setPreferredWidth(10);
 		tableBiens.getColumnModel().getColumn(3).setPreferredWidth(10);
-		tableBiens.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		tableBiens.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
 
 		// Initialisation du contrôleur
 		controleur = new ControleurBiens(proprietaire, this);
@@ -142,20 +114,17 @@ public class VueBiens extends JFrame {
 
 		// On définit une JScrollPane pour pouvoir défiler dans la table
 		JScrollPane tableScrollPane = new JScrollPane(tableBiens);
-		tableScrollPane.setPreferredSize(new Dimension(400, 0));
+		tableScrollPane.setPreferredSize(new Dimension(500, 0));
 		sidePanel.add(tableScrollPane, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
-		JButton btnAdd = new JButton("Ajouter");
-		btnAdd.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 12));
-		btnAdd.setBackground(new Color(46, 139, 87));
-		btnAdd.setForeground(Color.WHITE);
+		Bouton btnAdd = new Bouton("Ajouter");
 		buttonPanel.add(btnAdd);
 		sidePanel.add(buttonPanel, BorderLayout.SOUTH);
 		// Lorsque l'on clique sur le bouton "Ajouter"
 		btnAdd.addActionListener(controleur);
 
-		mainPanel.add(sidePanel, BorderLayout.WEST);
+		this.add(sidePanel, BorderLayout.WEST);
 
 		resetPanelCentral();
 	}
@@ -191,20 +160,18 @@ public class VueBiens extends JFrame {
 
 	public void rafraîchirTableBiens(List<BienImmobilier> biens) {
 		// Vider la table
-		DefaultTableModel model = (DefaultTableModel) this.tableBiens.getModel();
-		model.setRowCount(0);
+		this.tableBiens.clear();
 
 		// Pour chaque bien, ajouter une ligne dans la table
 		for (BienImmobilier bien : biens) {
-			model.addRow(new Object[] {
+			this.tableBiens.addRow(
 					bien.getId(),
 					bien.getVille(),
 					bien.getTypeBien().toString(),
 					bien instanceof BienLocatif ? ((BienLocatif) bien).estLoué()
-							? "🔴 Loué"
-							: "🟢 Disponible"
-							: "N/A"
-			});
+							? "🏳️ Loué"
+							: "✅ Disponible"
+							: "N/A");
 		}
 
 		// Rafraîchir la table
@@ -241,11 +208,10 @@ public class VueBiens extends JFrame {
 
 	public void resetPanelCentral() {
 		// Panel central par défaut, affiché lorsqu'aucun bien n'est sélectionné
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		JLabel lblChoix = new JLabel("Choisissez un bien pour afficher ses détails");
-		lblChoix.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 16));
+		JPanel panel = new JPanel(new GridLayout());
+		Libellé lblChoix = new Libellé("Cliquez sur un bien pour afficher ses détails");
 		lblChoix.setHorizontalAlignment(SwingConstants.CENTER);
+		lblChoix.setVerticalAlignment(SwingConstants.CENTER);
 		panel.add(lblChoix);
 
 		setPanelCentral(panel);

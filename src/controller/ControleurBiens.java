@@ -33,7 +33,7 @@ public class ControleurBiens implements ActionListener, MouseListener {
   // Lorsque l'on clique sur le bouton "Ajouter"
   @Override
   public void actionPerformed(ActionEvent e) {
-    VueAjoutBien fenetreAjoutBien = new VueAjoutBien(proprietaire);
+    VueAjoutBien fenetreAjoutBien = new VueAjoutBien(fenetre, proprietaire);
     fenetreAjoutBien.setVisible(true);
   }
 

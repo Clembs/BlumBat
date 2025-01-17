@@ -1,8 +1,8 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
+import components.Tableau;
 import model.BienLocatif;
 import model.Location;
 import model.Proprietaire;
@@ -18,29 +18,24 @@ public class VueLocationsPassésBien extends JPanel {
   public VueLocationsPassésBien(VueBiens fenetre, Proprietaire proprietaire, BienLocatif bien) {
     this.setLayout(new BorderLayout());
 
-    DefaultTableModel tableModel = new DefaultTableModel(
-        new Object[] {
-            "ID", "Nom", "Date d'entrée", "Date de sortie", "Dernier loyer payé"
-        }, 0);
-
-    JTable table = new JTable(tableModel);
+    Tableau tableau = new Tableau(
+        "ID", "Nom", "Date d'entrée", "Date de sortie", "Dernier loyer payé");
     // on rend la table non-éditable
-    table.setDefaultEditor(Object.class, null);
-    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    tableau.setDefaultEditor(Object.class, null);
+    tableau.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     for (Location location : bien.getLocationsPassees()) {
-      tableModel.addRow(new Object[] {
+      tableau.addRow(
           location.getLocataire().getId(),
           location.getLocataire().getPrenom() + " " + location.getLocataire().getNom(),
           location.getDateEntree()
               .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)),
           location.getDateSortie()
               .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.FRENCH)),
-          location.getLoyer() + " €"
-      });
+          location.getLoyer() + " €");
     }
 
-    JScrollPane tableScrollPane = new JScrollPane(table);
+    JScrollPane tableScrollPane = new JScrollPane(tableau);
     this.add(tableScrollPane, BorderLayout.CENTER);
   }
 }

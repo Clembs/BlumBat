@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -20,11 +21,11 @@ public class ControleurAjoutTravail implements ActionListener {
   private VueAjoutTravail fenetre;
   private ControleurTravaux control;
 
-  public ControleurAjoutTravail(BienImmobilier bien, VueAjoutTravail fenetre, ControleurTravaux control) {
+  public ControleurAjoutTravail(BienImmobilier bien, VueAjoutTravail fenetre, ControleurTravaux controleurTravaux) {
     this.bien = bien;
     this.fenetre = fenetre;
     this.travauxDAO = new TravailDAO();
-    this.control = control;
+    this.control = controleurTravaux;
   }
 
   @Override
@@ -44,6 +45,13 @@ public class ControleurAjoutTravail implements ActionListener {
 
       if (iD.isEmpty()) {
         this.fenetre.addErreur("Veuillez saisir un identifiant");
+      }
+
+      List<FactureTravaux> travaux = travauxDAO.getAllTravaux(this.bien);
+      FactureTravaux travailTrouvé = travaux.stream().filter(t -> t.getId().equals(iD)).findFirst().orElse(null);
+
+      if (travailTrouvé != null) {
+        this.fenetre.addErreur("Un travail avec cet identifiant existe déjà");
       }
 
       if (description.isEmpty()) {

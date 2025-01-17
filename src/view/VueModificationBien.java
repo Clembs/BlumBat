@@ -6,177 +6,136 @@ import model.BienLocatif;
 import model.Proprietaire;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+import components.Bouton;
+import components.ChampSaisie;
+import components.Layout;
+import components.Libellé;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
+
 import java.awt.*;
 
 public class VueModificationBien extends JPanel {
-  private JTextField adresseField;
-  private JTextField comlementAdresseField;
-  private JTextField villeField;
-  private JTextField codePostalField;
-  private JSpinner surfaceSpinner;
-  private JTextField nbFiscalField;
-  private JSpinner nbPiecesSpinner;
+  private ChampSaisie adresseField;
+  private ChampSaisie complémentAdresseField;
+  private ChampSaisie villeField;
+  private ChampSaisie codePostalField;
+  private ChampSaisie surfaceField;
+  private ChampSaisie nbFiscalField;
+  private ChampSaisie nbPiecesField;
   private DefaultListModel<String> erreursListModel;
   private JList<String> erreursList;
 
   public VueModificationBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
-    setLayout(new BorderLayout(10, 10));
-    setBackground(new Color(40, 40, 40));
+    this.setLayout(new BorderLayout(0, 16));
+    this.setBorder(new EmptyBorder(16, 16, 16, 16));
 
     erreursListModel = new DefaultListModel<>();
     erreursList = new JList<>(erreursListModel);
 
-    JLabel lblTitle = new JLabel("Modifier un bien", SwingConstants.CENTER);
-    lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
-    lblTitle.setForeground(new Color(240, 240, 240));
-    lblTitle.setOpaque(true);
-    lblTitle.setBackground(new Color(60, 60, 60));
-    lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    add(lblTitle, BorderLayout.NORTH);
+    Libellé lblTitle = new Libellé("Modifier " + bien.getId(), TypeLibellé.EN_TETE);
+    this.add(lblTitle, BorderLayout.NORTH);
 
-    JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
-    formPanel.setBackground(new Color(50, 50, 50));
-    formPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    JPanel formPanel = new JPanel(new GridLayout(5, 2, 8, 8));
 
-    JTextField textTypeBien = new JTextField(bien.getTypeBien().toString());
-    textTypeBien.setEditable(false);
-    addField(formPanel, "Type :", textTypeBien);
+    ChampSaisie idField = new ChampSaisie("Identifiant", bien.getId());
+    idField.getChampSaisie().setEnabled(false);
+    formPanel.add(idField);
 
-    JTextField textIdBien = new JTextField(bien.getId());
-    textIdBien.setEditable(false);
-    addField(formPanel, "Identifiant :", textIdBien);
+    ChampSaisie typeField = new ChampSaisie("Type de bien", bien.getTypeBien().toString());
+    typeField.getChampSaisie().setEnabled(false);
+    formPanel.add(typeField);
 
-    adresseField = new JTextField(bien.getAdresse());
-    addField(formPanel, "Adresse :", adresseField);
+    adresseField = new ChampSaisie("Adresse", bien.getAdresse());
+    formPanel.add(adresseField);
 
-    comlementAdresseField = new JTextField(bien.getComplementAdresse());
-    addField(formPanel, "Complément d'adresse (facultatif) :", comlementAdresseField);
+    complémentAdresseField = new ChampSaisie("Complément d'adresse (facultatif)", bien.getComplementAdresse());
+    formPanel.add(complémentAdresseField);
 
-    villeField = new JTextField(bien.getVille());
-    addField(formPanel, "Ville :", villeField);
+    villeField = new ChampSaisie("Ville", bien.getVille());
+    formPanel.add(villeField);
 
-    codePostalField = new JTextField(bien.getCodePostal());
-    addField(formPanel, "Code postal :", codePostalField);
+    codePostalField = new ChampSaisie("Code postal", bien.getCodePostal());
+    formPanel.add(codePostalField);
 
     if (bien instanceof BienLocatif) {
       BienLocatif bienL = (BienLocatif) bien;
 
-      surfaceSpinner = new JSpinner();
-      surfaceSpinner.setModel(new SpinnerNumberModel(bienL.getSurface(), null, null, Float.valueOf(1)));
-      addSpinnerField(formPanel, "Surface (en m²) :", surfaceSpinner);
+      surfaceField = new ChampSaisie("Surface (en m²)",
+          new SpinnerNumberModel(bienL.getSurface(), 1f, null, 1f));
+      formPanel.add(surfaceField);
 
-      nbFiscalField = new JTextField(bienL.getNumeroFiscal());
-      addField(formPanel, "Numéro fiscal:*", nbFiscalField);
+      nbFiscalField = new ChampSaisie("Numéro fiscal", bienL.getNumeroFiscal());
+      formPanel.add(nbFiscalField);
 
-      nbPiecesSpinner = new JSpinner();
-      nbPiecesSpinner.setModel(new SpinnerNumberModel(bienL.getNombrePieces(), null, null, Integer.valueOf(1)));
-      addSpinnerField(formPanel, "Nombre de pièces:*", nbPiecesSpinner);
+      nbPiecesField = new ChampSaisie("Nombre de pièces",
+          new SpinnerNumberModel(bienL.getNombrePieces(), 1, null, 1));
+      formPanel.add(nbPiecesField);
     }
 
     add(formPanel, BorderLayout.CENTER);
 
     // Panneau contenant les erreurs et les boutons
     JPanel southPanel = new JPanel(new BorderLayout());
-    southPanel.setBackground(new Color(40, 40, 40));
 
     // Liste des erreurs
-    erreursList.setFont(new Font("SansSerif", Font.PLAIN, 12));
-    erreursList.setBackground(new Color(60, 60, 60));
-    erreursList.setForeground(Color.RED);
+    erreursList.setFont(Layout.POLICE_SMALL);
+    erreursList.setForeground(Layout.COULEUR_DANGER);
+    erreursList.setBackground(Layout.COULEUR_FOND);
 
     JScrollPane erreurScrollPane = new JScrollPane(erreursList);
+    erreurScrollPane.setBorder(
+        new TitledBorder(new EtchedBorder(), "Erreurs", TitledBorder.CENTER, TitledBorder.TOP));
     erreurScrollPane.setPreferredSize(new Dimension(200, 100));
     southPanel.add(erreurScrollPane, BorderLayout.NORTH);
 
     // Boutons
-    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-    buttonPanel.setBackground(new Color(40, 40, 40));
-
-    JButton btnModifier = new JButton("Enregistrer");
-    btnModifier.setFont(new Font("SansSerif", Font.BOLD, 14));
-    btnModifier.setBackground(new Color(0, 170, 85));
-    btnModifier.setForeground(Color.WHITE);
-    btnModifier.setFocusPainted(false);
-    btnModifier.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-    buttonPanel.add(btnModifier);
+    JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 8, 8));
 
     ControleurModificationBien controleur = new ControleurModificationBien(fenetre, this, proprietaire, bien);
+
+    JButton btnModifier = new Bouton("Enregistrer");
     btnModifier.addActionListener(controleur);
+    panelBoutons.add(btnModifier);
 
-    JButton btnAnnuler = new JButton("Annuler");
-    btnAnnuler.setFont(new Font("SansSerif", Font.BOLD, 14));
-    btnAnnuler.setBackground(new Color(200, 50, 50));
-    btnAnnuler.setForeground(Color.WHITE);
-    btnAnnuler.setFocusPainted(false);
-    btnAnnuler.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    JButton btnAnnuler = new Bouton("Annuler", VarianteButton.SECONDAIRE);
     btnAnnuler.addActionListener(controleur);
-    buttonPanel.add(btnAnnuler);
+    panelBoutons.add(btnAnnuler);
 
-    southPanel.add(buttonPanel, BorderLayout.SOUTH);
+    southPanel.add(panelBoutons, BorderLayout.SOUTH);
     add(southPanel, BorderLayout.SOUTH);
   }
 
-  private void addField(JPanel panel, String label, JComponent field) {
-    JLabel lbl = new JLabel(label);
-    lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    lbl.setForeground(new Color(230, 230, 230));
-    panel.add(lbl);
-
-    field.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    field.setBackground(new Color(60, 60, 60));
-    field.setForeground(Color.WHITE);
-    field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-    panel.add(field);
-  }
-
-  private void addSpinnerField(JPanel panel, String label, JSpinner spinner) {
-    JLabel lbl = new JLabel(label);
-    lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    lbl.setForeground(new Color(230, 230, 230));
-    panel.add(lbl);
-
-    JComponent editor = spinner.getEditor();
-    if (editor instanceof JSpinner.DefaultEditor) {
-      JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor) editor;
-      spinnerEditor.getTextField().setFont(new Font("SansSerif", Font.PLAIN, 14));
-      spinnerEditor.getTextField().setBackground(new Color(60, 60, 60));
-      spinnerEditor.getTextField().setForeground(Color.WHITE);
-      spinnerEditor.getTextField().setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-    }
-
-    spinner.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    spinner.setBackground(new Color(60, 60, 60));
-    spinner.setForeground(Color.WHITE);
-    spinner.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
-    panel.add(spinner);
-  }
-
   public String getAdresse() {
-    return adresseField.getText();
+    return adresseField.getValue();
   }
 
   public String getComplementAdresse() {
-    return comlementAdresseField.getText();
+    return complémentAdresseField.getValue();
   }
 
   public String getVille() {
-    return villeField.getText();
+    return villeField.getValue();
   }
 
   public String getCodePostal() {
-    return codePostalField.getText();
+    return codePostalField.getValue();
   }
 
   public float getSurface() {
-    return (float) surfaceSpinner.getValue();
+    return surfaceField.getValue();
   }
 
   public String getNbFiscal() {
-    return nbFiscalField.getText();
+    return nbFiscalField.getValue();
   }
 
   public int getNbPieces() {
-    return (int) nbPiecesSpinner.getValue();
+    return nbPiecesField.getValue();
   }
 
   public void addErreur(String erreur) {

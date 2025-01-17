@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.time.format.DateTimeFormatter;
@@ -9,11 +8,14 @@ import java.time.format.FormatStyle;
 import java.util.Locale;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import components.Bouton;
+import components.Layout;
+import components.Libellé;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
 import controller.ControleurDétailsBien;
 import model.BienImmobilier;
 import model.BienLocatif;
@@ -23,7 +25,6 @@ public class VueDétailsBien extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public VueDétailsBien(VueBiens fenetre, Proprietaire proprietaire, BienImmobilier bien) {
-
 		this.setLayout(new BorderLayout(0, 0));
 
 		// panel du haut contenant les informations
@@ -34,28 +35,25 @@ public class VueDétailsBien extends JPanel {
 
 		// première ligne : identifiant et type
 		JPanel premièreLigne = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 5));
-
 		panelInfos.add(premièreLigne);
 
 		JPanel panelIdentifiant = new JPanel(new GridLayout(2, 0, 0, 0));
 		premièreLigne.add(panelIdentifiant);
 
-		JLabel lblIdentifiantKey = new JLabel("Identifiant");
+		Libellé lblIdentifiantKey = new Libellé("Identifiant", TypeLibellé.CLEF);
 		panelIdentifiant.add(lblIdentifiantKey);
 
-		JLabel lblIdentifiantValue = new JLabel(bien.getId());
-		lblIdentifiantValue.setForeground(Color.GRAY);
+		Libellé lblIdentifiantValue = new Libellé(bien.getId());
 		panelIdentifiant.add(lblIdentifiantValue);
 
 		JPanel panelType = new JPanel(new GridLayout(2, 0, 0, 0));
 		premièreLigne.add(panelType);
 
-		JLabel lblTypeKey = new JLabel("Type de bien");
+		Libellé lblTypeKey = new Libellé("Type de bien", TypeLibellé.CLEF);
 		panelType.add(lblTypeKey);
 
-		JLabel lblTypeValue = new JLabel(bien.getTypeBien().toString());
+		Libellé lblTypeValue = new Libellé(bien.getTypeBien().toString());
 		panelType.add(lblTypeValue);
-		lblTypeValue.setForeground(Color.GRAY);
 
 		// deuxième ligne : adresse
 		JPanel deuxièmeLigne = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 5));
@@ -65,22 +63,19 @@ public class VueDétailsBien extends JPanel {
 		panelAdresse.setLayout(new BoxLayout(panelAdresse, BoxLayout.Y_AXIS));
 		deuxièmeLigne.add(panelAdresse);
 
-		JLabel lblAdresseKey = new JLabel("Adresse");
+		Libellé lblAdresseKey = new Libellé("Adresse", TypeLibellé.CLEF);
 		panelAdresse.add(lblAdresseKey);
 
-		JLabel lblAdresseValue = new JLabel(bien.getAdresse());
-		lblAdresseValue.setForeground(Color.GRAY);
+		Libellé lblAdresseValue = new Libellé(bien.getAdresse());
 		panelAdresse.add(lblAdresseValue);
 
 		if (bien.getComplementAdresse() != null) {
-			JLabel lblComplémentAdresse = new JLabel(bien.getComplementAdresse());
-			lblComplémentAdresse.setForeground(Color.GRAY);
+			Libellé lblComplémentAdresse = new Libellé(bien.getComplementAdresse());
 			panelAdresse.add(lblComplémentAdresse);
 		}
 
-		JLabel lblVille = new JLabel(bien.getCodePostal() + " " + bien.getVille());
+		Libellé lblVille = new Libellé(bien.getCodePostal() + " " + bien.getVille());
 		panelAdresse.add(lblVille);
-		lblVille.setForeground(Color.GRAY);
 
 		if (bien instanceof BienLocatif) {
 			BienLocatif bienL = (BienLocatif) bien;
@@ -92,32 +87,29 @@ public class VueDétailsBien extends JPanel {
 			JPanel panelSurface = new JPanel(new GridLayout(2, 0, 0, 0));
 			troisièmeLigne.add(panelSurface);
 
-			JLabel lblSurfaceKey = new JLabel("Surface");
+			Libellé lblSurfaceKey = new Libellé("Surface", TypeLibellé.CLEF);
 			panelSurface.add(lblSurfaceKey);
 
-			JLabel lblSurfaceValue = new JLabel(bienL.getSurface() + "m²");
-			lblSurfaceValue.setForeground(Color.GRAY);
+			Libellé lblSurfaceValue = new Libellé(bienL.getSurface() + "m²");
 			panelSurface.add(lblSurfaceValue);
 
 			JPanel panelNumeroFiscal = new JPanel(new GridLayout(2, 0, 0, 0));
 			troisièmeLigne.add(panelNumeroFiscal);
 
-			JLabel lblFiscalKey = new JLabel("Numéro fiscal");
+			Libellé lblFiscalKey = new Libellé("Numéro fiscal", TypeLibellé.CLEF);
 			panelNumeroFiscal.add(lblFiscalKey);
 
-			JLabel lblFiscalValue = new JLabel(bienL.getNumeroFiscal());
+			Libellé lblFiscalValue = new Libellé(bienL.getNumeroFiscal());
 			panelNumeroFiscal.add(lblFiscalValue);
-			lblFiscalValue.setForeground(Color.GRAY);
 
 			JPanel panelPieces = new JPanel(new GridLayout(2, 0, 0, 0));
 			troisièmeLigne.add(panelPieces);
 
-			JLabel lblPiecesKey = new JLabel("Nombre de pièces");
+			Libellé lblPiecesKey = new Libellé("Nombre de pièces", TypeLibellé.CLEF);
 			panelPieces.add(lblPiecesKey);
 
-			JLabel lblPiecesValue = new JLabel(String.valueOf(bienL.getNombrePieces()));
+			Libellé lblPiecesValue = new Libellé(String.valueOf(bienL.getNombrePieces()));
 			panelPieces.add(lblPiecesValue);
-			lblPiecesValue.setForeground(Color.GRAY);
 
 			// quatrième ligne : disponibilité
 			JPanel quatrièmeLigne = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 5));
@@ -126,7 +118,7 @@ public class VueDétailsBien extends JPanel {
 			JPanel panelDisponibilité = new JPanel(new GridLayout(2, 0, 0, 0));
 			quatrièmeLigne.add(panelDisponibilité);
 
-			JLabel lblDisponibilitéKey = new JLabel("Disponibilité");
+			Libellé lblDisponibilitéKey = new Libellé("Disponibilité", TypeLibellé.CLEF);
 			panelDisponibilité.add(lblDisponibilitéKey);
 
 			String disponibilité;
@@ -137,8 +129,7 @@ public class VueDétailsBien extends JPanel {
 			} else {
 				disponibilité = "Disponible";
 			}
-			JLabel lblDisponibilitéValue = new JLabel(disponibilité);
-			lblDisponibilitéValue.setForeground(Color.GRAY);
+			Libellé lblDisponibilitéValue = new Libellé(disponibilité);
 			panelDisponibilité.add(lblDisponibilitéValue);
 
 			JPanel panel_2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 5));
@@ -147,24 +138,21 @@ public class VueDétailsBien extends JPanel {
 
 		// Panel du bas contenant les boutons
 		JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
-		panelBoutons.setBorder(new MatteBorder(1, 0, 0, 0, Color.BLACK));
+		panelBoutons.setBorder(new MatteBorder(1, 0, 0, 0, Layout.COULEUR_SOUS_TEXTE));
 
 		ControleurDétailsBien controleur = new ControleurDétailsBien(fenetre, this, proprietaire, bien);
 
 		if (bien instanceof BienLocatif) {
-			JButton btnLouer = new JButton("Louer");
-			btnLouer.setBackground(new Color(192, 192, 192));
+			Bouton btnLouer = new Bouton("Louer", VarianteButton.SECONDAIRE);
 			btnLouer.addActionListener(controleur);
 			panelBoutons.add(btnLouer);
 		}
 
-		JButton btnSupprimer = new JButton("Supprimer");
-		btnSupprimer.setBackground(new Color(255, 128, 128));
+		Bouton btnSupprimer = new Bouton("Supprimer", VarianteButton.DANGER);
 		btnSupprimer.addActionListener(controleur);
 		panelBoutons.add(btnSupprimer);
 
-		JButton btnModifier = new JButton("Modifier");
-		btnModifier.setBackground(new Color(128, 255, 255));
+		Bouton btnModifier = new Bouton("Modifier");
 		btnModifier.addActionListener(controleur);
 		panelBoutons.add(btnModifier);
 

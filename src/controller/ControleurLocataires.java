@@ -65,12 +65,17 @@ public class ControleurLocataires implements ActionListener, ListSelectionListen
     if (e.getValueIsAdjusting()) {
       return;
     }
-    // Récupérer l'index du locataire sélectionné
-    int selectedIndex = e.getFirstIndex();
 
-    if (selectedIndex != -1) {
+    // on récupère la liste
+    @SuppressWarnings("unchecked") // On sait que c'est une liste de String
+    JList<String> list = (JList<String>) e.getSource();
+
+    // Récupérer l'index du locataire sélectionné
+    int indiceSelectionne = list.getSelectedIndex();
+
+    if (indiceSelectionne != -1) {
       // Récupérer le locataire sélectionné
-      Locataire locataire = this.locataires.get(selectedIndex);
+      Locataire locataire = this.locataires.get(indiceSelectionne);
 
       VueConsultationLocataire panel = new VueConsultationLocataire(this.fenetre, this.proprietaire,
           locataire);
@@ -78,10 +83,7 @@ public class ControleurLocataires implements ActionListener, ListSelectionListen
       this.fenetre.setPanelCentral(panel);
     }
 
-    // on récupère la liste
-    @SuppressWarnings("unchecked") // On sait que c'est une liste de String
-    JList<String> list = (JList<String>) e.getSource();
-
+    // si on a plusieurs locataires sélectionnés, on les récupère
     int[] indicesSelectionnes = list.getSelectedIndices();
 
     // on vide la liste des locataires sélectionnés pour la remplir à nouveau

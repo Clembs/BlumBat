@@ -39,7 +39,7 @@ public class ControleurAjoutLocataire implements ActionListener {
       fenetre.clearErreurs();
 
       // Récupérer les valeurs des champs de texte
-      String id = fenetre.getIdentifiant();
+      String id = fenetre.getId();
       String nom = fenetre.getNom();
       String prenom = fenetre.getPrenom();
       String email = fenetre.getEmail();

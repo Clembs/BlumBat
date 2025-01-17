@@ -51,7 +51,7 @@ public class VueBiens extends JFrame {
 
 		this.setTitle("Gestion des biens");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 1200, 700);
+		this.setBounds(100, 100, 1500, 800);
 		this.setBackground(Layout.COULEUR_FOND);
 		this.setLayout(new BorderLayout(0, 0));
 

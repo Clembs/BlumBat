@@ -50,9 +50,13 @@ CREATE TABLE IF NOT EXISTS compteurs (
 );
 
 CREATE TABLE IF NOT EXISTS factures_travaux (
-	id_facture         varchar(50)                            NOT NULL,
-  id_bien            varchar(50)                            NOT NULL,
-  montant_facture    double                                 NOT NULL,
+	id_facture           varchar(50)                            NOT NULL,
+  id_bien              varchar(50)                            NOT NULL,
+  description_travail  varchar(100)                           NOT NULL,
+  montant_devis        double                                 NOT NULL, 
+  montant_facture      double                                 NOT NULL,
+  entreprise           varchar(100)                           NOT NULL,
+  date_facture         date                                   NOT NULL,
   PRIMARY KEY(id_facture),
   FOREIGN KEY(id_bien) REFERENCES biens(id_bien)
 );

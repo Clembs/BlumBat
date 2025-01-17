@@ -27,14 +27,17 @@ public class VueConsultationBien extends JPanel {
     JTabbedPane tabs = new JTabbedPane();
     tabs.setFont(Layout.POLICE_REGULAR);
 
-    VueDétailsBien panelBienDetails = new VueDétailsBien(fenetre, proprietaire, bien);
-    tabs.addTab("Détails", null, panelBienDetails);
+    VueDétailsBien vueDétails = new VueDétailsBien(fenetre, proprietaire, bien);
+    tabs.addTab("Détails", null, vueDétails);
+
+    VueTravaux vueTravaux = new VueTravaux(bien);
+    tabs.addTab("Travaux", null, vueTravaux);
 
     if (bien instanceof BienLocatif) {
       BienLocatif bienLocatif = (BienLocatif) bien;
 
-      VueLocationsPassésBien panelLocationsPassées = new VueLocationsPassésBien(fenetre, proprietaire, bienLocatif);
-      tabs.addTab("Locations passées", null, panelLocationsPassées);
+      VueLocationsPassésBien vueLocatairesPassés = new VueLocationsPassésBien(fenetre, proprietaire, bienLocatif);
+      tabs.addTab("Locations passées", null, vueLocatairesPassés);
     }
 
     tabs.setSelectedIndex(ongletSélectionné.ordinal());
@@ -43,6 +46,6 @@ public class VueConsultationBien extends JPanel {
   }
 
   public static enum Onglets {
-    DÉTAILS, LOCATIONS_EN_COURS, LOCATIONS_PASSÉES, FACTURES
+    DÉTAILS, TRAVAUX, LOCATIONS_EN_COURS, LOCATIONS_PASSÉES
   }
 }

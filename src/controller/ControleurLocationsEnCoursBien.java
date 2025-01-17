@@ -77,7 +77,13 @@ public class ControleurLocationsEnCoursBien implements ActionListener {
                 }
                 break;
             case "Modifier part du loyer":
-                // TODO  à faire quand la feneêtre de modification de part de loyer sera créée
+                selectedRow = vue.getTable().getSelectedRow();
+                if (selectedRow != -1) {
+                    VueModifierPartBiens vueModifierPartBiens = new VueModifierPartBiens(bien);
+                    vueModifierPartBiens.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un locataire à modifier.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
                 break;
         }
     }

@@ -1,8 +1,13 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.border.EmptyBorder;
 
+import components.Bouton;
+import components.Libellé;
+import components.Tableau;
+import components.Bouton.VarianteButton;
+import components.Libellé.TypeLibellé;
 import controller.ControleurLocationsEnCoursBien;
 import model.*;
 
@@ -10,69 +15,55 @@ import java.awt.*;
 
 public class VueLocationsEnCoursBien extends JPanel {
   private static final long serialVersionUID = 1L;
-  private JButton louerButton;
-  private JButton detailsButton;
-  private JButton suppButton;
-  private JButton modifierButton;
-  private JTable table;
-  private DefaultTableModel tableModel;
+  private Tableau table;
   private JLabel totalLoyerLabel;
-  private VueBiens vueBiens;
 
-  public VueLocationsEnCoursBien(VueBiens fenetre, Proprietaire proprietaire, BienLocatif bien) {
+  public VueLocationsEnCoursBien(VueBiens vueBiens, Proprietaire proprietaire, BienLocatif bien) {
     this.setLayout(new BorderLayout());
-    this.vueBiens = fenetre;
 
     double loyerTotal = bien.getLocationsCourantes().stream().mapToDouble(Location::getLoyer).sum();
 
-    totalLoyerLabel = new JLabel("Loyer total : " + loyerTotal + " €", JLabel.CENTER);
-    totalLoyerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+    totalLoyerLabel = new Libellé("Loyer total : " + loyerTotal + " €", TypeLibellé.TITRE);
+    totalLoyerLabel.setBorder(new EmptyBorder(16, 16, 16, 16));
     this.add(totalLoyerLabel, BorderLayout.NORTH);
 
-    tableModel = new DefaultTableModel(
-            new Object[]{"ID", "Nom", "Date entrée", "Part du loyer"}, 0);
-    table = new JTable(tableModel);
-    // on rend la table non-éditable
-    table.setDefaultEditor(Object.class, null);
+    table = new Tableau("ID", "Nom", "Date entrée", "Part du loyer");
 
-    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    ControleurLocationsEnCoursBien controleur = new ControleurLocationsEnCoursBien(vueBiens, proprietaire, bien, this);
+
+    table.addMouseListener(controleur);
+
     JScrollPane tableScrollPane = new JScrollPane(table);
+    tableScrollPane.setBorder(new EmptyBorder(16, 16, 16, 16));
     this.add(tableScrollPane, BorderLayout.CENTER);
 
-    JPanel buttonPanel = new JPanel();
-    buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
-    ControleurLocationsEnCoursBien controleur = new ControleurLocationsEnCoursBien(fenetre, proprietaire, bien, this);
-    louerButton = new JButton("Ajouter un locataire");
+    JPanel panelBoutons = new JPanel();
+    panelBoutons.setLayout(new FlowLayout(FlowLayout.TRAILING, 8, 8));
+
+    Bouton louerButton = new Bouton("Ajouter un locataire");
     louerButton.addActionListener(controleur);
-    buttonPanel.add(louerButton);
+    panelBoutons.add(louerButton);
 
-    detailsButton = new JButton("Détails du locataire");
+    Bouton detailsButton = new Bouton("Détails du locataire", VarianteButton.SECONDAIRE);
     detailsButton.addActionListener(controleur);
-    buttonPanel.add(detailsButton);
+    panelBoutons.add(detailsButton);
 
-    suppButton = new JButton("Retirer de la colocation");
-    suppButton.setBackground(Color.PINK);
+    Bouton suppButton = new Bouton("Retirer de la colocation", VarianteButton.DANGER);
     suppButton.addActionListener(controleur);
-    buttonPanel.add(suppButton);
+    panelBoutons.add(suppButton);
 
-    modifierButton = new JButton("Modifier part du loyer");
+    Bouton modifierButton = new Bouton("Modifier part du loyer", VarianteButton.SECONDAIRE);
     modifierButton.addActionListener(controleur);
-    buttonPanel.add(modifierButton);
+    panelBoutons.add(modifierButton);
 
-    this.add(buttonPanel, BorderLayout.SOUTH);
-
-    controleur.rafraîchirTableLocationsEnCours();
+    this.add(panelBoutons, BorderLayout.SOUTH);
   }
 
-  public DefaultTableModel getModelTable(){
-    return tableModel;
+  public Tableau getTable() {
+    return this.table;
   }
 
-  public JTable getTable() {
-    return table;
-  }
-
-  public void setLblLoyerLabel(double totalLoyer){
-    totalLoyerLabel.setText("Loyer total : " + totalLoyer + " €");
+  public void setLblLoyerLabel(double totalLoyer) {
+    this.totalLoyerLabel.setText("Loyer total : " + totalLoyer + " €");
   }
 }
